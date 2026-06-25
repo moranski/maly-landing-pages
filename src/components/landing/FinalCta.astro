@@ -1,0 +1,56 @@
+---
+interface Props {
+	cta: {
+		label: string;
+		href: string;
+	};
+}
+
+const { cta } = Astro.props;
+---
+
+<section id="contact" class="final-cta">
+	<div class="final-cta__inner">
+		<p class="kicker">מלי</p>
+		<div class="final-cta__content">
+			<slot />
+		</div>
+		<a class="button button--primary" href={cta.href}>{cta.label}</a>
+	</div>
+</section>
+
+<style>
+	.final-cta {
+		padding: var(--space-section) var(--space-page) calc(var(--space-section) + 70px);
+		background: var(--color-ink);
+		color: var(--color-text-inverse);
+	}
+
+	.final-cta__inner {
+		width: min(100%, 860px);
+		margin-inline: auto;
+	}
+
+	.final-cta :global(h2) {
+		margin: 0 0 var(--space-5);
+		color: var(--color-text-inverse);
+		font-size: clamp(2rem, 1.7rem + 1.4vw, 3.1rem);
+		line-height: 1.12;
+	}
+
+	.final-cta :global(p) {
+		margin: 0;
+		color: color-mix(in srgb, var(--color-text-inverse) 84%, transparent);
+	}
+
+	.final-cta :global(p + p) {
+		margin-block-start: var(--space-4);
+	}
+
+	.final-cta :global(strong) {
+		display: block;
+		margin-block: var(--space-6);
+		color: var(--color-accent-soft);
+		font-size: 1.5rem;
+	}
+</style>

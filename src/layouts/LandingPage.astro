@@ -1,0 +1,32 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import StickyMobileCta from "../components/landing/StickyMobileCta.astro";
+
+interface Props {
+	page: {
+		title: string;
+		description: string;
+		lang: string;
+		dir: "rtl" | "ltr";
+		hero: {
+			primaryCta: {
+				label: string;
+				href: string;
+			};
+		};
+	};
+}
+
+const { page } = Astro.props;
+---
+
+<!doctype html>
+<html lang={page.lang} dir={page.dir}>
+	<head>
+		<BaseHead title={page.title} description={page.description} />
+	</head>
+	<body class="landing-page">
+		<slot />
+		<StickyMobileCta cta={page.hero.primaryCta} />
+	</body>
+</html>

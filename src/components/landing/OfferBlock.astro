@@ -1,0 +1,119 @@
+---
+interface Props {
+	title: string;
+	body: string;
+	includes: string[];
+	priceHeadline: string;
+	priceTotal: string;
+	cta: {
+		label: string;
+		href: string;
+	};
+}
+
+const { title, body, includes, priceHeadline, priceTotal, cta } = Astro.props;
+---
+
+<section id="offer" class="offer">
+	<div class="offer__inner">
+		<div>
+			<p class="kicker">ההצטרפות כוללת</p>
+			<h2>{title}</h2>
+			<p>{body}</p>
+			<ul class="check-list">
+				{includes.map((item) => <li>{item}</li>)}
+			</ul>
+		</div>
+		<aside class="price-box" aria-label="מחיר הקורס">
+			<p>{priceHeadline}</p>
+			<strong>{priceTotal}</strong>
+			<a class="button button--primary" href={cta.href}>{cta.label}</a>
+		</aside>
+	</div>
+</section>
+
+<style>
+	.offer {
+		padding: var(--space-section) var(--space-page);
+		background: var(--color-surface-cool);
+	}
+
+	.offer__inner {
+		width: min(100%, var(--layout-width));
+		margin-inline: auto;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(300px, 0.4fr);
+		gap: var(--space-8);
+		align-items: start;
+	}
+
+	.offer h2 {
+		margin: 0 0 var(--space-5);
+		font-size: clamp(2rem, 1.7rem + 1.4vw, 3.1rem);
+		line-height: 1.12;
+	}
+
+	.offer p {
+		margin: 0;
+	}
+
+	.check-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+		gap: var(--space-3);
+		margin: var(--space-6) 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.check-list li {
+		position: relative;
+		padding: var(--space-4) var(--space-6) var(--space-4) var(--space-4);
+		border-radius: 8px;
+		background: var(--color-surface);
+		box-shadow: var(--shadow-soft);
+	}
+
+	.check-list li::before {
+		content: "";
+		position: absolute;
+		inset-inline-start: var(--space-4);
+		inset-block-start: 1.25rem;
+		width: 0.55rem;
+		height: 0.55rem;
+		border-radius: 999px;
+		background: var(--color-accent);
+	}
+
+	.price-box {
+		position: sticky;
+		top: var(--space-4);
+		display: grid;
+		gap: var(--space-4);
+		padding: var(--space-6);
+		border-radius: var(--radius-card);
+		background: var(--color-ink);
+		color: var(--color-text-inverse);
+		box-shadow: var(--shadow-lift);
+	}
+
+	.price-box p {
+		color: color-mix(in srgb, var(--color-text-inverse) 82%, transparent);
+		font-size: 1.2rem;
+	}
+
+	.price-box strong {
+		font-size: 2rem;
+		line-height: 1.15;
+	}
+
+	@media (max-width: 900px) {
+		.offer__inner {
+			grid-template-columns: 1fr;
+		}
+
+		.price-box {
+			position: static;
+		}
+	}
+</style>
