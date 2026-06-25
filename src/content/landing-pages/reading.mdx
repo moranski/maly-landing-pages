@@ -32,7 +32,9 @@ stats:
 
 import CardGrid from "../../components/landing/CardGrid.astro";
 import FinalCta from "../../components/landing/FinalCta.astro";
+import ImageGallery from "../../components/landing/ImageGallery.astro";
 import OfferBlock from "../../components/landing/OfferBlock.astro";
+import ProfileImage from "../../components/landing/ProfileImage.astro";
 import Section from "../../components/landing/Section.astro";
 
 <Section kicker="הקושי" title="זה קורה מול שיעורי הבית, כמעט בלי ששמים לב">
@@ -78,6 +80,12 @@ import Section from "../../components/landing/Section.astro";
 
 <Section kicker="נעים מאוד" title="אני מלי" tone="tinted">
 
+<ProfileImage
+	src="/assets/reading/people/maly.webp"
+	alt="מלי, יוצרת הקורס אנגלית מעצימה לי עם מלי"
+	caption="מלי - מלווה ילדים ומבוגרים בלימוד אנגלית כבר יותר מ־20 שנה"
+/>
+
 כבר יותר מ־20 שנה אני מלמדת ומלווה ילדים ומבוגרים בלימוד אנגלית.
 
 לאורך השנים פגשתי שוב ושוב ילדים חכמים וסקרנים, שהתחילו להאמין שהם פשוט לא טובים באנגלית. לא משום שלא הייתה להם יכולת, אלא משום שבשלב מסוים הלמידה המשיכה קדימה בזמן שחלק מהיסודות עדיין לא היו ברורים להם.
@@ -95,6 +103,29 @@ import Section from "../../components/landing/Section.astro";
 	{ title: "ימי תרגול וחזרה", body: "בין השיעורים הילד חוזר על מה שלמד, כדי שהידע לא יישאר רק בתוך הסרטון." },
 	{ title: "למידה בקצב אישי", body: "אפשר ללמוד בבית, בזמן שנוח לכם, ולעצור או לחזור על שיעור בהתאם לצורך." },
 	{ title: "קבצי תרגול והדפסה", body: "חומרים שאפשר להדפיס ולתרגל גם מחוץ למסך." },
+]} />
+
+<ImageGallery images={[
+	{
+		src: "/assets/reading/cards/card-letters.webp",
+		alt: "כרטיס לימוד מהקורס עם האות J ודוגמאות למילים Jeep ו-Jungle",
+		caption: "אות, צליל ודוגמאות חזותיות",
+	},
+	{
+		src: "/assets/reading/cards/card-sounds.webp",
+		alt: "כרטיס לימוד מהקורס עם האות L ודוגמאות למילים Lion ו-Lemon",
+		caption: "חיבור בין צליל, תמונה ומילה",
+	},
+	{
+		src: "/assets/reading/cards/card-blends.webp",
+		alt: "כרטיס לימוד צבעוני מתוך הקורס לתרגול קריאה באנגלית",
+		caption: "תרגול מדורג עם עוגנים חזותיים",
+	},
+	{
+		src: "/assets/reading/cards/card-reading.webp",
+		alt: "כרטיס לימוד צבעוני מתוך הקורס לחיזוק קריאה באנגלית",
+		caption: "מעבר מהסבר לתרגול קריאה",
+	},
 ]} />
 
 </Section>

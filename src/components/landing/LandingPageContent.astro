@@ -46,30 +46,18 @@ const { page } = Astro.props;
 
 			<div class="hero__visual" aria-label="מקום לתמונת הקורס העתידית">
 				<div class="course-preview">
-					<div class="course-preview__screen">
-						<div class="preview-toolbar">
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-						<div class="preview-stage">
-							<div class="letter-bubble letter-bubble--yellow">
-								<strong>A</strong>
-								<span>sound</span>
-							</div>
-							<div class="letter-bubble letter-bubble--blue">
-								<strong>sh</strong>
-								<span>blend</span>
-							</div>
-						</div>
-						<div class="preview-word">
-							<strong>read</strong>
-							<span>word</span>
-						</div>
-					</div>
+					<img
+						class="course-preview__image"
+						src="/assets/reading/cards/card-letters.webp"
+						alt="דוגמה לכרטיס לימוד מהקורס עם האות J וצליל הקריאה שלה"
+						width="1599"
+						height="899"
+						loading="eager"
+						decoding="async"
+					/>
 					<div class="course-preview__caption">
 						<strong>40 שיעורים צבעוניים</strong>
-						<span>מקום לצילום מסך אמיתי מהקורס</span>
+						<span>דוגמה מתוך כרטיסי הלמידה בקורס</span>
 					</div>
 				</div>
 			</div>
@@ -213,87 +201,12 @@ const { page } = Astro.props;
 		filter: blur(2px);
 	}
 
-	.course-preview__screen {
-		aspect-ratio: 1.18 / 1;
-		display: grid;
-		grid-template-rows: auto 1fr auto;
-		gap: var(--space-4);
-		padding: var(--space-5);
-		border-radius: 24px;
-		background:
-			linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.18)),
-			linear-gradient(135deg, #b9effb, #ffe2f0 55%, #ffe678);
-		color: var(--color-ink);
-		direction: ltr;
-	}
-
-	.preview-toolbar {
-		display: flex;
-		gap: 0.45rem;
-		justify-content: flex-start;
-	}
-
-	.preview-toolbar span {
-		width: 0.72rem;
-		height: 0.72rem;
-		border-radius: 999px;
-		background: rgba(38, 28, 82, 0.22);
-	}
-
-	.preview-stage {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: var(--space-4);
-		align-items: stretch;
-	}
-
-	.letter-bubble,
-	.preview-word {
-		display: grid;
-		place-items: center;
-		align-content: center;
-		border: 4px solid white;
+	.course-preview__image {
+		width: 100%;
+		aspect-ratio: 1599 / 899;
+		object-fit: cover;
 		border-radius: 24px;
 		box-shadow: 0 10px 22px rgba(38, 28, 82, 0.14);
-		text-align: center;
-	}
-
-	.letter-bubble {
-		min-height: 9rem;
-	}
-
-	.letter-bubble strong {
-		color: var(--color-ink);
-		font-size: clamp(3.2rem, 7vw, 5.2rem);
-		font-weight: 900;
-		line-height: 0.95;
-	}
-
-	.letter-bubble span,
-	.preview-word span {
-		color: rgba(38, 28, 82, 0.62);
-		font-size: 1rem;
-		font-weight: 900;
-	}
-
-	.letter-bubble--yellow {
-		background: #ffe778;
-	}
-
-	.letter-bubble--blue {
-		background: #91e7ff;
-	}
-
-	.preview-word {
-		min-height: 5.4rem;
-		background: #ff9ed0;
-	}
-
-	.preview-word strong {
-		color: var(--color-ink);
-		font-size: clamp(2.2rem, 5vw, 3.8rem);
-		font-weight: 900;
-		line-height: 0.95;
 	}
 
 	.course-preview__caption {
