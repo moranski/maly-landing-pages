@@ -35,7 +35,10 @@ const { title, body, includes, priceHeadline, priceTotal, cta } = Astro.props;
 <style>
 	.offer {
 		padding: var(--space-section) var(--space-page);
-		background: var(--color-surface-cool);
+		background:
+			radial-gradient(circle at 15% 12%, rgba(255, 215, 63, 0.35), transparent 18rem),
+			radial-gradient(circle at 82% 78%, rgba(255, 63, 143, 0.22), transparent 20rem),
+			linear-gradient(135deg, #2b1d67, #167fa5);
 	}
 
 	.offer__inner {
@@ -45,16 +48,25 @@ const { title, body, includes, priceHeadline, priceTotal, cta } = Astro.props;
 		grid-template-columns: minmax(0, 1fr) minmax(300px, 0.4fr);
 		gap: var(--space-8);
 		align-items: start;
+		padding: clamp(1rem, 3vw, 2rem);
+		border: 5px solid rgba(255, 255, 255, 0.36);
+		border-radius: 34px;
+		background: rgba(255, 255, 255, 0.12);
+		box-shadow: var(--shadow-lift);
+		backdrop-filter: blur(8px);
 	}
 
 	.offer h2 {
 		margin: 0 0 var(--space-5);
+		color: var(--color-text-inverse);
 		font-size: clamp(2rem, 1.7rem + 1.4vw, 3.1rem);
 		line-height: 1.12;
 	}
 
 	.offer p {
 		margin: 0;
+		color: rgba(255, 255, 255, 0.86);
+		font-size: 1.15rem;
 	}
 
 	.check-list {
@@ -68,10 +80,13 @@ const { title, body, includes, priceHeadline, priceTotal, cta } = Astro.props;
 
 	.check-list li {
 		position: relative;
-		padding: var(--space-4) var(--space-6) var(--space-4) var(--space-4);
-		border-radius: 8px;
-		background: var(--color-surface);
+		padding: var(--space-4) var(--space-7) var(--space-4) var(--space-4);
+		border: 3px solid rgba(255, 255, 255, 0.78);
+		border-radius: 18px;
+		background: rgba(255, 255, 255, 0.92);
 		box-shadow: var(--shadow-soft);
+		color: var(--color-ink);
+		font-weight: 800;
 	}
 
 	.check-list li::before {
@@ -79,10 +94,10 @@ const { title, body, includes, priceHeadline, priceTotal, cta } = Astro.props;
 		position: absolute;
 		inset-inline-start: var(--space-4);
 		inset-block-start: 1.25rem;
-		width: 0.55rem;
-		height: 0.55rem;
+		width: 1.05rem;
+		height: 1.05rem;
 		border-radius: 999px;
-		background: var(--color-accent);
+		background: var(--color-success);
 	}
 
 	.price-box {
@@ -91,19 +106,23 @@ const { title, body, includes, priceHeadline, priceTotal, cta } = Astro.props;
 		display: grid;
 		gap: var(--space-4);
 		padding: var(--space-6);
-		border-radius: var(--radius-card);
-		background: var(--color-ink);
-		color: var(--color-text-inverse);
+		border: 5px solid white;
+		border-radius: 30px;
+		background: linear-gradient(180deg, #fff, #ffe7a8);
+		color: var(--color-ink);
 		box-shadow: var(--shadow-lift);
+		text-align: center;
 	}
 
 	.price-box p {
-		color: color-mix(in srgb, var(--color-text-inverse) 82%, transparent);
-		font-size: 1.2rem;
+		color: var(--color-accent-strong);
+		font-size: 1.28rem;
+		font-weight: 900;
 	}
 
 	.price-box strong {
-		font-size: 2rem;
+		color: var(--color-ink);
+		font-size: clamp(2.15rem, 1.7rem + 1.8vw, 3.2rem);
 		line-height: 1.15;
 	}
 

@@ -22,20 +22,29 @@ const { cta } = Astro.props;
 <style>
 	.final-cta {
 		padding: var(--space-section) var(--space-page) calc(var(--space-section) + 70px);
-		background: var(--color-ink);
+		background:
+			radial-gradient(circle at 16% 20%, rgba(255, 215, 63, 0.38), transparent 18rem),
+			radial-gradient(circle at 88% 72%, rgba(35, 183, 216, 0.35), transparent 18rem),
+			linear-gradient(135deg, #ff3f8f, #43217f 66%, #1288af);
 		color: var(--color-text-inverse);
+		text-align: center;
 	}
 
 	.final-cta__inner {
 		width: min(100%, 860px);
 		margin-inline: auto;
+		padding: clamp(1.5rem, 4vw, 3rem);
+		border: 5px solid rgba(255, 255, 255, 0.45);
+		border-radius: 34px;
+		background: rgba(255, 255, 255, 0.12);
+		box-shadow: var(--shadow-lift);
 	}
 
 	.final-cta :global(h2) {
 		margin: 0 0 var(--space-5);
 		color: var(--color-text-inverse);
-		font-size: clamp(2rem, 1.7rem + 1.4vw, 3.1rem);
-		line-height: 1.12;
+		font-size: clamp(2.2rem, 1.75rem + 1.9vw, 3.7rem);
+		line-height: 1.08;
 	}
 
 	.final-cta :global(p) {
@@ -52,5 +61,9 @@ const { cta } = Astro.props;
 		margin-block: var(--space-6);
 		color: var(--color-accent-soft);
 		font-size: 1.5rem;
+	}
+
+	.final-cta .button {
+		margin-block-start: var(--space-4);
 	}
 </style>

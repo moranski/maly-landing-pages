@@ -23,15 +23,22 @@ const { kicker, title, tone = "plain", id } = Astro.props;
 
 <style>
 	.section {
+		position: relative;
+		overflow: hidden;
 		padding: var(--space-section) var(--space-page);
+		background: var(--color-surface);
 	}
 
 	.section--tinted {
-		background: var(--color-surface-warm);
+		background:
+			radial-gradient(circle at 12% 18%, rgba(255, 63, 143, 0.13), transparent 16rem),
+			var(--color-surface-warm);
 	}
 
 	.section--deep {
-		background: var(--color-ink);
+		background:
+			radial-gradient(circle at 80% 12%, rgba(255, 215, 63, 0.24), transparent 20rem),
+			linear-gradient(135deg, var(--color-ink), #3b2075);
 		color: var(--color-text-inverse);
 	}
 
@@ -41,14 +48,16 @@ const { kicker, title, tone = "plain", id } = Astro.props;
 	}
 
 	.section__header {
-		max-width: 760px;
+		max-width: 870px;
+		margin-inline: auto;
 		margin-block-end: var(--space-8);
+		text-align: center;
 	}
 
 	.section__header h2 {
 		margin: 0;
-		font-size: clamp(2rem, 1.7rem + 1.4vw, 3.1rem);
-		line-height: 1.12;
+		font-size: clamp(2.15rem, 1.75rem + 1.7vw, 3.55rem);
+		line-height: 1.08;
 	}
 
 	.section--deep h2 {
@@ -58,6 +67,7 @@ const { kicker, title, tone = "plain", id } = Astro.props;
 	.section__content {
 		display: grid;
 		gap: var(--space-6);
+		justify-items: center;
 	}
 
 	.section-prose :global(p) {
@@ -65,6 +75,7 @@ const { kicker, title, tone = "plain", id } = Astro.props;
 		margin: 0;
 		color: var(--color-text);
 		font-size: 1.12rem;
+		text-align: center;
 	}
 
 	.section-prose :global(p + p) {
@@ -74,13 +85,24 @@ const { kicker, title, tone = "plain", id } = Astro.props;
 	.section-prose :global(blockquote) {
 		max-width: 860px;
 		margin: 0;
-		padding: var(--space-5);
-		border-inline-start: 5px solid var(--color-accent);
-		border-radius: var(--radius-card);
-		background: var(--color-surface-warm);
+		padding: var(--space-6);
+		border: 0;
+		border-radius: 28px;
+		background: white;
 		color: var(--color-ink);
 		font-size: 1.35rem;
 		font-weight: 800;
+		text-align: center;
+		box-shadow: var(--shadow-soft);
+	}
+
+	.section-prose :global(blockquote)::before {
+		content: "״";
+		display: block;
+		margin-block-end: var(--space-2);
+		color: var(--color-accent);
+		font-size: 3rem;
+		line-height: 0.7;
 	}
 
 	.section-prose :global(blockquote p) {
@@ -91,19 +113,31 @@ const { kicker, title, tone = "plain", id } = Astro.props;
 
 	.section-prose :global(h3) {
 		max-width: 860px;
-		margin: var(--space-2) 0 calc(-1 * var(--space-4));
-		padding-block-start: var(--space-3);
-		color: var(--color-ink);
-		font-size: 1.25rem;
+		width: 100%;
+		margin: 0 0 calc(-1 * var(--space-4));
+		padding: var(--space-4) var(--space-5);
+		border-radius: 18px;
+		background: white;
+		color: var(--color-accent-strong);
+		font-size: 1.28rem;
 		line-height: 1.25;
+		text-align: center;
+		box-shadow: var(--shadow-soft);
 	}
 
 	.kicker {
 		margin: 0 0 var(--space-3);
-		color: var(--color-accent-strong);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.4rem 1rem;
+		border-radius: var(--radius-pill);
+		background: white;
+		color: var(--color-secondary-strong);
 		font-size: var(--font-size-small);
-		font-weight: 800;
+		font-weight: 900;
 		letter-spacing: 0;
+		box-shadow: var(--shadow-soft);
 	}
 
 	.section--deep .kicker {

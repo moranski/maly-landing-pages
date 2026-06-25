@@ -13,17 +13,19 @@ html {
 
 body {
 	margin: 0;
-	background: var(--color-surface);
+	background:
+		radial-gradient(circle at 8% 4%, rgba(255, 215, 63, 0.24), transparent 24rem),
+		radial-gradient(circle at 94% 18%, rgba(35, 183, 216, 0.17), transparent 26rem),
+		var(--color-surface);
 	color: var(--color-text);
 	font-family:
-		"Atkinson",
 		"Rubik",
 		"Assistant",
 		"Segoe UI",
 		Arial,
 		sans-serif;
 	font-size: 18px;
-	line-height: 1.72;
+	line-height: 1.68;
 	text-align: start;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
@@ -41,7 +43,7 @@ h4,
 h5,
 h6 {
 	color: var(--color-ink);
-	font-weight: 800;
+	font-weight: 900;
 	letter-spacing: 0;
 	text-wrap: balance;
 }
@@ -72,14 +74,14 @@ select {
 
 .button {
 	display: inline-flex;
-	min-height: 3.25rem;
+	min-height: 3.55rem;
 	align-items: center;
 	justify-content: center;
 	gap: 0.5rem;
-	padding: 0.78rem 1.35rem;
-	border: 1px solid transparent;
-	border-radius: 8px;
-	font-weight: 800;
+	padding: 0.9rem 1.65rem;
+	border: 0;
+	border-radius: var(--radius-pill);
+	font-weight: 900;
 	line-height: 1.2;
 	text-align: center;
 	text-decoration: none;
@@ -90,7 +92,7 @@ select {
 }
 
 .button:hover {
-	transform: translateY(-1px);
+	transform: translateY(-2px);
 }
 
 .button:focus-visible {
@@ -99,27 +101,29 @@ select {
 }
 
 .button--primary {
-	background: var(--color-accent);
+	background: linear-gradient(180deg, #ff66aa, var(--color-accent));
 	color: var(--color-text-inverse);
-	box-shadow: 0 14px 28px rgba(226, 90, 63, 0.24);
+	box-shadow: var(--shadow-cta);
 }
 
 .button--primary:hover {
-	background: var(--color-accent-strong);
+	background: linear-gradient(180deg, #ff7ab7, var(--color-accent-strong));
 }
 
 .button--secondary {
-	border-color: var(--color-border);
-	background: color-mix(in srgb, var(--color-surface) 82%, white);
+	border: 2px solid var(--color-secondary);
+	background: white;
 	color: var(--color-ink);
+	box-shadow: 0 8px 0 rgba(18, 136, 175, 0.22);
 }
 
 .kicker {
 	margin: 0 0 var(--space-3);
-	color: var(--color-accent-strong);
+	color: var(--color-secondary-strong);
 	font-size: var(--font-size-small);
-	font-weight: 800;
+	font-weight: 900;
 	letter-spacing: 0;
+	text-transform: none;
 }
 
 .sr-only {
