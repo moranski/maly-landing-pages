@@ -1,0 +1,108 @@
+---
+title: "שם העמוד"
+description: "תיאור קצר וברור של ההצעה או המסלול."
+slug: "example"
+lang: "he"
+dir: "rtl"
+draft: true
+hero:
+  eyebrow: "תיאור קצר של המסלול"
+  title: "כותרת שמבהירה את הערך המרכזי"
+  subtitle: "משפט תמיכה קצר שמסביר למי זה מתאים ומה מקבלים."
+  body:
+    - "משפט פתיחה שמתחבר לקושי אמיתי של הקוראת."
+    - "משפט שמסביר את הדרך או השינוי האפשרי בלי הבטחות מוחלטות."
+  primaryCta:
+    label: "אני רוצה להתחיל"
+    href: "#offer"
+  secondaryCta:
+    label: "לראות למי זה מתאים"
+    href: "#fit"
+stats:
+  - value: "5"
+    label: "דקות ביום"
+---
+
+import CardGrid from "../../components/landing/CardGrid.astro";
+import FinalCta from "../../components/landing/FinalCta.astro";
+import OfferBlock from "../../components/landing/OfferBlock.astro";
+import Section from "../../components/landing/Section.astro";
+
+<Section kicker="הקושי" title="כותרת שמתארת מצב מוכר">
+
+כתבו כאן 1-3 פסקאות קצרות שמזהות את הקושי בלי להאשים את ההורה או את הילד.
+
+</Section>
+
+<Section kicker="הנקודה החשובה" title="כותרת שמסבירה מה באמת קורה" tone="tinted">
+
+הסבירו את הפער או הצורך בצורה פשוטה ומדויקת.
+
+<CardGrid items={[
+	{ title: "נקודה ראשונה", body: "הסבר קצר." },
+	{ title: "נקודה שנייה", body: "הסבר קצר." },
+	{ title: "נקודה שלישית", body: "הסבר קצר." },
+]} />
+
+</Section>
+
+<Section kicker="הדרך" title="כותרת שמציגה את אופן ההתקדמות">
+
+תארו את הדרך המוצעת בצורה מדורגת, אמינה ומעשית.
+
+</Section>
+
+<Section kicker="נעים מאוד" title="אני מלי" tone="tinted">
+
+כתבו פסקת היכרות קצרה שמסבירה את הניסיון, הגישה והסיבה ליצירת המסלול.
+
+</Section>
+
+<Section kicker="בתוך המסלול" title="מה מקבלים בפועל?">
+
+<CardGrid ordered items={[
+	{ title: "רכיב ראשון", body: "מה הקוראת או הילד מקבלים." },
+	{ title: "רכיב שני", body: "מה הקוראת או הילד מקבלים." },
+	{ title: "רכיב שלישי", body: "מה הקוראת או הילד מקבלים." },
+]} />
+
+</Section>
+
+<Section id="fit" kicker="למי זה מתאים" title="כותרת שמגדירה התאמה בצורה מדויקת">
+
+כתבו למי המסלול מתאים, למי הוא פחות מתאים, ומה חשוב לדעת לפני שמתחילים.
+
+</Section>
+
+<OfferBlock
+	title="כותרת הצעה ברורה"
+	body="משפט שמסביר את הערך בלי לחץ מכירתי."
+	includes={[
+		"מה כלול בהצעה",
+		"מה כלול בהצעה",
+		"מה כלול בהצעה",
+	]}
+	priceHeadline="מחיר או מבנה תשלום"
+	priceTotal="סה״כ: סכום"
+	cta={{ label: "אני רוצה להתחיל", href: "#contact" }}
+/>
+
+<Section kicker="שאלות נפוצות" title="שאלות שעולות לפני שמתחילים">
+
+### שאלה ראשונה?
+
+תשובה קצרה, ברורה ומדויקת.
+
+### שאלה שנייה?
+
+תשובה קצרה, ברורה ומדויקת.
+
+</Section>
+
+<FinalCta cta={{ label: "אני רוצה לבדוק אם זה מתאים", href: "#contact" }}>
+
+## כמה מילים לסיום
+
+כתבו סיום קצר, אישי ומרגיע שמחזיר את הקוראת לצעד הבא.
+
+</FinalCta>
