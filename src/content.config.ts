@@ -1,6 +1,13 @@
 import { glob } from "astro/loaders";
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
+import { landingPageFamilyIds } from "./content/landing-page-families";
+
+const [firstFamilyId, ...otherFamilyIds] = landingPageFamilyIds;
+
+if (!firstFamilyId) {
+	throw new Error("יש להגדיר לפחות משפחת דפי נחיתה אחת.");
+}
 
 const landingPages = defineCollection({
 	loader: glob({ base: "./src/content/landing-pages", pattern: "**/*.{md,mdx}" }),
@@ -8,6 +15,7 @@ const landingPages = defineCollection({
 		title: z.string(),
 		description: z.string(),
 		slug: z.string(),
+		family: z.enum([firstFamilyId, ...otherFamilyIds]),
 		lang: z.string().default("he"),
 		dir: z.enum(["rtl", "ltr"]).default("rtl"),
 		draft: z.boolean().default(false),

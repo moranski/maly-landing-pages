@@ -78,6 +78,10 @@ function hasFrontmatterValue(frontmatter, key, value) {
 }
 
 function checkRequiredMetadata(filePath, frontmatter) {
+	if (!/^family:\s*["'][a-z0-9-]+["']\s*$/m.test(frontmatter)) {
+		addError(filePath, 'חסר מזהה משפחה תקין מסוג `family: "family-id"`.');
+	}
+
 	if (!hasFrontmatterValue(frontmatter, "lang", "he")) {
 		addError(filePath, 'חסר frontmatter מסוג `lang: "he"`.');
 	}
