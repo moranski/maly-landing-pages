@@ -8,6 +8,8 @@
 		"typescript": "5.9.3"
 	},
 	"devDependencies": {
+		"@google/design.md": "0.4.0",
+		"@types/node": "26.6.2",
 		"wrangler": "4.88.0"
 	},
 	"engines": {
@@ -18,8 +20,9 @@
 		"astro": "astro",
 		"build": "astro build",
 		"cf-typegen": "wrangler types",
-		"check": "npm run content:check && astro build && tsc && wrangler deploy --dry-run",
+		"check": "npm run content:check && npm run design:check && astro build && tsc && wrangler deploy --dry-run",
 		"content:check": "node scripts/check-content-style.mjs",
+		"design:check": "node scripts/check-design-systems.mjs",
 		"deploy": "wrangler deploy",
 		"dev": "astro dev",
 		"preview": "astro build && wrangler dev"
