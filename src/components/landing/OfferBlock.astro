@@ -3,15 +3,15 @@ interface Props {
 	title: string;
 	body: string;
 	includes: string[];
-	priceHeadline: string;
-	priceTotal: string;
-	cta: {
-		label: string;
-		href: string;
+	lead: {
+		endpoint: string;
+		checkoutUrl: string;
+		submitLabel: string;
+		consentLabel: string;
 	};
 }
 
-const { title, body, includes, priceHeadline, priceTotal, cta } = Astro.props;
+const { title, body, includes, lead } = Astro.props;
 ---
 
 <section id="offer" class="offer">
@@ -24,13 +24,65 @@ const { title, body, includes, priceHeadline, priceTotal, cta } = Astro.props;
 				{includes.map((item) => <li>{item}</li>)}
 			</ul>
 		</div>
-		<aside class="price-box" aria-label="מחיר הקורס">
-			<p>{priceHeadline}</p>
-			<strong>{priceTotal}</strong>
-			<a class="button button--primary" href={cta.href}>{cta.label}</a>
+		<aside class="lead-box" aria-label="הצטרפות למסלול">
+			<p class="lead-box__title">נשאיר פרטים ונעבור לתשלום מאובטח</p>
+			<form class="lead-form" data-lead-endpoint={lead.endpoint} data-checkout-url={lead.checkoutUrl}>
+				<label>
+					<span>שם מלא</span>
+					<input name="name" autocomplete="name" required />
+				</label>
+				<label>
+					<span>כתובת אימייל</span>
+					<input name="email" type="email" autocomplete="email" inputmode="email" required />
+				</label>
+				<label class="lead-form__consent">
+					<input name="consent" type="checkbox" required />
+					<span>{lead.consentLabel}</span>
+				</label>
+				<p class="lead-form__status" aria-live="polite"></p>
+				<button class="button button--primary" type="submit">{lead.submitLabel}</button>
+			</form>
 		</aside>
 	</div>
 </section>
+
+<script>
+	const endpointPlaceholder = "REPLACE_WITH_EMAIL_LIST_ENDPOINT";
+
+	document.querySelectorAll<HTMLFormElement>(".lead-form").forEach((form) => {
+		form.addEventListener("submit", async (event) => {
+			event.preventDefault();
+
+			const endpoint = form.dataset.leadEndpoint;
+			const checkoutUrl = form.dataset.checkoutUrl;
+			const status = form.querySelector<HTMLElement>(".lead-form__status");
+			const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+
+			if (!checkoutUrl) return;
+
+			if (endpoint && endpoint !== endpointPlaceholder) {
+				try {
+					if (submit) submit.disabled = true;
+					if (status) status.textContent = "שומרים את הפרטים שלך…";
+
+					const response = await fetch(endpoint, {
+						method: "POST",
+						headers: { "Content-Type": "application/json" },
+						body: JSON.stringify(Object.fromEntries(new FormData(form))),
+					});
+
+					if (!response.ok) throw new Error("Lead capture failed");
+				} catch {
+					if (status) status.textContent = "לא הצלחנו לשמור את הפרטים. אפשר לנסות שוב.";
+					if (submit) submit.disabled = false;
+					return;
+				}
+			}
+
+			window.location.assign(checkoutUrl);
+		});
+	});
+</script>
 
 <style>
 	.offer {
@@ -100,7 +152,7 @@ const { title, body, includes, priceHeadline, priceTotal, cta } = Astro.props;
 		background: var(--color-success);
 	}
 
-	.price-box {
+	.lead-box {
 		position: sticky;
 		top: var(--space-4);
 		display: grid;
@@ -114,16 +166,69 @@ const { title, body, includes, priceHeadline, priceTotal, cta } = Astro.props;
 		text-align: center;
 	}
 
-	.price-box p {
+	.lead-box__title {
+		margin: 0;
 		color: var(--color-accent-strong);
 		font-size: 1.28rem;
 		font-weight: 900;
 	}
 
-	.price-box strong {
+	.lead-form {
+		display: grid;
+		gap: var(--space-4);
+		text-align: start;
+	}
+
+	.lead-form label:not(.lead-form__consent) {
+		display: grid;
+		gap: var(--space-2);
 		color: var(--color-ink);
-		font-size: clamp(2.15rem, 1.7rem + 1.8vw, 3.2rem);
-		line-height: 1.15;
+		font-weight: 800;
+	}
+
+	.lead-form input:not([type="checkbox"]) {
+		width: 100%;
+		min-height: 3.2rem;
+		border: 2px solid var(--color-border);
+		border-radius: 14px;
+		background: white;
+		padding: 0.7rem 0.85rem;
+		color: var(--color-ink);
+	}
+
+	.lead-form input:focus-visible {
+		outline: 3px solid var(--color-secondary);
+		outline-offset: 2px;
+	}
+
+	.lead-form__consent {
+		display: flex;
+		align-items: flex-start;
+		gap: var(--space-2);
+		color: var(--color-text-muted);
+		font-size: 0.9rem;
+		line-height: 1.4;
+	}
+
+	.lead-form__consent input {
+		margin-block-start: 0.2rem;
+		accent-color: var(--color-accent);
+	}
+
+	.lead-form__status {
+		min-height: 1.5em;
+		margin: 0;
+		color: var(--color-text-muted);
+		font-size: 0.9rem;
+	}
+
+	.lead-form .button {
+		width: 100%;
+	}
+
+	.lead-form .button:disabled {
+		cursor: wait;
+		opacity: 0.72;
 	}
 
 	@media (max-width: 900px) {
@@ -131,7 +236,7 @@ const { title, body, includes, priceHeadline, priceTotal, cta } = Astro.props;
 			grid-template-columns: 1fr;
 		}
 
-		.price-box {
+		.lead-box {
 			position: static;
 		}
 	}

@@ -169,9 +169,12 @@ import Section from "../../components/landing/Section.astro";
 		"משימות תרגול קצרות",
 		"קבצי תרגול והדפסה",
 	]}
-	priceHeadline="4 תשלומים של 149 ₪"
-	priceTotal="סה״כ: 596 ₪"
-	cta={{ label: "אני רוצה להתחיל לבנות בסיס לקריאה", href: "#contact" }}
+	lead={{
+		endpoint: "REPLACE_WITH_EMAIL_LIST_ENDPOINT",
+		checkoutUrl: "https://secure.cardcom.solutions/u/bTTx0BGcMEqeDCr0cVizMg",
+		submitLabel: "שומרים פרטים וממשיכים לתשלום",
+		consentLabel: "אני מאשר/ת קבלת עדכונים והצעות ממלי באימייל.",
+	}}
 />
 
 <Section kicker="שאלות נפוצות" title="שאלות שעולות לפני שמתחילים">
@@ -206,7 +209,7 @@ import Section from "../../components/landing/Section.astro";
 
 </Section>
 
-<FinalCta cta={{ label: "אני רוצה לבדוק אם זה מתאים לילד שלי", href: "#contact" }}>
+<FinalCta cta={{ label: "אני רוצה להתחיל", href: "#offer" }}>
 
 ## כמה מילים ממני אלייך
 
