@@ -10,7 +10,6 @@ interface PageData {
 		primaryCta: { label: string; href: string };
 		secondaryCta?: { label: string; href: string };
 	};
-	stats: { value: string; label: string }[];
 }
 
 interface Props {
@@ -64,19 +63,6 @@ const { page } = Astro.props;
 		</div>
 	</section>
 
-	<section class="stats-strip" aria-label="נתוני הקורס">
-		<div class="stats-strip__inner">
-			{
-				page.stats.map((stat) => (
-					<div class="stat">
-						<strong>{stat.value}</strong>
-						<span>{stat.label}</span>
-					</div>
-				))
-			}
-		</div>
-	</section>
-
 	<slot />
 </main>
 
@@ -115,8 +101,7 @@ const { page } = Astro.props;
 		inset-inline-end: -3rem;
 	}
 
-	.hero__inner,
-	.stats-strip__inner {
+	.hero__inner {
 		width: min(100%, var(--layout-width));
 		margin-inline: auto;
 	}
@@ -230,41 +215,6 @@ const { page } = Astro.props;
 		font-size: 0.95rem;
 	}
 
-	.stats-strip {
-		padding: var(--space-5) var(--space-page);
-		background: linear-gradient(90deg, var(--color-accent), var(--color-secondary));
-		color: var(--color-text-inverse);
-	}
-
-	.stats-strip__inner {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: var(--space-3);
-		background: transparent;
-	}
-
-	.stat {
-		min-height: 118px;
-		display: grid;
-		align-content: center;
-		gap: var(--space-2);
-		padding: var(--space-5);
-		border: 3px solid rgba(255, 255, 255, 0.72);
-		border-radius: 22px;
-		background: rgba(255, 255, 255, 0.16);
-		text-align: center;
-	}
-
-	.stat strong {
-		color: var(--color-accent-soft);
-		font-size: 2.6rem;
-		line-height: 1;
-	}
-
-	.stat span {
-		color: color-mix(in srgb, var(--color-text-inverse) 78%, transparent);
-	}
-
 	@media (max-width: 900px) {
 		.hero__inner {
 			grid-template-columns: 1fr;
@@ -273,10 +223,6 @@ const { page } = Astro.props;
 
 		.hero__visual {
 			min-height: 320px;
-		}
-
-		.stats-strip__inner {
-			grid-template-columns: repeat(2, 1fr);
 		}
 	}
 
@@ -292,19 +238,6 @@ const { page } = Astro.props;
 
 		.hero__visual {
 			display: none;
-		}
-
-		.stats-strip__inner {
-			grid-template-columns: 1fr 1fr;
-		}
-
-		.stat {
-			min-height: 108px;
-			padding: var(--space-4);
-		}
-
-		.stat strong {
-			font-size: 1.85rem;
 		}
 	}
 </style>

@@ -35,12 +35,6 @@ const landingPages = defineCollection({
 				})
 				.optional(),
 		}),
-		stats: z.array(
-			z.object({
-				value: z.string(),
-				label: z.string(),
-			}),
-		),
 	}),
 });
 
