@@ -4,7 +4,7 @@
 - **סטטוס:** התקבלה
 - **תאריך:** 2026-09-23
 - **מחליפה:** אין
-- **מקור אמת שמושפע:** `docs/audiences/parents-of-beginning-english-readers.md`
+- **מקור אמת שמושפע:** `../audience.md`
 
 ## הקשר
 

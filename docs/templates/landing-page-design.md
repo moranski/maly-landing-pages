@@ -1,7 +1,7 @@
 ---
 version: "alpha"
-name: "שם מערכת העיצוב"
-description: "משפט קצר שמתאר את הקהל, התחושה והתפקיד של המערכת."
+name: "עיצוב דף הנחיתה"
+description: "משפט קצר שמתאר את הקהל, התחושה והתפקיד של העיצוב בדף."
 colors:
   primary: "#16324F"
   on-primary: "#FFFFFF"

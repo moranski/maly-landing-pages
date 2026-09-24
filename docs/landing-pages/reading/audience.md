@@ -32,6 +32,6 @@
 
 ## קשרים
 
-- מוצר: `docs/products/english-with-maly-reading.md`
-- מערכת עיצוב: `docs/design-systems/reading-foundations.md`
+- מוצר: `product.md`
+- עיצוב: `design.md`
 - עמוד פעיל: `src/content/landing-pages/reading.mdx`

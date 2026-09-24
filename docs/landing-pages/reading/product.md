@@ -43,6 +43,6 @@
 
 ## קשרים
 
-- קהל יעד: `docs/audiences/parents-of-beginning-english-readers.md`
-- מערכת עיצוב: `docs/design-systems/reading-foundations.md`
+- קהל יעד: `audience.md`
+- עיצוב: `design.md`
 - עמוד פעיל: `src/content/landing-pages/reading.mdx`

@@ -1,10 +1,9 @@
-# ספר עיצוב: בניית יסודות הקריאה באנגלית
+# עיצוב: בניית יסודות הקריאה באנגלית
 
-- **מזהה:** `reading-foundations`
-- **סטטוס:** תיעוד המצב המיושם; ממתין לעיצוב מחדש ואינו בסיס לעיצוב חדש
+- **סטטוס:** מקור אמת פעיל לדף `reading`
 - **עודכן לאחרונה:** 2026-09-23
-- **מוצר:** `docs/products/english-with-maly-reading.md`
-- **קהל:** `docs/audiences/parents-of-beginning-english-readers.md`
+- **מוצר:** `product.md`
+- **קהל:** `audience.md`
 
 ## עיקרון מנחה
 
