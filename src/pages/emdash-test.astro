@@ -1,0 +1,32 @@
+---
+import { getEmDashCollection } from "emdash";
+
+const { entries: posts, error } = await getEmDashCollection("posts", {
+	orderBy: { published_at: "desc" },
+});
+
+if (error) {
+	throw error;
+}
+---
+
+<!doctype html>
+<html lang="he" dir="rtl">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>בדיקת Emdash</title>
+	</head>
+	<body>
+		<main>
+			<h1>פוסטים שפורסמו ב־Emdash</h1>
+			{posts.length === 0 ? (
+				<p>עדיין אין פוסטים שפורסמו.</p>
+			) : (
+				<ul>
+					{posts.map((post) => <li>{post.data.title}</li>)}
+				</ul>
+			)}
+		</main>
+	</body>
+</html>

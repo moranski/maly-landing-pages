@@ -4,6 +4,10 @@ import { render } from "astro:content";
 import LandingPageLayout from "../layouts/LandingPage.astro";
 import LandingPageContent from "../components/landing/LandingPageContent.astro";
 
+// Landing pages remain source-controlled MDX during the initial EmDash
+// migration, so generate their known slugs at build time.
+export const prerender = true;
+
 export async function getStaticPaths() {
 	const pages = await getCollection("landingPages", ({ data }) => !data.draft);
 

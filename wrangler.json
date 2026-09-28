@@ -1,8 +1,23 @@
 {
 	"name": "maly-landing-pages",
-	"compatibility_date": "2025-10-08",
+	"compatibility_date": "2026-09-27",
 	"compatibility_flags": ["nodejs_compat"],
-	"main": "./dist/_worker.js/index.js",
+	"main": "./src/worker.ts",
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "maly-landing-pages"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "MEDIA",
+			"bucket_name": "maly-landing-pages-media"
+		}
+	],
+	"triggers": {
+		"crons": ["* * * * *"]
+	},
 	"assets": {
 		"directory": "./dist",
 		"binding": "ASSETS"

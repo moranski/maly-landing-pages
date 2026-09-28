@@ -2,14 +2,19 @@
 	"name": "maly-landing-pages",
 	"description": "דפי הנחיתה של מלי.",
 	"dependencies": {
-		"@astrojs/cloudflare": "12.6.12",
-		"@astrojs/mdx": "4.3.13",
-		"astro": "5.16.9",
+		"@astrojs/cloudflare": "^13.1.0",
+		"@astrojs/mdx": "^6.0.3",
+		"@astrojs/react": "^5.0.0",
+		"@emdash-cms/cloudflare": "^0.41.0",
+		"astro": "^6.4.8",
+		"emdash": "^0.41.0",
+		"react": "^19.3.0",
+		"react-dom": "^19.3.0",
 		"typescript": "5.9.3"
 	},
 	"devDependencies": {
 		"@types/node": "26.6.2",
-		"wrangler": "4.88.0"
+		"wrangler": "^4.141.0"
 	},
 	"engines": {
 		"node": ">=22"
@@ -26,5 +31,11 @@
 		"dev": "astro dev",
 		"preview": "astro build && wrangler dev"
 	},
-	"type": "module"
+	"type": "module",
+	"allowScripts": {
+		"esbuild@0.28.2": true,
+		"esbuild@0.25.12": true,
+		"esbuild@0.28.1": true,
+		"workerd@1.20260925.1": true
+	}
 }
