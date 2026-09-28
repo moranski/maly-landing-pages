@@ -16,6 +16,12 @@
 			"bucket_name": "maly-landing-pages-media"
 		}
 	],
+	"kv_namespaces": [
+		{
+			"binding": "SESSION",
+			"id": "fcc9f4e02785442cb8ec441d9536682b"
+		}
+	],
 	"triggers": {
 		"crons": ["* * * * *"]
 	},
