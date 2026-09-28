@@ -2,6 +2,9 @@
 	"name": "maly-landing-pages",
 	"compatibility_date": "2026-09-27",
 	"compatibility_flags": ["nodejs_compat"],
+	"vars": {
+		"SITE_URL": "https://maly-landing-pages.moranski.workers.dev"
+	},
 	"main": "./src/worker.ts",
 	"d1_databases": [
 		{
