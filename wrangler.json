@@ -6,7 +6,8 @@
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "maly-landing-pages"
+			"database_name": "maly-landing-pages",
+			"database_id": "12b6981d-cc2f-4559-891b-413d64738a78"
 		}
 	],
 	"r2_buckets": [
