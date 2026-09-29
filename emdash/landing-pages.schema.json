@@ -1,0 +1,86 @@
+{
+  "collections": [
+    {
+      "slug": "landing_pages",
+      "label": "דפי נחיתה",
+      "labelSingular": "דף נחיתה",
+      "description": "דפי נחיתה בעברית עם פריסת בלוקים מסודרת.",
+      "urlPattern": "/{slug}",
+      "routable": true,
+      "supports": ["drafts", "revisions", "preview", "seo"],
+      "fields": [
+        { "slug": "title", "label": "כותרת", "type": "string", "required": true },
+        { "slug": "description", "label": "תיאור", "type": "text", "required": true, "validation": { "minLength": 1 } },
+        { "slug": "lang", "label": "שפה", "type": "select", "required": true, "defaultValue": "he", "validation": { "options": ["he"] } },
+        { "slug": "dir", "label": "כיוון", "type": "select", "required": true, "defaultValue": "rtl", "validation": { "options": ["rtl"] } },
+        {
+          "slug": "layout",
+          "label": "פריסת העמוד",
+          "type": "blocks",
+          "required": true,
+          "validation": { "minItems": 1, "allowedTypes": ["landing_hero", "landing_content_section", "landing_offer", "landing_final_cta"] }
+        }
+      ]
+    }
+  ],
+  "blockTypes": [
+    {
+      "slug": "landing_hero",
+      "label": "פתיח",
+      "fields": [
+        { "slug": "eyebrow", "label": "כותרת משנה", "type": "string" },
+        { "slug": "title", "label": "כותרת", "type": "string", "required": true },
+        { "slug": "subtitle", "label": "כותרת משנית", "type": "text", "required": true },
+        { "slug": "body", "label": "פסקאות", "type": "repeater", "required": true, "validation": { "minItems": 1, "subFields": [{ "slug": "text", "label": "טקסט", "type": "text", "required": true }] } },
+        { "slug": "cta_label", "label": "טקסט כפתור", "type": "string", "required": true },
+        { "slug": "cta_href", "label": "קישור כפתור", "type": "url", "required": true },
+        { "slug": "visual_image", "label": "תמונת פתיח", "type": "image", "required": true, "validation": { "allowedMimeTypes": ["image/webp"] } },
+        { "slug": "visual_alt", "label": "טקסט חלופי לתמונת פתיח", "type": "string", "required": true },
+        { "slug": "visual_title", "label": "כותרת כרטיס הפתיח", "type": "string", "required": true },
+        { "slug": "visual_caption", "label": "כיתוב כרטיס הפתיח", "type": "string", "required": true }
+      ]
+    },
+    {
+      "slug": "landing_content_section",
+      "label": "מקטע תוכן",
+      "fields": [
+        { "slug": "id", "label": "מזהה מקטע", "type": "string" },
+        { "slug": "kicker", "label": "כותרת קטנה", "type": "string" },
+        { "slug": "title", "label": "כותרת", "type": "string", "required": true },
+        { "slug": "tone", "label": "גוון", "type": "select", "defaultValue": "plain", "validation": { "options": ["plain", "tinted", "deep"] } },
+        { "slug": "paragraphs", "label": "פסקאות", "type": "repeater", "validation": { "subFields": [{ "slug": "text", "label": "טקסט", "type": "text", "required": true }] } },
+        { "slug": "cards", "label": "כרטיסים", "type": "repeater", "validation": { "subFields": [{ "slug": "title", "label": "כותרת", "type": "string", "required": true }, { "slug": "body", "label": "תוכן", "type": "text", "required": true }] } },
+        { "slug": "ordered_cards", "label": "מספור כרטיסים", "type": "boolean", "defaultValue": false },
+        { "slug": "profile_image", "label": "תמונת פרופיל", "type": "image", "validation": { "allowedMimeTypes": ["image/webp"] } },
+        { "slug": "profile_alt", "label": "טקסט חלופי לתמונת פרופיל", "type": "string" },
+        { "slug": "profile_caption", "label": "כיתוב לתמונת פרופיל", "type": "string" },
+        { "slug": "gallery", "label": "גלריה", "type": "repeater", "validation": { "subFields": [{ "slug": "image", "label": "תמונה", "type": "image", "required": true }, { "slug": "alt", "label": "טקסט חלופי", "type": "string", "required": true }, { "slug": "caption", "label": "כיתוב", "type": "string" }] } },
+        { "slug": "faq_items", "label": "שאלות נפוצות", "type": "repeater", "validation": { "subFields": [{ "slug": "question", "label": "שאלה", "type": "string", "required": true }, { "slug": "answer", "label": "תשובה", "type": "text", "required": true }] } }
+      ]
+    },
+    {
+      "slug": "landing_offer",
+      "label": "הצעה ותשלום",
+      "fields": [
+        { "slug": "title", "label": "כותרת", "type": "string", "required": true },
+        { "slug": "body", "label": "תוכן", "type": "text", "required": true },
+        { "slug": "includes", "label": "מה כלול", "type": "repeater", "required": true, "validation": { "minItems": 1, "subFields": [{ "slug": "text", "label": "פריט", "type": "string", "required": true }] } },
+        { "slug": "lead_endpoint", "label": "נקודת קליטת לידים", "type": "string", "required": true },
+        { "slug": "checkout_url", "label": "קישור לתשלום", "type": "url", "required": true },
+        { "slug": "submit_label", "label": "טקסט כפתור", "type": "string", "required": true },
+        { "slug": "consent_label", "label": "טקסט הסכמה", "type": "text", "required": true }
+      ]
+    },
+    {
+      "slug": "landing_final_cta",
+      "label": "קריאה אחרונה לפעולה",
+      "fields": [
+        { "slug": "heading", "label": "כותרת", "type": "string", "required": true },
+        { "slug": "paragraphs", "label": "פסקאות", "type": "repeater", "required": true, "validation": { "minItems": 1, "subFields": [{ "slug": "text", "label": "טקסט", "type": "text", "required": true }] } },
+        { "slug": "signature", "label": "חתימה", "type": "string" },
+        { "slug": "cta_label", "label": "טקסט כפתור", "type": "string", "required": true },
+        { "slug": "cta_href", "label": "קישור כפתור", "type": "url", "required": true }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+---
+import CardGrid from "./CardGrid.astro";
+import FinalCta from "./FinalCta.astro";
+import ImageGallery from "./ImageGallery.astro";
+import LandingPageLayout from "../../layouts/LandingPage.astro";
+import LandingPageContent from "./LandingPageContent.astro";
+import OfferBlock from "./OfferBlock.astro";
+import ProfileImage from "./ProfileImage.astro";
+import Section from "./Section.astro";
+
+type Media = { src?: string; url?: string; previewUrl?: string };
+type Block = Record<string, unknown> & { _type?: string; type?: string };
+
+interface Props {
+	page: { title: string; description: string; lang?: string; dir?: "rtl" | "ltr"; layout: Block[] };
+}
+
+const { page } = Astro.props;
+const blocks = Array.isArray(page.layout) ? page.layout : [];
+const kind = (block: Block) => block._type ?? block.type;
+const hero = blocks.find((block) => kind(block) === "landing_hero");
+const textItems = (value: unknown) =>
+	Array.isArray(value)
+		? value.flatMap((item) => typeof item === "string" ? [item] : item && typeof item === "object" && typeof (item as { text?: unknown }).text === "string" ? [(item as { text: string }).text] : [])
+		: [];
+const records = (value: unknown) => Array.isArray(value) ? value.filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object") : [];
+const mediaSrc = (value: unknown) => {
+	if (typeof value === "string") return value;
+	if (!value || typeof value !== "object") return undefined;
+	const media = value as Media;
+	return media.src ?? media.url ?? media.previewUrl;
+};
+
+if (!hero) throw new Error("A landing page needs a landing_hero block.");
+const heroData = hero as Record<string, unknown>;
+const heroPage = {
+	title: page.title,
+	description: page.description,
+	hero: {
+		eyebrow: typeof heroData.eyebrow === "string" ? heroData.eyebrow : undefined,
+		title: String(heroData.title ?? ""),
+		subtitle: String(heroData.subtitle ?? ""),
+		body: textItems(heroData.body),
+		primaryCta: { label: String(heroData.cta_label ?? ""), href: String(heroData.cta_href ?? "#offer") },
+		visual: {
+			src: mediaSrc(heroData.visual_image) ?? "",
+			alt: String(heroData.visual_alt ?? ""),
+			title: String(heroData.visual_title ?? ""),
+			caption: String(heroData.visual_caption ?? ""),
+		},
+	},
+};
+---
+
+<LandingPageLayout page={{ ...heroPage, lang: page.lang ?? "he", dir: page.dir ?? "rtl" }}>
+	<LandingPageContent page={heroPage}>
+	{
+		blocks.filter((block) => block !== hero).map((block) => {
+			const blockKind = kind(block);
+			if (blockKind === "landing_content_section") {
+				const profileSrc = mediaSrc(block.profile_image);
+				const gallery = records(block.gallery).flatMap((image) => {
+					const src = mediaSrc(image.image);
+					return src && typeof image.alt === "string" ? [{ src, alt: image.alt, caption: typeof image.caption === "string" ? image.caption : undefined }] : [];
+				});
+				return <Section id={typeof block.id === "string" ? block.id : undefined} kicker={typeof block.kicker === "string" ? block.kicker : undefined} title={String(block.title ?? "")} tone={block.tone === "tinted" || block.tone === "deep" ? block.tone : "plain"}>
+					{profileSrc && <ProfileImage src={profileSrc} alt={typeof block.profile_alt === "string" ? block.profile_alt : ""} caption={typeof block.profile_caption === "string" ? block.profile_caption : undefined} />}
+					{textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}
+					{records(block.cards).length > 0 && <CardGrid ordered={block.ordered_cards === true} items={records(block.cards).map((card) => ({ title: String(card.title ?? ""), body: String(card.body ?? "") }))} />}
+					{gallery.length > 0 && <ImageGallery images={gallery} />}
+					{records(block.faq_items).map((item) => <><h3>{String(item.question ?? "")}</h3><p>{String(item.answer ?? "")}</p></>)}
+				</Section>;
+			}
+			if (blockKind === "landing_offer") return <OfferBlock title={String(block.title ?? "")} body={String(block.body ?? "")} includes={textItems(block.includes)} lead={{ endpoint: String(block.lead_endpoint ?? ""), checkoutUrl: String(block.checkout_url ?? ""), submitLabel: String(block.submit_label ?? ""), consentLabel: String(block.consent_label ?? "") }} />;
+			if (blockKind === "landing_final_cta") return <FinalCta cta={{ label: String(block.cta_label ?? ""), href: String(block.cta_href ?? "#offer") }}><h2>{String(block.heading ?? "")}</h2>{textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}{typeof block.signature === "string" && <strong>{block.signature}</strong>}</FinalCta>;
+			return null;
+		})
+	}
+	</LandingPageContent>
+</LandingPageLayout>

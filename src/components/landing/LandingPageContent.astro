@@ -9,6 +9,12 @@ interface PageData {
 		body: string[];
 		primaryCta: { label: string; href: string };
 		secondaryCta?: { label: string; href: string };
+		visual?: {
+			src: string;
+			alt: string;
+			title: string;
+			caption: string;
+		};
 	};
 }
 
@@ -17,6 +23,12 @@ interface Props {
 }
 
 const { page } = Astro.props;
+const heroVisual = page.hero.visual ?? {
+	src: "/assets/reading/cards/card-letters.webp",
+	alt: "דוגמה לכרטיס לימוד מהקורס עם האות J וצליל הקריאה שלה",
+	title: "40 שיעורים צבעוניים",
+	caption: "דוגמה מתוך כרטיסי הלמידה בקורס",
+};
 ---
 
 <main>
@@ -43,20 +55,20 @@ const { page } = Astro.props;
 				</div>
 			</div>
 
-			<div class="hero__visual" aria-label="מקום לתמונת הקורס העתידית">
+			<div class="hero__visual">
 				<div class="course-preview">
 					<img
 						class="course-preview__image"
-						src="/assets/reading/cards/card-letters.webp"
-						alt="דוגמה לכרטיס לימוד מהקורס עם האות J וצליל הקריאה שלה"
+						src={heroVisual.src}
+						alt={heroVisual.alt}
 						width="1599"
 						height="899"
 						loading="eager"
 						decoding="async"
 					/>
 					<div class="course-preview__caption">
-						<strong>40 שיעורים צבעוניים</strong>
-						<span>דוגמה מתוך כרטיסי הלמידה בקורס</span>
+						<strong>{heroVisual.title}</strong>
+						<span>{heroVisual.caption}</span>
 					</div>
 				</div>
 			</div>

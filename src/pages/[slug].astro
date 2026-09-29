@@ -1,32 +1,47 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { getCollection } from "astro:content";
 import { render } from "astro:content";
+import { getEmDashEntry } from "emdash";
 import LandingPageLayout from "../layouts/LandingPage.astro";
+import EmDashLandingPage from "../components/landing/EmDashLandingPage.astro";
 import LandingPageContent from "../components/landing/LandingPageContent.astro";
 
-// Landing pages remain source-controlled MDX during the initial EmDash
-// migration, so generate their known slugs at build time.
-export const prerender = true;
+export const prerender = false;
 
-export async function getStaticPaths() {
-	const pages = await getCollection("landingPages", ({ data }) => !data.draft);
-
-	return pages.map((page) => ({
-		params: { slug: page.data.slug },
-		props: { page },
-	}));
+const slug = Astro.params.slug;
+if (!slug) {
+	Astro.response.status = 404;
 }
 
-interface Props {
-	page: CollectionEntry<"landingPages">;
+const { entry: emdashPage, error } = slug
+	? await getEmDashEntry("landing_pages", slug)
+	: { entry: undefined, error: undefined };
+
+if (error) {
+	console.error(`Unable to load EmDash landing page "${slug}":`, error);
 }
 
-const { page } = Astro.props;
-const { Content } = await render(page);
+const sourcePage = emdashPage || !slug
+	? undefined
+	: (await getCollection("landingPages", ({ data }) => !data.draft && data.slug === slug))[0];
+
+if (!emdashPage && !sourcePage) {
+	Astro.response.status = 404;
+}
+
+const sourceContent = sourcePage ? await render(sourcePage) : undefined;
 ---
 
-<LandingPageLayout page={page.data}>
-	<LandingPageContent page={page.data}>
-		<Content />
-	</LandingPageContent>
-</LandingPageLayout>
+{
+	emdashPage ? (
+		<EmDashLandingPage page={emdashPage.data as never} />
+	) : sourcePage && sourceContent ? (
+		<LandingPageLayout page={sourcePage.data}>
+			<LandingPageContent page={sourcePage.data}>
+				<sourceContent.Content />
+			</LandingPageContent>
+		</LandingPageLayout>
+	) : (
+		<main><h1>העמוד לא נמצא</h1></main>
+	)
+}
