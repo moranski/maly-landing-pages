@@ -45,4 +45,4 @@
 
 - קהל יעד: `audience.md`
 - עיצוב: `design.md`
-- עמוד פעיל: `src/content/landing-pages/reading.mdx`
+- עמוד פעיל: EmDash, אוסף `landing_pages`, רשומה `reading`

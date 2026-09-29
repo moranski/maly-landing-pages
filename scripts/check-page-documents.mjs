@@ -53,9 +53,20 @@ for (const pageFile of pageFiles) {
 
 const documentationEntries = await readdir(docsRoot, { withFileTypes: true });
 for (const entry of documentationEntries) {
-	if (entry.isDirectory() && !pageSlugs.has(entry.name)) {
-		errors.push(`docs/landing-pages/${entry.name}/: אין MDX עם slug תואם.`);
+	if (!entry.isDirectory() || pageSlugs.has(entry.name)) continue;
+
+	try {
+		const index = await readFile(path.join(docsRoot, entry.name, "README.md"), "utf8");
+		const emdashMatch = index.match(/EmDash, אוסף `landing_pages`, רשומה `([^`]+)`/);
+		if (emdashMatch?.[1] === entry.name) {
+			pageSlugs.add(entry.name);
+			continue;
+		}
+	} catch {
+		// The missing README is reported by the MDX-backed page check when applicable.
 	}
+
+	errors.push(`docs/landing-pages/${entry.name}/: אין MDX או רשומת EmDash עם slug תואם.`);
 }
 
 if (errors.length > 0) {
@@ -63,4 +74,4 @@ if (errors.length > 0) {
 	process.exit(1);
 }
 
-console.log(`בדיקת מסמכי דפים עברה בהצלחה (${pageFiles.length} עמודים).`);
+console.log(`בדיקת מסמכי דפים עברה בהצלחה (${pageSlugs.size} עמודים).`);

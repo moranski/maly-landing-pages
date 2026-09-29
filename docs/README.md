@@ -6,12 +6,12 @@
 
 | נושא | מיקום | מה נשמר בו |
 | --- | --- | --- |
-| מפת הדף | `docs/landing-pages/<slug>/README.md` | מזהה הדף, ה־MDX הפעיל וקישורים למקורות האמת שלו |
+| מפת הדף | `docs/landing-pages/<slug>/README.md` | מזהה הדף, רשומת EmDash הפעילה וקישורים למקורות האמת שלו |
 | מוצר | `docs/landing-pages/<slug>/product.md` | מה נמכר, מה כלול, מנגנון, גבולות ופרטים מסחריים מאושרים |
 | קהל יעד | `docs/landing-pages/<slug>/audience.md` | מי הקהל, באיזה מצב הוא נמצא, מה מניע אותו ומהו השינוי הרצוי |
 | עיצוב | `docs/landing-pages/<slug>/design.md` | שפה חזותית, מבנה, רכיבים וכללי שימוש |
 | כתיבה | `docs/writing-style.md` | כללי הטון, הניסוח וההבטחות שחלים על כל הפרויקט |
-| עמוד פעיל | `src/content/landing-pages/` | הנוסח וההצעה שמוצגים בפועל בכל עמוד |
+| עמוד פעיל | EmDash, אוסף `landing_pages` | הנוסח וההצעה שמוצגים בפועל בכל עמוד |
 
 לכל דף יש תיקייה יחידה לפי ה־`slug` שלו. מעדכנים את מקורות האמת שבתוכה במקום ליצור גרסאות כגון `final`, `new` או קבצים עם תאריך בשם.
 
@@ -29,7 +29,6 @@
 ## תהליך וקובצי בסיס
 
 - `docs/workflows/landing-page-creation.md` — סדר העבודה מפתיחת תיקיית הדף ועד למסירה.
-- `docs/templates/landing-page.mdx` — קובץ הבסיס לעמוד נחיתה חדש.
 - `docs/templates/landing-page-design.md` — קובץ בסיס לעיצוב של דף חדש.
 - `docs/templates/decision.md` — קובץ הבסיס לרשומת החלטה חדשה.
 

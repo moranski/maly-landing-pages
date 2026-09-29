@@ -1,10 +1,6 @@
 ---
-import { getCollection } from "astro:content";
-import { render } from "astro:content";
 import { getEmDashEntry } from "emdash";
-import LandingPageLayout from "../layouts/LandingPage.astro";
 import EmDashLandingPage from "../components/landing/EmDashLandingPage.astro";
-import LandingPageContent from "../components/landing/LandingPageContent.astro";
 
 export const prerender = false;
 
@@ -21,26 +17,14 @@ if (error) {
 	console.error(`Unable to load EmDash landing page "${slug}":`, error);
 }
 
-const sourcePage = emdashPage || !slug
-	? undefined
-	: (await getCollection("landingPages", ({ data }) => !data.draft && data.slug === slug))[0];
-
-if (!emdashPage && !sourcePage) {
+if (!emdashPage) {
 	Astro.response.status = 404;
 }
-
-const sourceContent = sourcePage ? await render(sourcePage) : undefined;
 ---
 
 {
 	emdashPage ? (
 		<EmDashLandingPage page={emdashPage.data as never} />
-	) : sourcePage && sourceContent ? (
-		<LandingPageLayout page={sourcePage.data}>
-			<LandingPageContent page={sourcePage.data}>
-				<sourceContent.Content />
-			</LandingPageContent>
-		</LandingPageLayout>
 	) : (
 		<main><h1>העמוד לא נמצא</h1></main>
 	)

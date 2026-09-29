@@ -9,7 +9,7 @@ interface PageData {
 		body: string[];
 		primaryCta: { label: string; href: string };
 		secondaryCta?: { label: string; href: string };
-		visual?: {
+		visual: {
 			src: string;
 			alt: string;
 			title: string;
@@ -23,12 +23,7 @@ interface Props {
 }
 
 const { page } = Astro.props;
-const heroVisual = page.hero.visual ?? {
-	src: "/assets/reading/cards/card-letters.webp",
-	alt: "דוגמה לכרטיס לימוד מהקורס עם האות J וצליל הקריאה שלה",
-	title: "40 שיעורים צבעוניים",
-	caption: "דוגמה מתוך כרטיסי הלמידה בקורס",
-};
+const heroVisual = page.hero.visual;
 ---
 
 <main>
