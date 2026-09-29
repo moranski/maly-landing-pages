@@ -1,72 +1,32 @@
-import { access, readdir, readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
-const contentRoot = path.join(process.cwd(), "src", "content", "landing-pages");
 const docsRoot = path.join(process.cwd(), "docs", "landing-pages");
-const requiredFiles = ["README.md", "product.md", "audience.md", "design.md"];
-
-async function listPageFiles(directory) {
-	const entries = await readdir(directory, { withFileTypes: true });
-	return entries
-		.filter((entry) => entry.isFile() && /\.(md|mdx)$/.test(entry.name))
-		.map((entry) => path.join(directory, entry.name));
-}
-
-function getFrontmatterValue(source, key) {
-	const frontmatter = source.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? "";
-	return frontmatter.match(new RegExp(`^${key}:\\s*["']?([^"'\\n]+)["']?\\s*$`, "m"))?.[1];
-}
-
 const errors = [];
-const pageFiles = await listPageFiles(contentRoot);
-const pageSlugs = new Set();
 
-for (const pageFile of pageFiles) {
-	const source = await readFile(pageFile, "utf8");
-	const slug = getFrontmatterValue(source, "slug");
+const entries = await readdir(docsRoot, { withFileTypes: true });
+const pages = entries.filter((entry) => entry.isDirectory());
 
-	if (!slug) {
-		errors.push(`${path.relative(process.cwd(), pageFile)}: חסר slug.`);
+for (const page of pages) {
+	const readmePath = path.join(docsRoot, page.name, "README.md");
+	let readme;
+	try {
+		readme = await readFile(readmePath, "utf8");
+	} catch {
+		errors.push(`docs/landing-pages/${page.name}/: חסר README.md.`);
 		continue;
 	}
 
-	pageSlugs.add(slug);
-
-	const pageDocs = path.join(docsRoot, slug);
-	for (const requiredFile of requiredFiles) {
-		try {
-			await access(path.join(pageDocs, requiredFile));
-		} catch {
-			errors.push(`docs/landing-pages/${slug}/: חסר ${requiredFile}.`);
-		}
+	const slug = readme.match(/^- \*\*slug:\*\* `([^`]+)`/m)?.[1];
+	if (slug !== page.name) {
+		errors.push(`${path.relative(process.cwd(), readmePath)}: ה־slug חייב להתאים לשם התיקייה.`);
 	}
-
-	try {
-		const index = await readFile(path.join(pageDocs, "README.md"), "utf8");
-		if (!index.includes(`src/content/landing-pages/${path.basename(pageFile)}`)) {
-			errors.push(`docs/landing-pages/${slug}/README.md: חסר קישור ל־MDX הפעיל.`);
-		}
-	} catch {
-		// The missing README is already reported above.
+	if (!readme.includes("אוסף `landing_pages`")) {
+		errors.push(`${path.relative(process.cwd(), readmePath)}: חסר מיפוי לרשומת EmDash באוסף landing_pages.`);
 	}
-}
-
-const documentationEntries = await readdir(docsRoot, { withFileTypes: true });
-for (const entry of documentationEntries) {
-	if (!entry.isDirectory() || pageSlugs.has(entry.name)) continue;
-
-	try {
-		const index = await readFile(path.join(docsRoot, entry.name, "README.md"), "utf8");
-		const emdashMatch = index.match(/EmDash, אוסף `landing_pages`, רשומה `([^`]+)`/);
-		if (emdashMatch?.[1] === entry.name) {
-			pageSlugs.add(entry.name);
-			continue;
-		}
-	} catch {
-		// The missing README is reported by the MDX-backed page check when applicable.
+	if (!readme.includes("אוסף `agent_context`")) {
+		errors.push(`${path.relative(process.cwd(), readmePath)}: חסר מיפוי להקשר שבאוסף agent_context.`);
 	}
-
-	errors.push(`docs/landing-pages/${entry.name}/: אין MDX או רשומת EmDash עם slug תואם.`);
 }
 
 if (errors.length > 0) {
@@ -74,4 +34,4 @@ if (errors.length > 0) {
 	process.exit(1);
 }
 
-console.log(`בדיקת מסמכי דפים עברה בהצלחה (${pageSlugs.size} עמודים).`);
+console.log(`מפת הדפים המקומית תקינה (${pages.length} עמודים). בדיקה זו אינה מאמתת תוכן ב־EmDash.`);
