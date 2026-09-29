@@ -17,7 +17,6 @@
           "slug": "layout",
           "label": "פריסת העמוד",
           "type": "blocks",
-          "required": true,
           "validation": { "minItems": 1, "allowedTypes": ["landing_hero", "landing_content_section", "landing_offer", "landing_final_cta"] }
         }
       ]

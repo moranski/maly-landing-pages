@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 import { EmDashClient } from "emdash/client";
@@ -6,14 +6,27 @@ import { EmDashClient } from "emdash/client";
 const siteUrl = process.env.EMDASH_URL ?? "https://maly-landing-pages.moranski.workers.dev";
 const root = resolve(new URL("..", import.meta.url).pathname);
 const readJson = async (path) => JSON.parse(await readFile(path, "utf8"));
-const credentials = await readJson(join(homedir(), ".config", "emdash", "auth.json"));
+const credentialPath = join(homedir(), ".config", "emdash", "auth.json");
+const credentials = await readJson(credentialPath);
 const auth = credentials[new URL(siteUrl).origin];
 
 if (!auth?.accessToken) {
 	throw new Error(`No EmDash login is stored for ${siteUrl}. Run: npx emdash login -u ${siteUrl}`);
 }
 
-const client = new EmDashClient({ baseUrl: siteUrl, token: auth.accessToken });
+const client = new EmDashClient({
+	baseUrl: siteUrl,
+	token: auth.accessToken,
+	refreshToken: auth.refreshToken,
+	onTokenRefresh: (accessToken, expiresIn) => {
+		credentials[new URL(siteUrl).origin] = {
+			...auth,
+			accessToken,
+			expiresAt: new Date(Date.now() + expiresIn * 1000).toISOString(),
+		};
+		void writeFile(credentialPath, JSON.stringify(credentials, null, "\t"), { mode: 0o600 });
+	},
+});
 const schema = await readJson(join(root, "emdash", "landing-pages.schema.json"));
 const content = await readJson(join(root, "emdash", "reading.content.json"));
 

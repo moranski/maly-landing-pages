@@ -8,7 +8,7 @@ import OfferBlock from "./OfferBlock.astro";
 import ProfileImage from "./ProfileImage.astro";
 import Section from "./Section.astro";
 
-type Media = { src?: string; url?: string; previewUrl?: string };
+type Media = { src?: string; url?: string; previewUrl?: string; meta?: { storageKey?: string } };
 type Block = Record<string, unknown> & { _type?: string; type?: string };
 
 interface Props {
@@ -28,7 +28,7 @@ const mediaSrc = (value: unknown) => {
 	if (typeof value === "string") return value;
 	if (!value || typeof value !== "object") return undefined;
 	const media = value as Media;
-	return media.src ?? media.url ?? media.previewUrl;
+	return media.src ?? media.url ?? media.previewUrl ?? (media.meta?.storageKey ? `/_emdash/api/media/file/${encodeURIComponent(media.meta.storageKey)}` : undefined);
 };
 
 if (!hero) throw new Error("A landing page needs a landing_hero block.");

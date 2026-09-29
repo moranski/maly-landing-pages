@@ -14,7 +14,7 @@
         "subtitle": "מסלול צבעוני ומדורג של כ־12 שבועות, מאותיות וצלילים ועד לקריאת מילים בביטחון רב יותר.",
         "body": [{ "text": "הילד שלך מכיר חלק מהאותיות, אבל עדיין נתקע מול מילה חדשה? בקורס הוא לומד צעד אחר צעד כיצד אותיות וצלילים מתחברים למילים." }],
         "cta_label": "אני רוצה להתחיל",
-        "cta_href": "#offer",
+        "cta_href": "https://maly-landing-pages.moranski.workers.dev/reading/#offer",
         "visual_image": { "$media": "card-letters" },
         "visual_alt": "דוגמה לכרטיס לימוד מהקורס עם האות J וצליל הקריאה שלה",
         "visual_title": "40 שיעורים צבעוניים",
@@ -135,7 +135,7 @@
         ],
         "signature": "מלי",
         "cta_label": "אני רוצה להתחיל",
-        "cta_href": "#offer"
+        "cta_href": "https://maly-landing-pages.moranski.workers.dev/reading/#offer"
       }
     ]
   }
