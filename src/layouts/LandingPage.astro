@@ -18,14 +18,28 @@ interface Props {
 }
 
 const { page } = Astro.props;
+const gtmId = Astro.locals.runtime?.env?.GTM_ID;
+const validGtmId = typeof gtmId === "string" && /^GTM-[A-Z0-9]+$/.test(gtmId) ? gtmId : undefined;
 ---
 
 <!doctype html>
 <html lang={page.lang} dir={page.dir}>
 	<head>
 		<BaseHead title={page.title} description={page.description} />
+		{validGtmId && (
+			<script is:inline define:vars={{ validGtmId }}>
+				(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+				j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+				'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+				})(window,document,'script','dataLayer',validGtmId);
+			</script>
+		)}
 	</head>
 	<body class="landing-page">
+		{validGtmId && (
+			<noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${validGtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		)}
 		<slot />
 		<StickyMobileCta cta={page.hero.primaryCta} />
 	</body>
