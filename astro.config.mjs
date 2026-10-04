@@ -4,7 +4,7 @@ import mdx from "@astrojs/mdx";
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import emdash from "emdash/astro";
-import { d1, r2 } from "@emdash-cms/cloudflare";
+import { d1, r2, sandbox } from "@emdash-cms/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,6 +16,7 @@ export default defineConfig({
 		emdash({
 			database: d1({ binding: "DB" }),
 			storage: r2({ binding: "MEDIA" }),
+			sandboxRunner: sandbox(),
 		}),
 	],
 	adapter: cloudflare(),
