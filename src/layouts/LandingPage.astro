@@ -1,6 +1,7 @@
 ---
 import BaseHead from "../components/BaseHead.astro";
 import StickyMobileCta from "../components/landing/StickyMobileCta.astro";
+import { env } from "cloudflare:workers";
 
 interface Props {
 	page: {
@@ -18,7 +19,7 @@ interface Props {
 }
 
 const { page } = Astro.props;
-const gtmId = Astro.locals.runtime?.env?.GTM_ID;
+const gtmId = env.GTM_ID;
 const validGtmId = typeof gtmId === "string" && /^GTM-[A-Z0-9]+$/.test(gtmId) ? gtmId : undefined;
 ---
 

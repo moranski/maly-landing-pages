@@ -1,7 +1,9 @@
 type Runtime = import("@astrojs/cloudflare").Runtime<Env>;
 
-interface Env {
-  GTM_ID?: string;
+declare namespace Cloudflare {
+  interface Env {
+    GTM_ID?: string;
+  }
 }
 
 declare namespace App {
