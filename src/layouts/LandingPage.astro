@@ -1,7 +1,9 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
 import StickyMobileCta from "../components/landing/StickyMobileCta.astro";
+import "../styles/global.css";
 import { env } from "cloudflare:workers";
+import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
+import { createPublicPageContext } from "emdash/page";
 
 interface Props {
 	page: {
@@ -21,27 +23,61 @@ interface Props {
 const { page } = Astro.props;
 const gtmId = env.GTM_ID;
 const validGtmId = typeof gtmId === "string" && /^GTM-[A-Z0-9]+$/.test(gtmId) ? gtmId : undefined;
+const emdashPage = createPublicPageContext({
+	url: Astro.url,
+	locale: page.lang,
+	kind: "custom",
+	pageType: "landing-page",
+	title: page.title,
+	description: page.description,
+	canonical: (Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url).href,
+	siteName: "מלי",
+});
 ---
 
 <!doctype html>
 <html lang={page.lang} dir={page.dir}>
 	<head>
-		<BaseHead title={page.title} description={page.description} />
-		{validGtmId && (
-			<script is:inline define:vars={{ validGtmId }}>
-				(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-				new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-				j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-				'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-				})(window,document,'script','dataLayer',validGtmId);
-			</script>
-		)}
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{page.title}</title>
+		<EmDashHead page={emdashPage} />
 	</head>
 	<body class="landing-page">
-		{validGtmId && (
-			<noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${validGtmId}`} height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-		)}
+		<EmDashBodyStart page={emdashPage} />
 		<slot />
 		<StickyMobileCta cta={page.hero.primaryCta} />
+		<EmDashBodyEnd page={emdashPage} />
+		{validGtmId && (
+			<script is:inline define:vars={{ validGtmId }}>
+				(function(w,d,i){
+					var loaded=false;
+					function loadIfConsented(state){
+						if(loaded||!state||(!state.analytics&&!state.marketing))return;
+						loaded=true;
+						w.dataLayer=w.dataLayer||[];
+						w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+						var script=d.createElement('script');
+						script.async=true;
+						script.src='https://www.googletagmanager.com/gtm.js?id='+encodeURIComponent(i);
+						d.head.appendChild(script);
+					}
+					function sync(){
+						if(w.emprivacy&&typeof w.emprivacy.get==='function')loadIfConsented(w.emprivacy.get());
+					}
+					d.addEventListener('emprivacy:change',function(event){loadIfConsented(event.detail);});
+					if(d.readyState==='loading')d.addEventListener('DOMContentLoaded',sync,{once:true});
+					else sync();
+				})(window,document,validGtmId);
+			</script>
+		)}
 	</body>
 </html>
+
+<style is:global>
+	#emprivacy-root {
+		direction: rtl;
+		text-align: right;
+	}
+</style>

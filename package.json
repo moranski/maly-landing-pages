@@ -5,19 +5,21 @@
 		"@astrojs/cloudflare": "^14.3.3",
 		"@astrojs/mdx": "^8.0.2",
 		"@astrojs/react": "^5.0.7",
-		"@emdash-cms/cloudflare": "^0.41.0",
+		"@emdash-cms/cloudflare": "^1.1.0",
+		"@emplugins/emprivacy": "3.2.0",
 		"astro": "^7.3.5",
-		"emdash": "^0.41.0",
+		"emdash": "^1.1.0",
 		"react": "^19.3.0",
 		"react-dom": "^19.3.0",
 		"typescript": "5.9.3"
 	},
 	"devDependencies": {
 		"@types/node": "26.6.2",
+		"patch-package": "^8.0.1",
 		"wrangler": "^4.35.0"
 	},
 	"engines": {
-		"node": ">=22"
+		"node": ">=22.16"
 	},
 	"private": true,
 	"scripts": {
@@ -28,7 +30,8 @@
 		"docs:check": "node scripts/check-page-documents.mjs",
 		"deploy": "wrangler deploy",
 		"dev": "astro dev",
-		"preview": "astro build && wrangler dev"
+		"preview": "astro build && wrangler dev",
+		"postinstall": "patch-package"
 	},
 	"type": "module",
 	"allowScripts": {

@@ -5,6 +5,7 @@ import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import emdash from "emdash/astro";
 import { d1, r2, sandbox } from "@emdash-cms/cloudflare";
+import { emprivacyPlugin } from "@emplugins/emprivacy";
 
 // https://astro.build/config
 export default defineConfig({
@@ -17,6 +18,7 @@ export default defineConfig({
 			database: d1({ binding: "DB" }),
 			storage: r2({ binding: "MEDIA" }),
 			sandboxRunner: sandbox(),
+			plugins: [emprivacyPlugin()],
 		}),
 	],
 	adapter: cloudflare(),
