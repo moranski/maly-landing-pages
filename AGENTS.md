@@ -15,3 +15,11 @@
 - אין לשנות את D1 ישירות. השתמשו ב־EmDash MCP, ובהיעדרו ב־EmDash API מאומת.
 - שמרו רשומות `agent_context` כטיוטות בלבד. עריכות בעמוד מתחילות כטיוטה; מפרסמים רק כשהמשתמש מבקש שינוי חי במפורש.
 - שמרו סודות ופרטי פריסה בסביבת Cloudflare ולא בשדות תוכן או בקובצי הנחיות.
+
+## Remote Agent Skills
+
+This repository utilizes the following remote skills:
+*   [Emdash Skills][https://github.com/emdash-cms/emdash/tree/main/skills] - skills for building and testing an Emdash Site
+
+## Git Operations
+- Any agent performing changes on the repo on behalf of the user MUST add a line with the agent details according to the convention "Co-authored-by: NAME <NAME@EXAMPLE.COM>".
