@@ -24,73 +24,93 @@ const { kicker, title, tone = "plain", id } = Astro.props;
 <style>
 	.section {
 		position: relative;
-		overflow: hidden;
-		padding: var(--space-section) var(--space-page);
-		background: var(--color-surface);
+		width: 100%;
+		padding: 0;
+		background: transparent;
 	}
 
 	.section--tinted {
-		background:
-			radial-gradient(circle at 12% 18%, rgba(255, 63, 143, 0.13), transparent 16rem),
-			var(--color-surface-warm);
+		padding: 1.25rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-card);
+		background: #f5f3ef;
 	}
 
 	.section--deep {
-		background:
-			radial-gradient(circle at 80% 12%, rgba(255, 215, 63, 0.24), transparent 20rem),
-			linear-gradient(135deg, var(--color-ink), #3b2075);
+		padding: 1.25rem;
+		border-radius: var(--radius-card);
+		background: var(--color-ink);
 		color: var(--color-text-inverse);
 	}
 
 	.section__inner {
-		width: min(100%, var(--layout-width));
+		width: 100%;
 		margin-inline: auto;
 	}
 
 	.section__header {
-		max-width: 870px;
+		max-width: 100%;
 		margin-inline: auto;
-		margin-block-end: var(--space-8);
+		margin-block-end: var(--space-4);
 		text-align: center;
 	}
 
 	.section__header h2 {
 		margin: 0;
-		font-size: clamp(2.15rem, 1.75rem + 1.7vw, 3.55rem);
-		line-height: 1.08;
+		font-size: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+		line-height: 1.3;
+	}
+
+	.section__header > .kicker {
+		margin: 0;
+		padding: 0;
+		background: transparent;
+		color: var(--color-accent);
+		font-size: 0.75rem;
+		font-weight: 700;
 	}
 
 	.section--deep h2 {
 		color: var(--color-text-inverse);
 	}
 
+	.section--deep .section__header > .kicker {
+		background: color-mix(in srgb, white 12%, transparent);
+		color: #ffdbce;
+	}
+
 	.section__content {
 		display: grid;
-		gap: var(--space-6);
-		justify-items: center;
+		gap: var(--space-3);
+		justify-items: stretch;
 	}
 
 	.section-prose :global(p) {
-		max-width: 860px;
+		max-width: 100%;
 		margin: 0;
 		color: var(--color-text);
-		font-size: 1.12rem;
-		text-align: center;
+		font-size: 0.875rem;
+		line-height: 1.6;
+		text-align: start;
+	}
+
+	.section--deep .section-prose > :global(p) {
+		color: color-mix(in srgb, white 88%, transparent);
 	}
 
 	.section-prose :global(p + p) {
-		margin-block-start: calc(-1 * var(--space-3));
+		margin-block-start: 0;
 	}
 
 	.section-prose :global(blockquote) {
-		max-width: 860px;
+		max-width: 100%;
 		margin: 0;
-		padding: var(--space-6);
+		padding: var(--space-4);
 		border: 0;
-		border-radius: 28px;
+		border-radius: var(--radius-card);
 		background: white;
 		color: var(--color-ink);
-		font-size: 1.35rem;
+		font-size: 0.95rem;
 		font-weight: 800;
 		text-align: center;
 		box-shadow: var(--shadow-soft);
@@ -112,17 +132,33 @@ const { kicker, title, tone = "plain", id } = Astro.props;
 	}
 
 	.section-prose :global(h3) {
-		max-width: 860px;
+		max-width: 100%;
 		width: 100%;
 		margin: 0 0 calc(-1 * var(--space-4));
-		padding: var(--space-4) var(--space-5);
-		border-radius: 18px;
+		padding: var(--space-3) var(--space-4);
+		border-radius: 12px;
 		background: white;
-		color: var(--color-accent-strong);
-		font-size: 1.28rem;
+		color: var(--color-ink);
+		font-size: 0.875rem;
 		line-height: 1.25;
 		text-align: center;
 		box-shadow: var(--shadow-soft);
+	}
+
+	.section-prose :global(.info-card h3) {
+		width: auto;
+		margin: 0 0 var(--space-2);
+		padding: 0;
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+		text-align: start;
+	}
+
+	.section-prose :global(.info-card p) {
+		color: var(--color-text-muted);
+		font-size: 0.75rem;
+		text-align: start;
 	}
 
 	.kicker {
@@ -130,14 +166,14 @@ const { kicker, title, tone = "plain", id } = Astro.props;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		padding: 0.4rem 1rem;
+		padding: 0.25rem 0.65rem;
 		border-radius: var(--radius-pill);
 		background: white;
-		color: var(--color-secondary-strong);
+		color: var(--color-ink);
 		font-size: var(--font-size-small);
 		font-weight: 900;
 		letter-spacing: 0;
-		box-shadow: var(--shadow-soft);
+		box-shadow: none;
 	}
 
 	.section--deep .kicker {

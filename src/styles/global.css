@@ -13,10 +13,7 @@ html {
 
 body {
 	margin: 0;
-	background:
-		radial-gradient(circle at 8% 4%, rgba(255, 215, 63, 0.24), transparent 24rem),
-		radial-gradient(circle at 94% 18%, rgba(35, 183, 216, 0.17), transparent 26rem),
-		var(--color-surface);
+	background: var(--color-surface);
 	color: var(--color-text);
 	font-family:
 		"Rubik",
@@ -24,8 +21,8 @@ body {
 		"Segoe UI",
 		Arial,
 		sans-serif;
-	font-size: 18px;
-	line-height: 1.68;
+	font-size: 16px;
+	line-height: 1.5;
 	text-align: start;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
@@ -36,6 +33,16 @@ body.landing-page {
 	padding-block-end: 0;
 }
 
+.landing-page main {
+	width: min(100%, 512px);
+	min-height: 100vh;
+	margin-inline: auto;
+	padding: 80px 16px calc(132px + env(safe-area-inset-bottom));
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
 h1,
 h2,
 h3,
@@ -43,7 +50,7 @@ h4,
 h5,
 h6 {
 	color: var(--color-ink);
-	font-weight: 900;
+	font-weight: 700;
 	letter-spacing: 0;
 	text-wrap: balance;
 }
@@ -74,14 +81,14 @@ select {
 
 .button {
 	display: inline-flex;
-	min-height: 3.55rem;
+	min-height: 3.5rem;
 	align-items: center;
 	justify-content: center;
 	gap: 0.5rem;
 	padding: 0.9rem 1.65rem;
 	border: 0;
 	border-radius: var(--radius-pill);
-	font-weight: 900;
+	font-weight: 600;
 	line-height: 1.2;
 	text-align: center;
 	text-decoration: none;
@@ -101,25 +108,24 @@ select {
 }
 
 .button--primary {
-	background: linear-gradient(180deg, #ff66aa, var(--color-accent));
+	background: var(--color-accent);
 	color: var(--color-text-inverse);
 	box-shadow: var(--shadow-cta);
 }
 
 .button--primary:hover {
-	background: linear-gradient(180deg, #ff7ab7, var(--color-accent-strong));
+	background: var(--color-secondary);
 }
 
 .button--secondary {
-	border: 2px solid var(--color-secondary);
-	background: white;
+	border: 1.5px solid var(--color-ink);
+	background: transparent;
 	color: var(--color-ink);
-	box-shadow: 0 8px 0 rgba(18, 136, 175, 0.22);
 }
 
 .kicker {
 	margin: 0 0 var(--space-3);
-	color: var(--color-secondary-strong);
+	color: var(--color-ink);
 	font-size: var(--font-size-small);
 	font-weight: 900;
 	letter-spacing: 0;

@@ -63,7 +63,8 @@ const heroPage = {
 					const src = mediaSrc(image.image);
 					return src && typeof image.alt === "string" ? [{ src, alt: image.alt, caption: typeof image.caption === "string" ? image.caption : undefined }] : [];
 				});
-				return <Section id={typeof block.id === "string" ? block.id : undefined} kicker={typeof block.kicker === "string" ? block.kicker : undefined} title={String(block.title ?? "")} tone={block.tone === "tinted" || block.tone === "deep" ? block.tone : "plain"}>
+				const tone = gallery.length > 0 ? "deep" : block.tone === "tinted" || block.tone === "deep" ? block.tone : "plain";
+				return <Section id={typeof block.id === "string" ? block.id : undefined} kicker={typeof block.kicker === "string" ? block.kicker : undefined} title={String(block.title ?? "")} tone={tone}>
 					{profileSrc && <ProfileImage src={profileSrc} alt={typeof block.profile_alt === "string" ? block.profile_alt : ""} caption={typeof block.profile_caption === "string" ? block.profile_caption : undefined} />}
 					{textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}
 					{records(block.cards).length > 0 && <CardGrid ordered={block.ordered_cards === true} items={records(block.cards).map((card) => ({ title: String(card.title ?? ""), body: String(card.body ?? "") }))} />}

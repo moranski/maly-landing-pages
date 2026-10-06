@@ -29,9 +29,11 @@
 		"check": "npm run docs:check && astro build && tsc && wrangler deploy --dry-run",
 		"docs:check": "node scripts/check-page-documents.mjs",
 		"deploy": "wrangler deploy",
+		"predeploy": "npm test && npm run check",
 		"dev": "astro dev",
 		"preview": "astro build && wrangler dev",
-		"postinstall": "patch-package"
+		"postinstall": "patch-package",
+		"test": "node scripts/run-tests.mjs"
 	},
 	"type": "module",
 	"allowScripts": {

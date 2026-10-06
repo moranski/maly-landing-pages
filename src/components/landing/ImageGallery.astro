@@ -27,36 +27,32 @@ const { images } = Astro.props;
 	.image-gallery {
 		width: 100%;
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
-		gap: var(--space-5);
+		grid-template-columns: 1fr;
+		gap: var(--space-3);
 	}
 
 	.image-gallery figure {
 		margin: 0;
-		padding: var(--space-3);
-		border: 5px solid white;
-		border-radius: 28px;
+		padding: 0.625rem;
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
 		background: white;
 		box-shadow: var(--shadow-soft);
-		transform: rotate(-0.6deg);
 	}
 
-	.image-gallery figure:nth-child(even) {
-		transform: rotate(0.6deg);
-	}
 
 	.image-gallery img {
 		width: 100%;
 		aspect-ratio: 1599 / 899;
 		object-fit: cover;
-		border-radius: 20px;
+		border-radius: 10px;
 	}
 
 	.image-gallery figcaption {
 		margin-block-start: var(--space-3);
 		color: var(--color-text-muted);
-		font-size: 0.98rem;
-		font-weight: 800;
+		font-size: 0.75rem;
+		font-weight: 600;
 		text-align: center;
 	}
 </style>

@@ -1,0 +1,32 @@
+---
+interface Props {
+	title: string;
+	cta: { label: string; href: string };
+}
+
+const { title, cta } = Astro.props;
+---
+
+<header class="site-header">
+	<div class="site-header__inner">
+		<a class="site-brand" href="#top" aria-label="מלי — לתחילת הדף">
+			<span class="site-brand__mark" aria-hidden="true">
+				<svg viewBox="0 0 24 24" fill="none"><path d="M12 6.2c-2.5-1.7-5.2-2-8-1.4v13c2.8-.7 5.5-.3 8 1.4m0-13c2.5-1.7 5.2-2 8-1.4v13c-2.8-.7-5.5-.3-8 1.4m0-13v13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+			</span>
+			<span class="site-brand__copy"><strong>מלי</strong><span>{title}</span></span>
+		</a>
+		<a class="site-header__cta" href={cta.href}>{cta.label}</a>
+	</div>
+</header>
+
+<style>
+	.site-header { position: fixed; inset: 0 0 auto; z-index: 30; padding-block-start: env(safe-area-inset-top, 0px); border-block-end: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-surface) 92%, transparent); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+	.site-header__inner { width: min(100%, 512px); min-height: 64px; margin-inline: auto; padding: 0 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+	.site-brand { min-width: 0; display: flex; align-items: center; gap: 0.6rem; color: var(--color-ink); text-decoration: none; }
+	.site-brand__mark { width: 2.5rem; height: 2.5rem; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; background: color-mix(in srgb, var(--color-ink) 9%, white); }
+	.site-brand__mark svg { width: 1.4rem; height: 1.4rem; }
+	.site-brand__copy { min-width: 0; display: grid; line-height: 1.2; }
+	.site-brand__copy strong { font-size: 0.95rem; }
+	.site-brand__copy span { overflow: hidden; color: var(--color-text-muted); font-size: 0.68rem; text-overflow: ellipsis; white-space: nowrap; }
+	.site-header__cta { flex: 0 0 auto; padding: 0.55rem 0.85rem; border-radius: var(--radius-pill); background: var(--color-accent); color: white; font-size: 0.78rem; font-weight: 700; text-decoration: none; }
+</style>

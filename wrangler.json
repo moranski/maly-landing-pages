@@ -1,7 +1,7 @@
 {
 	"name": "maly-landing-pages",
 	"compatibility_date": "2026-09-27",
-	"compatibility_flags": ["nodejs_compat"],
+	"compatibility_flags": ["nodejs_compat", "disallow_eval_during_startup"],
 	"vars": {
 		"SITE_URL": "https://maly-landing-pages.moranski.workers.dev",
 		"GTM_ID": "GTM-TK82BZVF"

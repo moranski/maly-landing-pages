@@ -12,6 +12,7 @@ EmDash הוא מקור האמת למודל התוכן, להגדרות האתר �
 | renderer, routing, רכיבי UI ואינטגרציות | `src/` ו־`astro.config.mjs` | פיתוח ובדיקות ב־repo |
 | bindings, כתובת אתר והגדרות פריסה | `wrangler.json` וסביבת Cloudflare | פריסה והגדרות סביבה; סודות נשמרים ב־Cloudflare secrets |
 | הוראות תפעול | `AGENTS.md`, `.agents/skills/` ו־`docs/workflows/` | ניתוב תהליך העבודה וכללי שימוש בכלים |
+| הסכמה, פרטיות ו־Google Tag Manager | [`docs/privacy-consent.md`](privacy-consent.md) | אופן פעולת EmPrivacy, טעינה מותנית של GTM, והגדרות שצריך לשמר ב־Cloudflare וב־EmDash |
 | היסטוריית החלטות | `docs/landing-pages/<slug>/decisions/` | הקשר היסטורי; אינה גוברת על ההקשר הפעיל ב־EmDash |
 
 ## הקשר יצירת תוכן ב־EmDash
@@ -33,3 +34,7 @@ EmDash הוא מקור האמת למודל התוכן, להגדרות האתר �
 ## בדיקות
 
 `npm run docs:check` בודק את מפת העמודים המקומית בלבד. `npm run check` בודק את תיעוד ה־repo ואת בניית האתר; הוא אינו מאמת את EmDash החי. אימות סכמה, תוכן, טיוטה ותצוגה מקדימה נעשים דרך EmDash לפי מיומנות ניהול ה־CMS.
+
+`npm test` מריץ בדיקות יחידה של שער ההסכמה ל־Google Tag Manager. לפני כל פריסת Worker, יש להשתמש ב־`npm run deploy`: npm מפעיל תחילה את `predeploy`, שמריץ בדיקות, בדיקת מסמכי הדפים, build, TypeScript ו־Wrangler dry run. אם שלב נכשל, הפריסה נעצרת. GitHub Actions מריץ בדיקות ו־`npm run check` בכל pull request ובכל push ל־`main`.
+
+אל תריצו `wrangler deploy` או `npx wrangler deploy` ישירות; הפקודות האלה עוקפות את בדיקות `predeploy`. פריסות אוטומטיות דרך Cloudflare Dashboard או Git integration אינן עוברות דרך npm lifecycle, לכן יש להגדיר את Cloudflare כך שהפריסה תתבצע רק לאחר ש־GitHub Actions עבר, או להשבית פריסה אוטומטית ולהשתמש ב־`npm run deploy`.

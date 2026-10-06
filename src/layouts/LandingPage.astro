@@ -1,9 +1,11 @@
 ---
 import StickyMobileCta from "../components/landing/StickyMobileCta.astro";
+import LandingHeader from "../components/landing/LandingHeader.astro";
 import "../styles/global.css";
 import { env } from "cloudflare:workers";
 import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
+import { isValidGtmId } from "../scripts/consent-gated-gtm.js";
 
 interface Props {
 	page: {
@@ -22,7 +24,7 @@ interface Props {
 
 const { page } = Astro.props;
 const gtmId = env.GTM_ID;
-const validGtmId = typeof gtmId === "string" && /^GTM-[A-Z0-9]+$/.test(gtmId) ? gtmId : undefined;
+const validGtmId = isValidGtmId(gtmId) ? gtmId : undefined;
 const emdashPage = createPublicPageContext({
 	url: Astro.url,
 	locale: page.lang,
@@ -44,36 +46,20 @@ const emdashPage = createPublicPageContext({
 		<title>{page.title}</title>
 		<EmDashHead page={emdashPage} />
 	</head>
-	<body class="landing-page">
+	<body class="landing-page" data-gtm-id={validGtmId}>
 		<EmDashBodyStart page={emdashPage} />
+		<LandingHeader title={page.title} cta={page.hero.primaryCta} />
 		<slot />
 		<StickyMobileCta cta={page.hero.primaryCta} />
 		<EmDashBodyEnd page={emdashPage} />
-		{validGtmId && (
-			<script is:inline define:vars={{ validGtmId }}>
-				(function(w,d,i){
-					var loaded=false;
-					function loadIfConsented(state){
-						if(loaded||!state||(!state.analytics&&!state.marketing))return;
-						loaded=true;
-						w.dataLayer=w.dataLayer||[];
-						w.dataLayer.push({'gtm.start':new Date().getTime(),event:'gtm.js'});
-						var script=d.createElement('script');
-						script.async=true;
-						script.src='https://www.googletagmanager.com/gtm.js?id='+encodeURIComponent(i);
-						d.head.appendChild(script);
-					}
-					function sync(){
-						if(w.emprivacy&&typeof w.emprivacy.get==='function')loadIfConsented(w.emprivacy.get());
-					}
-					d.addEventListener('emprivacy:change',function(event){loadIfConsented(event.detail);});
-					if(d.readyState==='loading')d.addEventListener('DOMContentLoaded',sync,{once:true});
-					else sync();
-				})(window,document,validGtmId);
-			</script>
-		)}
 	</body>
 </html>
+
+<script>
+	import { installConsentGatedGtm } from "../scripts/consent-gated-gtm.js";
+
+	installConsentGatedGtm(window, document, document.body.dataset.gtmId);
+</script>
 
 <style is:global>
 	#emprivacy-root {
