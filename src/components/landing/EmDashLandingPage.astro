@@ -72,7 +72,7 @@ const heroPage = {
 					{records(block.faq_items).map((item) => <><h3>{String(item.question ?? "")}</h3><p>{String(item.answer ?? "")}</p></>)}
 				</Section>;
 			}
-			if (blockKind === "landing_offer") return <OfferBlock title={String(block.title ?? "")} body={String(block.body ?? "")} includes={textItems(block.includes)} lead={{ endpoint: String(block.lead_endpoint ?? ""), checkoutUrl: String(block.checkout_url ?? ""), submitLabel: String(block.submit_label ?? ""), consentLabel: String(block.consent_label ?? "") }} />;
+			if (blockKind === "landing_offer") return <OfferBlock title={String(block.title ?? "")} body={String(block.body ?? "")} includes={textItems(block.includes)} lead={{ title: "ההרשמה והתשלום המאובטח" }} />;
 			if (blockKind === "landing_final_cta") return <FinalCta cta={{ label: String(block.cta_label ?? ""), href: String(block.cta_href ?? "#offer") }}><h2>{String(block.heading ?? "")}</h2>{textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}{typeof block.signature === "string" && <strong>{block.signature}</strong>}</FinalCta>;
 			return null;
 		})
