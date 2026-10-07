@@ -35,6 +35,10 @@ const { title, body, includes, lead } = Astro.props;
 					<span>כתובת אימייל</span>
 					<input name="email" type="email" autocomplete="email" inputmode="email" required />
 				</label>
+				<label>
+					<span>טלפון נייד</span>
+					<input name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
+				</label>
 				<label class="lead-form__consent">
 					<input name="consent" type="checkbox" required />
 					<span>{lead.consentLabel}</span>
