@@ -1,40 +1,37 @@
 # מפת התיעוד והבעלות
 
-EmDash הוא מקור האמת למודל התוכן, להגדרות האתר ולתוכן הדפים. ה־repo הוא מקור האמת לקוד שמציג את התוכן, להגדרות סביבת הריצה ולהוראות התפעול של הסוכנים.
+EmDash הוא מקור האמת למודל התוכן, להגדרות האתר ולתוכן הדפים המפורסם. ה־repo הוא מקור האמת לקוד, להקשר העריכה ולהוראות העבודה.
 
 ## מה נמצא היכן
 
 | תחום | מקור אמת | אחריות |
 | --- | --- | --- |
-| אוסף, שדות, block types והגדרות אתר של EmDash | EmDash CMS | ניהול ב־EmDash בלבד; קריאה וכתיבה דרך MCP/API |
-| תוכן דף שמוצג למבקרים | רשומת `landing_pages` | כתיבה, טיוטות ופרסום דרך EmDash |
-| הקשר והנחיות ליצירת תוכן | רשומות טיוטה ב־`agent_context` | קריאה מאומתת על ידי סוכנים; אין לפרסם |
-| renderer, routing, רכיבי UI ואינטגרציות | `src/` ו־`astro.config.mjs` | פיתוח ובדיקות ב־repo |
-| bindings, כתובת אתר והגדרות פריסה | `wrangler.json` וסביבת Cloudflare | פריסה והגדרות סביבה; סודות נשמרים ב־Cloudflare secrets |
-| הוראות תפעול | `AGENTS.md`, `.agents/skills/` ו־`docs/workflows/` | ניתוב תהליך העבודה וכללי שימוש בכלים |
-| הסכמה, פרטיות ו־Google Tag Manager | [`docs/privacy-consent.md`](privacy-consent.md) | אופן פעולת EmPrivacy, טעינה מותנית של GTM, והגדרות שצריך לשמר ב־Cloudflare וב־EmDash |
-| היסטוריית החלטות | `docs/landing-pages/<slug>/decisions/` | הקשר היסטורי; אינה גוברת על ההקשר הפעיל ב־EmDash |
+| מודל תוכן והגדרות CMS | EmDash | ניהול ב־EmDash דרך MCP |
+| תוכן דף שמוצג למבקרים | רשומת `landing_pages` | טיוטות ופרסום דרך EmDash |
+| הנחות, עקרונות עריכה וכוונת עיצוב לדף | `docs/landing-pages/<slug>/brief.md` | תקציר אחד לכל דף; עריכה וביקורת ב־Git |
+| עקרונות כתיבה משותפים | [`docs/writing-style.md`](writing-style.md) | כללים כלליים שאינם מחליפים את תקציר הדף |
+| מקור עיצוב חיצוני | הכלי או הקובץ המקושרים בתקציר הדף | ההחלטות החזותיות נשמרות במקור העיצוב; ה־repo מכיל את המימוש |
+| renderer, routing, רכיבי UI ואינטגרציות | `src/` ו־`astro.config.mjs` | פיתוח ב־repo |
+| bindings, כתובת אתר והגדרות פריסה | `wrangler.json` וסביבת Cloudflare | סודות נשמרים ב־Cloudflare secrets |
+| הוראות ותהליכי עבודה | `AGENTS.md`, `.agents/skills/`, `docs/workflows/` | ניתוב וכללי שימוש בכלים |
+| פרטיות והסכמה | [`docs/privacy-consent.md`](privacy-consent.md) | התנהגות EmPrivacy ו־GTM |
+| היסטוריית החלטות | `docs/landing-pages/<slug>/decisions/` | תיעוד היסטורי; התקציר העדכני הוא ההנחיה הפעילה |
 
-## הקשר יצירת תוכן ב־EmDash
+## הקשר עמודים
 
-האוסף `agent_context` הוגדר ב־EmDash כלא־נתב, עם טיוטות והיסטוריית גרסאות. רשומות ההקשר של `reading` ושל סגנון הכתיבה הגלובלי נוצרו ונקראו בחזרה ב־4 באוקטובר 2026; כולן נשארו טיוטות. `context_key` הוא מזהה ייחודי, והגוף נשמר כ־Portable Text.
+לכל דף יש תקציר יחיד ב־`docs/landing-pages/<slug>/brief.md`. התקציר מאורגן מלמעלה למטה: הנחות מוצר וקהל, עקרונות הנגזרים מהן, ואז כוונת העיצוב. אין לפצל את ההנחות האלה למסמכי מוצר, קהל ועיצוב נפרדים.
 
-מפתחות שנוצרו: `global-writing-style`, `reading-product`, `reading-audience` ו־`reading-design`. הקבצים המקומיים המקבילים הם מצביעים ל־CMS בלבד ואינם מקור תוכן פעיל. אם חסרה רשומת הקשר בעתיד, יש לעצור ולדווח על הפער לפני יצירת תוכן שתלוי בה.
-
-במודל הנוכחי `lead_endpoint` עדיין נמצא ב־block ההצעה ב־EmDash. מתייחסים אליו כתצורת אינטגרציה ולא כ־copy; העברתו להגדרת runtime דורשת שינוי CMS וקוד נפרד.
+EmDash מחזיק את נוסח הדף, המדיה, ההצעה והמטא־נתונים המפורסמים. אין להעתיק אליו הנחיות פנימיות. רשומות קיימות באוסף `agent_context` הן היסטוריות ואינן מקור פעיל; אין לפרסם אותן.
 
 ## הוראות ותהליכים
 
-- `AGENTS.md` הוא שער קצר שמנתב לסקילים ולתהליכים.
-- `.agents/skills/emdash-cms-management/SKILL.md` מסביר כיצד לעבוד עם EmDash.
-- `.agents/skills/landing-page-topology-check/SKILL.md` מגדיר audit קריאה בלבד בין ההקשר ב־EmDash, התוכן וה־renderer.
+- `AGENTS.md` מנתב לסקילים ולתהליכים.
+- `.agents/skills/emdash-cms-management/SKILL.md` מסביר כיצד לעבוד עם תוכן EmDash.
 - `docs/workflows/landing-page-creation.md` מתאר יצירה ועדכון של דפים.
-- התבניות תחת `docs/templates/` מיועדות לרשומות החלטה ולתכנון עיצוב; הן אינן הגדרות אתר או CMS.
+- `docs/templates/landing-page-brief.md` היא תבנית לתקציר אחוד.
 
 ## בדיקות
 
-`npm run docs:check` בודק את מפת העמודים המקומית בלבד. `npm run check` בודק את תיעוד ה־repo ואת בניית האתר; הוא אינו מאמת את EmDash החי. אימות סכמה, תוכן, טיוטה ותצוגה מקדימה נעשים דרך EmDash לפי מיומנות ניהול ה־CMS.
+`npm run docs:check` בודק את מפת העמודים המקומית בלבד. `npm run check` בודק את תיעוד ה־repo, build, TypeScript ו־Wrangler dry run; הוא אינו מאמת את EmDash החי. אימות סכמה, תוכן, טיוטה ותצוגה מקדימה נעשים דרך EmDash לפי מיומנות ניהול ה־CMS.
 
-`npm test` מריץ בדיקות יחידה של שער ההסכמה ל־Google Tag Manager. לפני כל פריסת Worker, יש להשתמש ב־`npm run deploy`: npm מפעיל תחילה את `predeploy`, שמריץ בדיקות, בדיקת מסמכי הדפים, build, TypeScript ו־Wrangler dry run. אם שלב נכשל, הפריסה נעצרת. GitHub Actions מריץ בדיקות ו־`npm run check` בכל pull request ובכל push ל־`main`.
-
-אל תריצו `wrangler deploy` או `npx wrangler deploy` ישירות; הפקודות האלה עוקפות את בדיקות `predeploy`. פריסות אוטומטיות דרך Cloudflare Dashboard או Git integration אינן עוברות דרך npm lifecycle, לכן יש להגדיר את Cloudflare כך שהפריסה תתבצע רק לאחר ש־GitHub Actions עבר, או להשבית פריסה אוטומטית ולהשתמש ב־`npm run deploy`.
+`npm test` מריץ בדיקות יחידה של שער ההסכמה ל־Google Tag Manager. לפני פריסת Worker יש להשתמש ב־`npm run deploy`, שמפעיל בדיקות ו־`npm run check` דרך `predeploy`. אין להריץ `wrangler deploy` ישירות.

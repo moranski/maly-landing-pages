@@ -24,8 +24,14 @@ for (const page of pages) {
 	if (!readme.includes("אוסף `landing_pages`")) {
 		errors.push(`${path.relative(process.cwd(), readmePath)}: חסר מיפוי לרשומת EmDash באוסף landing_pages.`);
 	}
-	if (!readme.includes("אוסף `agent_context`")) {
-		errors.push(`${path.relative(process.cwd(), readmePath)}: חסר מיפוי להקשר שבאוסף agent_context.`);
+	const briefPath = path.join(docsRoot, page.name, "brief.md");
+	try {
+		await readFile(briefPath, "utf8");
+	} catch {
+		errors.push(`${path.relative(process.cwd(), briefPath)}: חסר תקציר הדף.`);
+	}
+	if (!readme.includes("brief.md")) {
+		errors.push(`${path.relative(process.cwd(), readmePath)}: חסר קישור לתקציר brief.md.`);
 	}
 }
 
