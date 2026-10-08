@@ -34,6 +34,8 @@ This file is a derived implementation reference, not an independent design sourc
 
 Use RTL flow and keep paragraph measure around 32–42 Hebrew characters. The selected screen uses a compact fixed translucent header, a single-column hero with image and full-width CTA, open and softly tinted content sections, a navy showcase/gallery panel, a rounded instructor portrait, parent-proof cards, a warm offer/form card, and a persistent mobile CTA. Preserve this visual rhythm while EmDash remains authoritative for published wording, claims, order, and media.
 
+Use one compact pill treatment for every section kicker. Keep its shape, padding, type size, weight, and spacing consistent; vary only foreground and background colors for the hero and dark navy sections.
+
 The selected screen’s HTML and screenshot were downloaded from the Stitch MCP artifact. The renderer now implements its shared palette, compact fixed header, mobile-width frame, hero image/CTA order, toned sections, cards, gallery panel, profile treatment, offer, and sticky CTA. CMS content differs from the mock’s copy, so only the visual system is carried across; do not copy mock wording or unverified phone, price, or testimonial content into EmDash.
 
 ## Change workflow

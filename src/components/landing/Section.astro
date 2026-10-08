@@ -63,11 +63,6 @@ const { kicker, title, tone = "plain", id } = Astro.props;
 
 	.section__header > .kicker {
 		margin: 0;
-		padding: 0;
-		background: transparent;
-		color: var(--color-accent);
-		font-size: 0.75rem;
-		font-weight: 700;
 	}
 
 	.section--deep h2 {
@@ -159,24 +154,5 @@ const { kicker, title, tone = "plain", id } = Astro.props;
 		color: var(--color-text-muted);
 		font-size: 0.75rem;
 		text-align: start;
-	}
-
-	.kicker {
-		margin: 0 0 var(--space-3);
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding: 0.25rem 0.65rem;
-		border-radius: var(--radius-pill);
-		background: white;
-		color: var(--color-ink);
-		font-size: var(--font-size-small);
-		font-weight: 900;
-		letter-spacing: 0;
-		box-shadow: none;
-	}
-
-	.section--deep .kicker {
-		color: var(--color-accent-soft);
 	}
 </style>

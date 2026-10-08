@@ -124,10 +124,17 @@ select {
 }
 
 .kicker {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	margin: 0 0 var(--space-3);
+	padding: 0.25rem 0.65rem;
+	border-radius: var(--radius-pill);
+	background: white;
 	color: var(--color-ink);
-	font-size: var(--font-size-small);
+	font-size: 0.75rem;
 	font-weight: 900;
+	line-height: 1.4;
 	letter-spacing: 0;
 	text-transform: none;
 }
