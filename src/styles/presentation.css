@@ -55,6 +55,7 @@ html:has(#presentation-review) { min-width: 0; }
 #presentation-review .kicker--soft { background: color-mix(in srgb, var(--section-surface, #e8f1e7) 80%, #00236f 8%); }
 #presentation-review .kicker--outline { background: transparent; }
 #presentation-review .kicker--inverse,
+#presentation-review .surface--blue .kicker,
 #presentation-review .section--deep .kicker { background: white; color: #00236f; border-color: white; }
 #presentation-review .section-prose p, #presentation-review .info-card p { font-size: 16px; line-height: 1.6; }
 #presentation-review .info-card { padding: 20px; border-radius: 16px; box-shadow: 0 2px 8px rgb(27 28 26 / .04); }
