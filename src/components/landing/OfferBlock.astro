@@ -34,7 +34,8 @@ const { title, body, includes, lead, demo = false, kicker = "ההצטרפות כ
 						<button type="button" class="button button--primary" disabled>שליחה מושבתת בהדגמה</button>
 					</fieldset>
 				) : (
-					<script is:inline type="text/javascript" src="//form2.ravpage.co.il/52f50b865c8c27effb1bf1ef93b8f3826AC69795" charset="UTF-8"></script>
+					<iframe class="signup-frame" data-signup-frame title="טופס הצטרפות למסלול" height="420"></iframe>
+					<noscript><p>כדי להציג את טופס ההצטרפות, יש להפעיל JavaScript בדפדפן.</p></noscript>
 				)}
 			</div>
 		</aside>
@@ -148,4 +149,27 @@ const { title, body, includes, lead, demo = false, kicker = "ההצטרפות כ
 			position: static;
 		}
 	}
+</style>
+
+<script>
+ const frames = document.querySelectorAll<HTMLIFrameElement>('[data-signup-frame]');
+ const load = (frame: HTMLIFrameElement) => {
+  if (frame.hasAttribute('src')) return;
+  frame.src = `/signup-embed${window.location.search}`;
+ };
+ window.addEventListener('message', (event) => {
+  if (event.origin !== window.location.origin || event.data?.type !== 'signup-embed-height') return;
+  const height = event.data.height;
+  if (!Number.isFinite(height) || height < 1 || height > 20000) return;
+  frames.forEach(frame => { if (event.source === frame.contentWindow) frame.height = String(height); });
+ });
+ if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(entries => {
+   entries.forEach(entry => { if (entry.isIntersecting) { load(entry.target as HTMLIFrameElement); observer.unobserve(entry.target); } });
+  }, {rootMargin: '600px 0px'});
+  frames.forEach(frame => observer.observe(frame));
+ } else frames.forEach(load);
+</script>
+<style>
+ .signup-frame { width: 100%; border: 0; display: block; min-width: 0; }
 </style>
