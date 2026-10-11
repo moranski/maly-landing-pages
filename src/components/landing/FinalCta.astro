@@ -1,17 +1,18 @@
 ---
 interface Props {
+	kicker?: string | null;
 	cta: {
 		label: string;
 		href: string;
 	};
 }
 
-const { cta } = Astro.props;
+const { cta, kicker = "מלי" } = Astro.props;
 ---
 
 <section id="contact" class="final-cta">
 	<div class="final-cta__inner">
-		<p class="kicker">מלי</p>
+		{kicker && <p class="kicker">{kicker}</p>}
 		<div class="final-cta__content">
 			<slot />
 		</div>

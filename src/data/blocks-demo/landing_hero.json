@@ -1,0 +1,86 @@
+{
+  "notice": "Read-only snapshot from EmDash MCP; EmDash is authoritative. Not used to create or update the CMS.",
+  "verifiedAt": "2026-10-08",
+  "collection": "landing_pages",
+  "field": "layout",
+  "slug": "landing_hero",
+  "label": "פתיח",
+  "version": 1,
+  "fields": [
+    {
+      "slug": "eyebrow",
+      "label": "כותרת משנה",
+      "type": "string"
+    },
+    {
+      "slug": "title",
+      "label": "כותרת",
+      "type": "string",
+      "required": true
+    },
+    {
+      "slug": "subtitle",
+      "label": "כותרת משנית",
+      "type": "text",
+      "required": true
+    },
+    {
+      "slug": "body",
+      "label": "פסקאות",
+      "type": "repeater",
+      "required": true,
+      "validation": {
+        "subFields": [
+          {
+            "slug": "text",
+            "type": "text",
+            "label": "טקסט",
+            "required": true
+          }
+        ],
+        "minItems": 1
+      }
+    },
+    {
+      "slug": "cta_label",
+      "label": "טקסט כפתור",
+      "type": "string",
+      "required": true
+    },
+    {
+      "slug": "cta_href",
+      "label": "קישור כפתור",
+      "type": "url",
+      "required": true
+    },
+    {
+      "slug": "visual_image",
+      "label": "תמונת פתיח",
+      "type": "image",
+      "required": true,
+      "validation": {
+        "allowedMimeTypes": [
+          "image/webp"
+        ]
+      }
+    },
+    {
+      "slug": "visual_alt",
+      "label": "טקסט חלופי לתמונת פתיח",
+      "type": "string",
+      "required": true
+    },
+    {
+      "slug": "visual_title",
+      "label": "כותרת כרטיס הפתיח",
+      "type": "string",
+      "required": true
+    },
+    {
+      "slug": "visual_caption",
+      "label": "כיתוב כרטיס הפתיח",
+      "type": "string",
+      "required": true
+    }
+  ]
+}

@@ -1,18 +1,20 @@
 ---
+import Kicker from "./Kicker.astro";
 interface Props {
 	kicker?: string;
 	title: string;
 	tone?: "plain" | "tinted" | "deep";
 	id?: string;
+	surface?: "ivory" | "stone" | "peach" | "sage" | "butter" | "blue" | "lilac" | "navy";
 }
 
-const { kicker, title, tone = "plain", id } = Astro.props;
+const { kicker, title, tone = "plain", id, surface } = Astro.props;
 ---
 
-<section id={id} class:list={["section", `section--${tone}`]}>
+<section id={id} class:list={["section", `section--${tone}`, surface && `surface--${surface}`]}>
 	<div class="section__inner">
 		<div class="section__header">
-			{kicker && <p class="kicker">{kicker}</p>}
+			{kicker && (surface ? <Kicker variant={tone === "deep" ? "inverse" : "soft"}>{kicker}</Kicker> : <p class="kicker">{kicker}</p>)}
 			<h2>{title}</h2>
 		</div>
 		<div class="section__content section-prose">

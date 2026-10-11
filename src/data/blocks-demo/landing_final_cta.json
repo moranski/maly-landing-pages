@@ -1,0 +1,51 @@
+{
+  "notice": "Read-only snapshot from EmDash MCP; EmDash is authoritative. Not used to create or update the CMS.",
+  "verifiedAt": "2026-10-08",
+  "collection": "landing_pages",
+  "field": "layout",
+  "slug": "landing_final_cta",
+  "label": "קריאה אחרונה לפעולה",
+  "version": 1,
+  "fields": [
+    {
+      "slug": "heading",
+      "label": "כותרת",
+      "type": "string",
+      "required": true
+    },
+    {
+      "slug": "paragraphs",
+      "label": "פסקאות",
+      "type": "repeater",
+      "required": true,
+      "validation": {
+        "subFields": [
+          {
+            "slug": "text",
+            "type": "text",
+            "label": "טקסט",
+            "required": true
+          }
+        ],
+        "minItems": 1
+      }
+    },
+    {
+      "slug": "signature",
+      "label": "חתימה",
+      "type": "string"
+    },
+    {
+      "slug": "cta_label",
+      "label": "טקסט כפתור",
+      "type": "string",
+      "required": true
+    },
+    {
+      "slug": "cta_href",
+      "label": "קישור כפתור",
+      "type": "url",
+      "required": true
+    }
+  ]
+}

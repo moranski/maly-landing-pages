@@ -6,15 +6,17 @@ interface Props {
 	lead: {
 		title: string;
 	};
+	demo?: boolean;
+	kicker?: string;
 }
 
-const { title, body, includes, lead } = Astro.props;
+const { title, body, includes, lead, demo = false, kicker = "ההצטרפות כוללת" } = Astro.props;
 ---
 
 <section id="offer" class="offer">
 	<div class="offer__inner">
 		<div>
-			<p class="kicker">ההצטרפות כוללת</p>
+			<p class="kicker">{kicker}</p>
 			<h2>{title}</h2>
 			<p>{body}</p>
 			<ul class="check-list">
@@ -24,7 +26,16 @@ const { title, body, includes, lead } = Astro.props;
 		<aside class="lead-box" aria-label="הצטרפות למסלול">
 			<p class="lead-box__title">{lead.title}</p>
 			<div class="lead-form-embed">
-				<script type="text/javascript" src="//form2.ravpage.co.il/52f50b865c8c27effb1bf1ef93b8f3826AC69795" charset="UTF-8"></script>
+				{demo ? (
+					<fieldset class="demo-form" disabled>
+						<legend>טופס לדוגמה בלבד — השליחה מושבתת</legend>
+						<label>שם לדוגמה<input type="text" placeholder="ישראל ישראלי" /></label>
+						<label>דוא״ל לדוגמה<input type="email" placeholder="example@example.com" dir="ltr" /></label>
+						<button type="button" class="button button--primary" disabled>שליחה מושבתת בהדגמה</button>
+					</fieldset>
+				) : (
+					<script is:inline type="text/javascript" src="//form2.ravpage.co.il/52f50b865c8c27effb1bf1ef93b8f3826AC69795" charset="UTF-8"></script>
+				)}
 			</div>
 		</aside>
 	</div>
@@ -120,6 +131,13 @@ const { title, body, includes, lead } = Astro.props;
 		min-width: 0;
 		text-align: start;
 	}
+
+	.demo-form { margin: 0; padding: 0; border: 0; display: grid; gap: var(--space-4); min-width: 0; }
+	.demo-form legend { padding: 0; margin-block-end: var(--space-4); font-size: 0.875rem; }
+	.demo-form label { display: grid; gap: var(--space-2); font-size: 0.875rem; }
+	.demo-form input { width: 100%; min-width: 0; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-surface-warm); color: var(--color-text-muted); }
+	.demo-form button { cursor: not-allowed; opacity: 0.65; }
+	.demo-form button:hover { transform: none; background: var(--color-accent); }
 
 	@media (max-width: 900px) {
 		.offer__inner {

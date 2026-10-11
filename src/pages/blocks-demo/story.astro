@@ -1,0 +1,64 @@
+---
+import ParallaxBackground from "../../components/demo/ParallaxBackground.astro";
+import "../../styles/global.css";
+import "../../styles/presentation.css";
+import LandingHeader from "../../components/landing/LandingHeader.astro";
+import LandingPageContent from "../../components/landing/LandingPageContent.astro";
+import Section from "../../components/landing/Section.astro";
+import CardGrid from "../../components/landing/CardGrid.astro";
+import ProfileImage from "../../components/landing/ProfileImage.astro";
+import ImageGallery from "../../components/landing/ImageGallery.astro";
+import FaqList from "../../components/landing/FaqList.astro";
+import OfferBlock from "../../components/landing/OfferBlock.astro";
+import FinalCta from "../../components/landing/FinalCta.astro";
+import StickyMobileCta from "../../components/landing/StickyMobileCta.astro";
+export const prerender = false;
+if (!import.meta.env.DEV) return new Response("העמוד לא נמצא", { status: 404 });
+const page = {
+ title: "דף לדוגמה — סיפור ושפה יומיומית", description: "בדיקה מקומית של העיצוב שאושר בסטיץ",
+ hero: {
+  eyebrow: "לומדים בבית — תוכן לדוגמה", title: "לומדים יחד, בקצב שמתאים לכם",
+  subtitle: "רואים דוגמה, מנסים יחד וחוזרים כשצריך.",
+  body: ["זהו תוכן לדוגמה, כדי לבדוק איך העיצוב עובד עם טקסט קצר וברור."],
+  primaryCta: { label: "לפרטי הדוגמה", href: "#offer" }, secondaryCta: { label: "איך זה עובד?", href: "#steps" },
+  visual: { src: "/images/blocks-demo/lesson.svg", alt: "איור מקומי של כרטיסיות לימוד לדוגמה", title: "רואים דוגמה", caption: "איור להמחשה — המדיה הסופית תיבחר ב־EmDash" },
+ },
+};
+const cards = [
+ { title: "רואים דוגמה", body: "מסתכלים יחד על דוגמה ומדברים עליה." },
+ { title: "מנסים בעצמנו", body: "מנסים צעד אחד, בלי למהר הלאה." },
+ { title: "חוזרים כשצריך", body: "צריך עוד רגע? אפשר לעצור ולנסות שוב." },
+];
+const faq = [
+ { question: "מה עושים אם צריך עוד זמן?", answer: "אפשר לעצור ולחזור כשנוח לכם — זו תשובה לדוגמה." },
+ { question: "איפה רואים את החומרים?", answer: "במקטע הדוגמאות שמעל. כרגע אלה מצייני מקום בלבד." },
+ { question: "הטופס הזה שולח פרטים?", answer: "לא. זהו טופס מושבת לבדיקת העיצוב." },
+];
+---
+<!doctype html>
+<html lang="he" dir="rtl">
+ <head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" /><title>{page.title}</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" />
+ </head>
+ <body id="presentation-review" class="landing-page presentation-review story-demo">
+<ParallaxBackground />
+  <LandingHeader title="תוכן לדוגמה" cta={{ label: "לקטלוג", href: "/blocks-demo" }} />
+  <LandingPageContent page={page}>
+   <Section title="מכירים את הרגע שבו זה עוד לא מסתדר?" surface="stone"><p>אתם רוצים לעזור, אבל לא תמיד יודעים מה להסביר קודם. לפעמים כדאי לעצור ולנסות דרך אחרת.</p></Section>
+   <Section id="steps" title="מנסים, חוזרים וממשיכים" kicker="בואו נתחיל מהבסיס" surface="sage"><p>בכל פעם מתמקדים בצעד אחד. אפשר לעצור ולחזור למה שעוד לא ברור.</p><CardGrid items={cards} ordered /></Section>
+   <Section title="כאן נכיר את מי שמלווה את הלמידה" kicker="נעים להכיר" surface="peach"><ProfileImage src="/images/blocks-demo/profile.svg" alt="דמות מאוירת לדוגמה" caption="איור להמחשה בלבד" /><p>כאן יופיעו כמה מילים אישיות לצד התמונה שתבחרו. בינתיים זהו מקום לדוגמה.</p></Section>
+   <Section title="ככה זה יכול להיראות" kicker="בואו תראו איך זה נראה" surface="blue"><p>כאן מוצגות דוגמאות לפריסה. החומרים והתמונות ייבחרו בהמשך.</p><ImageGallery images={[{ src: "/images/blocks-demo/lesson.svg", alt: "כרטיסיות מאוירות לדוגמה", caption: "רואים דוגמה" }, { src: "/images/blocks-demo/practice.svg", alt: "דף תרגול מאויר לדוגמה", caption: "מנסים יחד" }]} /></Section>
+   <Section title="איך זה היה אצלם בבית?" kicker="הורים מספרים"><div class="testimonial-placeholder">כאן תופיע עדות מאושרת</div></Section>
+   <Section title="זה מה שאתם מחפשים?"><p>כאן נסביר למי התוכן מתאים ולמי פחות. זהו טקסט לדוגמה לבדיקת הפריסה.</p></Section>
+   <Section title="עוד כמה דברים שכדאי לדעת"><FaqList items={faq} /></Section>
+   <OfferBlock demo kicker="רוצים להתחיל?" title="בואו נראה את הפרטים" body="כאן יוצגו הפרטים שתבחרו להוסיף. כרגע אפשר לבדוק איך הטופס נראה." includes={["פרט ראשון לדוגמה", "פרט שני לדוגמה", "פרט נוסף לדוגמה"]} lead={{ title: "טופס לדוגמה — לא שולח פרטים" }} />
+   <FinalCta kicker={null} cta={{ label: "לפרטי הדוגמה", href: "#offer" }}><h2>אפשר לחזור כשנוח לכם</h2><p>נשמע לכם מתאים? בואו תראו שוב את הפרטים.</p></FinalCta>
+  </LandingPageContent>
+  <StickyMobileCta cta={{ label: "לפרטי הדוגמה", href: "#offer" }} />
+ </body>
+</html>
+<style>
+ :global(.story-demo [id]) { scroll-margin-top: 88px; }
+</style>

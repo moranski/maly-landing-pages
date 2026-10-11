@@ -1,0 +1,9 @@
+---
+import EmDashLandingPage from "../../components/landing/EmDashLandingPage.astro";
+import snapshot from "../../data/blocks-demo/reading-preview.json";
+export const prerender = false;
+if (!import.meta.env.DEV) return new Response("העמוד לא נמצא", { status: 404 });
+// Read-only display snapshot of the verified CMS draft; refresh through MCP.
+// Co-authored-by: Codex <codex@openai.com>
+---
+<EmDashLandingPage preview page={snapshot.page} />

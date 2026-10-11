@@ -1,0 +1,31 @@
+---
+// Co-authored-by: Codex <codex@openai.com>
+---
+<div class="parallax-background" aria-hidden="true"></div>
+<script is:inline>
+ (() => {
+ const layer = document.querySelector(".parallax-background");
+ const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+ let scheduled = false;
+ const paint = () => {
+  scheduled = false;
+  // Wrap at one tile height so long pages never expose the edge of the layer.
+  if (layer) layer.style.transform = `translate3d(0, ${motion.matches ? 0 : -(window.scrollY * 0.25 % 1086)}px, 0)`;
+ };
+ const schedule = () => {
+  if (!scheduled) { scheduled = true; requestAnimationFrame(paint); }
+ };
+ window.addEventListener("scroll", schedule, { passive: true });
+ motion.addEventListener("change", schedule);
+ paint();
+ })();
+</script>
+<style>
+ .parallax-background {
+  position: fixed; inset: -1086px 0; z-index: -1; pointer-events: none;
+  background-image: var(--review-background-image);
+  background-size: 362px 1086px; background-repeat: repeat;
+  will-change: transform;
+ }
+ @media (prefers-reduced-motion: reduce) { .parallax-background { will-change: auto; } }
+</style>

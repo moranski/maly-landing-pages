@@ -1,0 +1,5 @@
+---
+interface Props { variant?: "outline" | "soft" | "inverse"; }
+const { variant = "soft" } = Astro.props;
+---
+<p class:list={["kicker", `kicker--${variant}`]}><slot /></p>

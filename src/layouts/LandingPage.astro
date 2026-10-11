@@ -1,13 +1,16 @@
 ---
+import ParallaxBackground from "../components/demo/ParallaxBackground.astro";
 import StickyMobileCta from "../components/landing/StickyMobileCta.astro";
 import LandingHeader from "../components/landing/LandingHeader.astro";
 import "../styles/global.css";
+import "../styles/presentation.css";
 import { env } from "cloudflare:workers";
 import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
 import { isValidGtmId } from "../scripts/consent-gated-gtm.js";
 
 interface Props {
+	preview?: boolean;
 	page: {
 		title: string;
 		description: string;
@@ -22,7 +25,7 @@ interface Props {
 	};
 }
 
-const { page } = Astro.props;
+const { page, preview = false } = Astro.props;
 const gtmId = env.GTM_ID;
 const validGtmId = isValidGtmId(gtmId) ? gtmId : undefined;
 const emdashPage = createPublicPageContext({
@@ -44,24 +47,28 @@ const emdashPage = createPublicPageContext({
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{page.title}</title>
-		<EmDashHead page={emdashPage} />
+		{preview ? <><meta name="robots" content="noindex, nofollow" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" /></> : <EmDashHead page={emdashPage} />}
 	</head>
-	<body class="landing-page" data-gtm-id={validGtmId}>
-		<EmDashBodyStart page={emdashPage} />
+	<body id={preview ? "presentation-review" : undefined} class:list={["landing-page", preview && "presentation-review"]} data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId}>
+		{preview && <ParallaxBackground />}
+		{!preview && <EmDashBodyStart page={emdashPage} />}
+		{preview && <aside class="draft-notice"><strong>תצוגת טיוטה מקומית — לא פורסמה</strong><a href="/blocks-demo">לקטלוג האלמנטים</a></aside>}
 		<LandingHeader title={page.title} cta={page.hero.primaryCta} />
 		<slot />
 		<StickyMobileCta cta={page.hero.primaryCta} />
-		<EmDashBodyEnd page={emdashPage} />
+		{!preview && <EmDashBodyEnd page={emdashPage} />}
 	</body>
 </html>
 
 <script>
 	import { installConsentGatedGtm } from "../scripts/consent-gated-gtm.js";
 
-	installConsentGatedGtm(window, document, document.body.dataset.gtmId);
+	if (document.body.dataset.preview !== "true") installConsentGatedGtm(window, document, document.body.dataset.gtmId);
 </script>
 
 <style is:global>
+ .draft-notice { width: min(100%, 512px); padding: 80px 16px 0; margin-inline: auto; display: grid; gap: 8px; font-size: 14px; }
+ .draft-notice + .site-header + main { padding-block-start: 24px; }
 	#emprivacy-root {
 		direction: rtl;
 		text-align: right;

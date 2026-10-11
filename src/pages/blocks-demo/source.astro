@@ -1,0 +1,39 @@
+---
+export const prerender = false;
+if (!import.meta.env.DEV) return new Response("העמוד לא נמצא", { status: 404 });
+// Explicit allowlist: this route never reads arbitrary workspace files.
+const files = import.meta.glob<string>([
+ "../../components/landing/*.astro",
+ "../../styles/presentation.css",
+ "../blocks-demo.astro",
+ "./story.astro",
+ "./reading.astro",
+ "../../data/blocks-demo/*.json",
+], { query: "?raw", import: "default" });
+const file = Astro.url.searchParams.get("file") ?? "";
+const key = file === "src/pages/blocks-demo.astro" ? "../blocks-demo.astro"
+ : file === "src/pages/blocks-demo/story.astro" ? "./story.astro"
+ : file === "src/pages/blocks-demo/reading.astro" ? "./reading.astro"
+ : file.startsWith("src/") ? `../../${file.slice(4)}` : "";
+const read = files[key];
+if (!read) return new Response("הקובץ לא נמצא", { status: 404 });
+const content = await read();
+---
+<!doctype html>
+<html lang="he" dir="rtl">
+ <head><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" /><meta name="robots" content="noindex, nofollow" /><title>מקור: {file}</title></head>
+ <body>
+  <a href="/blocks-demo">חזרה לדוגמאות</a>
+  <h1><bdi>{file}</bdi></h1>
+  {file.endsWith(".json") && !file.endsWith("reading-preview.json") && <p>עותק לקריאה בלבד של הסכמה הפעילה, מאומת ב־8.10.2026. מקור האמת הוא EmDash; קובץ זה אינו מגדיר או משנה את המערכת.</p>}
+  {file.endsWith("reading-preview.json") && <p>עותק מסונן לתצוגת טיוטה מקומית. מקור האמת לתוכן הוא EmDash.</p>}
+  <pre dir="ltr"><code>{content.split("\n").map((line, i) => <span id={`L${i + 1}`}><a href={`#L${i + 1}`} aria-label={`שורה ${i + 1}`}>{i + 1}</a>{line}{"\n"}</span>)}</code></pre>
+ </body>
+</html>
+<style>
+ body { font-family: system-ui; margin: 1rem; }
+ h1 { font-size: 1.2rem; overflow-wrap: anywhere; }
+ pre { overflow: auto; padding: 1rem; background: #f5f3ef; line-height: 1.6; }
+ pre a { display: inline-block; width: 4ch; color: #666; user-select: none; text-decoration: none; }
+ span:target { background: #ffdbce; }
+</style>

@@ -1,0 +1,64 @@
+{
+  "notice": "Read-only snapshot from EmDash MCP; EmDash is authoritative. Not used to create or update the CMS.",
+  "verifiedAt": "2026-10-08",
+  "collection": "landing_pages",
+  "field": "layout",
+  "slug": "landing_offer",
+  "label": "הצעה ותשלום",
+  "version": 1,
+  "fields": [
+    {
+      "slug": "title",
+      "label": "כותרת",
+      "type": "string",
+      "required": true
+    },
+    {
+      "slug": "body",
+      "label": "תוכן",
+      "type": "text",
+      "required": true
+    },
+    {
+      "slug": "includes",
+      "label": "מה כלול",
+      "type": "repeater",
+      "required": true,
+      "validation": {
+        "subFields": [
+          {
+            "slug": "text",
+            "type": "string",
+            "label": "פריט",
+            "required": true
+          }
+        ],
+        "minItems": 1
+      }
+    },
+    {
+      "slug": "lead_endpoint",
+      "label": "נקודת קליטת לידים",
+      "type": "string",
+      "required": true
+    },
+    {
+      "slug": "checkout_url",
+      "label": "קישור לתשלום",
+      "type": "url",
+      "required": true
+    },
+    {
+      "slug": "submit_label",
+      "label": "טקסט כפתור",
+      "type": "string",
+      "required": true
+    },
+    {
+      "slug": "consent_label",
+      "label": "טקסט הסכמה",
+      "type": "text",
+      "required": true
+    }
+  ]
+}

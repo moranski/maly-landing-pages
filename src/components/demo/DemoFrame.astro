@@ -1,0 +1,36 @@
+---
+interface Props {
+ id: string;
+ title: string;
+ type?: string;
+ fields?: string;
+ display: string[];
+}
+const { id, title, type, fields, display } = Astro.props;
+const source = (file: string) => `/blocks-demo/source?file=${encodeURIComponent(file)}`;
+---
+<section id={id} class="demo-frame" aria-labelledby={`${id}-label`}>
+ <header class="demo-frame__meta">
+  <h2 id={`${id}-label`}>{title}</h2>
+  <p>{type ? <>סוג בלוק במערכת: <code dir="ltr">{type}</code></> : "רכיב ממשק — אינו סוג בלוק ב־CMS"}</p>
+  {fields && <p>שדות בדוגמה: <code dir="ltr">{fields}</code></p>}
+  <ul>
+   <li><a href={source("src/pages/blocks-demo.astro")} target="_blank">תוכן ההמחשה בקוד</a></li>
+   <li><a href={source("src/styles/presentation.css")} target="_blank">סגנונות העיצוב שאושר</a></li>
+   {type && <li><a href={source(`src/data/blocks-demo/${type}.json`)} target="_blank">סכמת אובייקט — עותק מאומת מ־EmDash</a></li>}
+   {display.map(file => <li><a href={source(`src/components/landing/${file}.astro`)} target="_blank">קוד תצוגה: <bdi>{file}.astro</bdi></a></li>)}
+   {type && <li><a href={source("src/components/landing/EmDashLandingPage.astro")} target="_blank">מיפוי שדות התוכן לתצוגה</a></li>}
+  </ul>
+ </header>
+ <div class="demo-frame__preview"><slot /></div>
+</section>
+<style>
+ .demo-frame { border: 2px solid var(--color-ink); border-radius: 16px; overflow: hidden; min-width: 0; }
+ .demo-frame__meta { padding: 1rem; background: #dce1ff; border-bottom: 2px solid var(--color-ink); }
+ .demo-frame__meta h2 { font-size: 1.15rem; margin: 0 0 .5rem; }
+ .demo-frame__meta p { margin: .5rem 0; font-size: .875rem; }
+ .demo-frame__meta ul { margin: .5rem 0 0; padding-inline-start: 1.25rem; font-size: .8rem; display: grid; gap: .5rem; }
+ .demo-frame__meta code { display: inline-block; overflow-wrap: anywhere; }
+ .demo-frame__preview { padding: 1rem; min-width: 0; }
+ a:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
+</style>
