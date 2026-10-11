@@ -8,6 +8,7 @@ import OfferBlock from "./OfferBlock.astro";
 import ProfileImage from "./ProfileImage.astro";
 import Section from "./Section.astro";
 import FaqList from "./FaqList.astro";
+import type { EditProxy } from "emdash";
 
 type Media = { src?: string; url?: string; previewUrl?: string; meta?: { storageKey?: string } };
 type Block = Record<string, unknown> & { _type?: string; type?: string };
@@ -15,10 +16,12 @@ type Block = Record<string, unknown> & { _type?: string; type?: string };
 interface Props {
 	preview?: boolean;
 	presentation?: boolean;
+	contentId?: string;
+	edit?: EditProxy;
 	page: { title: string; description: string; lang?: string; dir?: "rtl" | "ltr"; layout: Block[] };
 }
 
-const { page, preview = false, presentation = preview } = Astro.props;
+const { page, contentId, edit, preview = false, presentation = preview } = Astro.props;
 const surfaces = ["stone", "sage", "sage", "peach", "blue", "ivory", "ivory"] as const;
 let sectionIndex = 0;
 const blocks = Array.isArray(page.layout) ? page.layout : [];
@@ -57,8 +60,8 @@ const heroPage = {
 };
 ---
 
-<LandingPageLayout page={{ ...heroPage, lang: page.lang ?? "he", dir: page.dir ?? "rtl" }} preview={preview} presentation={presentation}>
-	<LandingPageContent page={heroPage}>
+<LandingPageLayout page={{ ...heroPage, lang: page.lang ?? "he", dir: page.dir ?? "rtl" }} preview={preview} presentation={presentation} contentId={contentId} edit={edit}>
+	<LandingPageContent page={heroPage} layoutEdit={edit?.layout}>
 	{
 		blocks.filter((block) => block !== hero).map((block) => {
 			const blockKind = kind(block);

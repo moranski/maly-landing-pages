@@ -20,13 +20,14 @@ interface PageData {
 
 interface Props {
 	page: PageData;
+	layoutEdit?: Partial<{ "data-emdash-ref": string }>;
 }
 
-const { page } = Astro.props;
+const { page, layoutEdit } = Astro.props;
 const heroVisual = page.hero.visual;
 ---
 
-<main id="top">
+<main id="top" {...layoutEdit}>
 	<section class="hero">
 		<div class="hero__inner">
 			<div class="hero__copy">

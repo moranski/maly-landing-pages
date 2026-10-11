@@ -7,6 +7,7 @@ import "../styles/presentation.css";
 import { env } from "cloudflare:workers";
 import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
+import type { EditProxy } from "emdash";
 import { isValidGtmId } from "../scripts/consent-gated-gtm.js";
 
 interface Props {
@@ -24,16 +25,19 @@ interface Props {
 			};
 		};
 	};
+	contentId?: string;
+	edit?: EditProxy;
 }
 
-const { page, preview = false, presentation = preview } = Astro.props;
+const { page, contentId, edit, preview = false, presentation = preview } = Astro.props;
 const gtmId = env.GTM_ID;
 const validGtmId = isValidGtmId(gtmId) ? gtmId : undefined;
 const emdashPage = createPublicPageContext({
 	url: Astro.url,
 	locale: page.lang,
-	kind: "custom",
+	kind: contentId ? "content" : "custom",
 	pageType: "landing-page",
+	content: contentId ? { collection: "landing_pages", id: contentId } : undefined,
 	title: page.title,
 	description: page.description,
 	canonical: (Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url).href,
@@ -51,11 +55,11 @@ const emdashPage = createPublicPageContext({
 		{preview ? <meta name="robots" content="noindex, nofollow" /> : <EmDashHead page={emdashPage} />}
 		{presentation && <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" />}
 	</head>
-	<body id={presentation ? "presentation-review" : undefined} class:list={["landing-page", presentation && "presentation-review"]} data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId}>
+	<body id={presentation ? "presentation-review" : undefined} class:list={["landing-page", presentation && "presentation-review"]} data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId} {...(!preview && edit ? edit : {})}>
 		{presentation && <ParallaxBackground />}
 		{!preview && <EmDashBodyStart page={emdashPage} />}
 		{preview && <aside class="draft-notice"><strong>תצוגת טיוטה מקומית — לא פורסמה</strong><a href="/blocks-demo">לקטלוג האלמנטים</a></aside>}
-		<LandingHeader title={page.title} cta={page.hero.primaryCta} />
+		<LandingHeader title={page.title} titleEdit={edit?.title} cta={page.hero.primaryCta} />
 		<slot />
 		<StickyMobileCta cta={page.hero.primaryCta} />
 		{!preview && <EmDashBodyEnd page={emdashPage} />}
