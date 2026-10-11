@@ -66,6 +66,30 @@ const emdashPage = createPublicPageContext({
 	import { installConsentGatedGtm } from "../scripts/consent-gated-gtm.js";
 
 	if (document.body.dataset.preview !== "true") installConsentGatedGtm(window, document, document.body.dataset.gtmId);
+
+	// Mobile zoom and browser UI can shrink the visible viewport without
+	// changing the layout viewport used by position:fixed.
+	const viewport = window.visualViewport;
+	if (viewport) {
+		let pending = false;
+		const updateConsentViewport = () => {
+			pending = false;
+			const style = document.documentElement.style;
+			style.setProperty("--consent-visible-height", `${viewport.height}px`);
+			style.setProperty("--consent-visible-width", `${viewport.width}px`);
+			style.setProperty("--consent-visible-left", `${viewport.offsetLeft}px`);
+			style.setProperty("--consent-visible-bottom", `${Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop)}px`);
+		};
+		const scheduleUpdate = () => {
+			if (pending) return;
+			pending = true;
+			requestAnimationFrame(updateConsentViewport);
+		};
+		viewport.addEventListener("resize", scheduleUpdate);
+		viewport.addEventListener("scroll", scheduleUpdate);
+		window.addEventListener("resize", scheduleUpdate);
+		updateConsentViewport();
+	}
 </script>
 
 <style is:global>
@@ -76,7 +100,11 @@ const emdashPage = createPublicPageContext({
 		text-align: right;
 	}
 	#emprivacy-root .emprivacy-bar {
-		max-height: calc(100dvh - 24px);
+		max-height: calc(var(--consent-visible-height, 100dvh) - 24px);
+		left: var(--consent-visible-left, 0px);
+		right: auto;
+		width: var(--consent-visible-width, 100%);
+		bottom: var(--consent-visible-bottom, 0px);
 		box-sizing: border-box;
 	}
 	#emprivacy-root .emprivacy-title { color: var(--emprivacy-text); }
