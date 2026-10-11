@@ -75,4 +75,16 @@ const emdashPage = createPublicPageContext({
 		direction: rtl;
 		text-align: right;
 	}
+	#emprivacy-root .emprivacy-bar {
+		max-height: calc(100dvh - 24px);
+		box-sizing: border-box;
+	}
+	#emprivacy-root .emprivacy-title { color: var(--emprivacy-text); }
+	#emprivacy-root .emprivacy-actions {
+		position: sticky;
+		bottom: 0;
+		background: var(--emprivacy-bg);
+		padding-block: 8px;
+	}
+	#emprivacy-root .emprivacy-btn { min-height: 44px; }
 </style>
