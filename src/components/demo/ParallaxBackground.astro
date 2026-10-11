@@ -7,17 +7,13 @@
  const layer = document.querySelector(".parallax-background");
  const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
  let frame = 0;
- let currentY = 0;
  const paint = () => {
   frame = 0;
   if (!layer) return;
-  const targetY = motion.matches ? 0 : -(window.scrollY * 0.25 % 1086);
-  // Ease toward the scroll position so the background has a little inertia.
-  currentY = motion.matches ? targetY : currentY + (targetY - currentY) * 0.12;
-  if (Math.abs(targetY - currentY) < 0.1) currentY = targetY;
-  // Wrap at one tile height so long pages never expose the edge of the layer.
-  layer.style.transform = `translate3d(0, ${currentY}px, 0)`;
-  if (currentY !== targetY) frame = requestAnimationFrame(paint);
+  const targetY = motion.matches ? 0 : -(window.scrollY * 0.25);
+  // Move the repeating image within a viewport-sized layer so the offset can
+  // stay continuous across long pages without exposing the layer's edges.
+  layer.style.backgroundPositionY = `${targetY}px`;
  };
  const schedule = () => {
   if (!frame) frame = requestAnimationFrame(paint);
@@ -29,10 +25,10 @@
 </script>
 <style>
  .parallax-background {
-  position: fixed; inset: -1086px 0; z-index: -1; pointer-events: none;
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
   background-image: var(--review-background-image);
   background-size: 362px 1086px; background-repeat: repeat;
-  will-change: transform;
+  will-change: background-position;
  }
  @media (prefers-reduced-motion: reduce) { .parallax-background { will-change: auto; } }
 </style>
