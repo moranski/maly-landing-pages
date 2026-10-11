@@ -29,4 +29,5 @@ const { title, cta } = Astro.props;
 	.site-brand__copy strong { font-size: 0.95rem; }
 	.site-brand__copy span { overflow: hidden; color: var(--color-text-muted); font-size: 0.68rem; text-overflow: ellipsis; white-space: nowrap; }
 	.site-header__cta { flex: 0 0 auto; padding: 0.55rem 0.85rem; border-radius: var(--radius-pill); background: var(--color-accent); color: white; font-size: 0.78rem; font-weight: 700; text-decoration: none; }
+	@media (max-width: 760px) { .site-header__cta { display: none; } }
 </style>
