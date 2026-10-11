@@ -36,7 +36,7 @@ const pageData = emdashPage
 
 {
 	emdashPage ? (
-		<EmDashLandingPage page={pageData as never} />
+		<EmDashLandingPage presentation={slug === "reading"} page={pageData as never} />
 	) : (
 		<main><h1>העמוד לא נמצא</h1></main>
 	)

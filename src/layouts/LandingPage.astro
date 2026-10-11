@@ -11,6 +11,7 @@ import { isValidGtmId } from "../scripts/consent-gated-gtm.js";
 
 interface Props {
 	preview?: boolean;
+	presentation?: boolean;
 	page: {
 		title: string;
 		description: string;
@@ -25,7 +26,7 @@ interface Props {
 	};
 }
 
-const { page, preview = false } = Astro.props;
+const { page, preview = false, presentation = preview } = Astro.props;
 const gtmId = env.GTM_ID;
 const validGtmId = isValidGtmId(gtmId) ? gtmId : undefined;
 const emdashPage = createPublicPageContext({
@@ -47,10 +48,11 @@ const emdashPage = createPublicPageContext({
 		<meta name="viewport" content="width=device-width,initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{page.title}</title>
-		{preview ? <><meta name="robots" content="noindex, nofollow" /><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" /></> : <EmDashHead page={emdashPage} />}
+		{preview ? <meta name="robots" content="noindex, nofollow" /> : <EmDashHead page={emdashPage} />}
+		{presentation && <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" />}
 	</head>
-	<body id={preview ? "presentation-review" : undefined} class:list={["landing-page", preview && "presentation-review"]} data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId}>
-		{preview && <ParallaxBackground />}
+	<body id={presentation ? "presentation-review" : undefined} class:list={["landing-page", presentation && "presentation-review"]} data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId}>
+		{presentation && <ParallaxBackground />}
 		{!preview && <EmDashBodyStart page={emdashPage} />}
 		{preview && <aside class="draft-notice"><strong>תצוגת טיוטה מקומית — לא פורסמה</strong><a href="/blocks-demo">לקטלוג האלמנטים</a></aside>}
 		<LandingHeader title={page.title} cta={page.hero.primaryCta} />

@@ -14,10 +14,11 @@ type Block = Record<string, unknown> & { _type?: string; type?: string };
 
 interface Props {
 	preview?: boolean;
+	presentation?: boolean;
 	page: { title: string; description: string; lang?: string; dir?: "rtl" | "ltr"; layout: Block[] };
 }
 
-const { page, preview = false } = Astro.props;
+const { page, preview = false, presentation = preview } = Astro.props;
 const surfaces = ["stone", "sage", "sage", "peach", "blue", "ivory", "ivory"] as const;
 let sectionIndex = 0;
 const blocks = Array.isArray(page.layout) ? page.layout : [];
@@ -56,7 +57,7 @@ const heroPage = {
 };
 ---
 
-<LandingPageLayout page={{ ...heroPage, lang: page.lang ?? "he", dir: page.dir ?? "rtl" }} preview={preview}>
+<LandingPageLayout page={{ ...heroPage, lang: page.lang ?? "he", dir: page.dir ?? "rtl" }} preview={preview} presentation={presentation}>
 	<LandingPageContent page={heroPage}>
 	{
 		blocks.filter((block) => block !== hero).map((block) => {
@@ -67,18 +68,18 @@ const heroPage = {
 					const src = mediaSrc(image.image);
 					return src && typeof image.alt === "string" ? [{ src, alt: image.alt, caption: typeof image.caption === "string" ? image.caption : undefined }] : [];
 				});
-				const surface = preview ? surfaces[sectionIndex++] : undefined;
-				const tone = preview ? "plain" : gallery.length > 0 ? "deep" : block.tone === "tinted" || block.tone === "deep" ? block.tone : "plain";
+				const surface = presentation ? surfaces[sectionIndex++] : undefined;
+				const tone = presentation ? "plain" : gallery.length > 0 ? "deep" : block.tone === "tinted" || block.tone === "deep" ? block.tone : "plain";
 				return <Section surface={surface} id={typeof block.id === "string" ? block.id : undefined} kicker={typeof block.kicker === "string" ? block.kicker : undefined} title={String(block.title ?? "")} tone={tone}>
 					{profileSrc && <ProfileImage src={profileSrc} alt={typeof block.profile_alt === "string" ? block.profile_alt : ""} caption={typeof block.profile_caption === "string" ? block.profile_caption : undefined} />}
 					{textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}
 					{records(block.cards).length > 0 && <CardGrid ordered={block.ordered_cards === true} items={records(block.cards).map((card) => ({ title: String(card.title ?? ""), body: String(card.body ?? "") }))} />}
 					{gallery.length > 0 && <ImageGallery images={gallery} />}
-					{records(block.faq_items).length > 0 && (preview ? <FaqList items={records(block.faq_items).map(item => ({ question: String(item.question ?? ""), answer: String(item.answer ?? "") }))} /> : records(block.faq_items).map((item) => <><h3>{String(item.question ?? "")}</h3><p>{String(item.answer ?? "")}</p></>))}
+					{records(block.faq_items).length > 0 && (presentation ? <FaqList items={records(block.faq_items).map(item => ({ question: String(item.question ?? ""), answer: String(item.answer ?? "") }))} /> : records(block.faq_items).map((item) => <><h3>{String(item.question ?? "")}</h3><p>{String(item.answer ?? "")}</p></>))}
 				</Section>;
 			}
-			if (blockKind === "landing_offer") return <OfferBlock demo={preview} kicker={preview ? "רוצים להתחיל?" : undefined} title={String(block.title ?? "")} body={String(block.body ?? "")} includes={textItems(block.includes)} lead={{ title: preview ? "תצוגת טיוטה — הטופס מושבת" : "ההרשמה והתשלום המאובטח" }} />;
-			if (blockKind === "landing_final_cta") return <FinalCta kicker={preview ? null : undefined} cta={{ label: String(block.cta_label ?? ""), href: String(block.cta_href ?? "#offer") }}><h2>{String(block.heading ?? "")}</h2>{textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}{typeof block.signature === "string" && <strong>{block.signature}</strong>}</FinalCta>;
+			if (blockKind === "landing_offer") return <OfferBlock demo={preview} kicker={presentation ? "רוצים להתחיל?" : undefined} title={String(block.title ?? "")} body={String(block.body ?? "")} includes={textItems(block.includes)} lead={{ title: preview ? "תצוגת טיוטה — הטופס מושבת" : "ההרשמה והתשלום המאובטח" }} />;
+			if (blockKind === "landing_final_cta") return <FinalCta kicker={presentation ? null : undefined} cta={{ label: String(block.cta_label ?? ""), href: String(block.cta_href ?? "#offer") }}><h2>{String(block.heading ?? "")}</h2>{textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}{typeof block.signature === "string" && <strong>{block.signature}</strong>}</FinalCta>;
 			return null;
 		})
 	}
