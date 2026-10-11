@@ -59,6 +59,7 @@ html:has(#presentation-review) { min-width: 0; }
 #presentation-review .section--deep .kicker { background: white; color: #00236f; border-color: white; }
 #presentation-review .section-prose p, #presentation-review .info-card p { font-size: 16px; line-height: 1.6; }
 #presentation-review .info-card { padding: 20px; border-radius: 16px; box-shadow: 0 2px 8px rgb(27 28 26 / .04); }
+#presentation-review .card-grid { gap: var(--space-5); }
 #presentation-review .info-card h3 { font-size: 20px; line-height: 1.4; }
 #presentation-review .info-card__index { background: #00236f; color: white; font-size: 14px; font-weight: 700; margin-block-end: 12px; }
 #presentation-review .button { min-height: 48px; border-radius: 12px; padding: 12px 20px; font-size: 15px; box-shadow: none; }

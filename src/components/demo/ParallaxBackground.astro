@@ -6,14 +6,21 @@
  (() => {
  const layer = document.querySelector(".parallax-background");
  const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
- let scheduled = false;
+ let frame = 0;
+ let currentY = 0;
  const paint = () => {
-  scheduled = false;
+  frame = 0;
+  if (!layer) return;
+  const targetY = motion.matches ? 0 : -(window.scrollY * 0.25 % 1086);
+  // Ease toward the scroll position so the background has a little inertia.
+  currentY = motion.matches ? targetY : currentY + (targetY - currentY) * 0.12;
+  if (Math.abs(targetY - currentY) < 0.1) currentY = targetY;
   // Wrap at one tile height so long pages never expose the edge of the layer.
-  if (layer) layer.style.transform = `translate3d(0, ${motion.matches ? 0 : -(window.scrollY * 0.25 % 1086)}px, 0)`;
+  layer.style.transform = `translate3d(0, ${currentY}px, 0)`;
+  if (currentY !== targetY) frame = requestAnimationFrame(paint);
  };
  const schedule = () => {
-  if (!scheduled) { scheduled = true; requestAnimationFrame(paint); }
+  if (!frame) frame = requestAnimationFrame(paint);
  };
  window.addEventListener("scroll", schedule, { passive: true });
  motion.addEventListener("change", schedule);
