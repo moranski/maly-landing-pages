@@ -1,0 +1,38 @@
+---
+import Section from "./Section.astro";
+
+interface Testimonial {
+	quote: string;
+	attribution?: string;
+}
+
+interface Props {
+	title: string;
+	testimonials: Testimonial[];
+}
+
+const { title, testimonials } = Astro.props;
+---
+
+<Section title={title} tone="tinted">
+	{testimonials.map((testimonial) => (
+		<blockquote>
+			<p>{testimonial.quote}</p>
+			{testimonial.attribution && <footer><cite>{testimonial.attribution}</cite></footer>}
+		</blockquote>
+	))}
+</Section>
+
+<style>
+	blockquote footer {
+		margin-block-start: var(--space-3);
+		color: var(--color-text-muted);
+		font-size: 0.75rem;
+		font-style: normal;
+		font-weight: 700;
+	}
+
+	blockquote cite {
+		font-style: normal;
+	}
+</style>
