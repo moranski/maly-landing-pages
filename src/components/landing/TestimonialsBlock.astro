@@ -37,10 +37,7 @@ const colorForAuthor = (name: string) => {
 				<div class="chat-message__bubble">
 					<div class="chat-message__sender">
 						{testimonial.authorImage && <img class="chat-message__profile" src={testimonial.authorImage.src} alt={testimonial.authorImage.alt} width="40" height="40" loading="lazy" style="width: 2.5rem; height: 2.5rem; object-fit: cover; border-radius: 50%;" />}
-						<div>
-							<cite class="chat-message__author" style={`color: ${colorForAuthor(author)}`}>{author}</cite>
-							{testimonial.authorImage && <span class="chat-message__illustration-label">תמונת המחשה</span>}
-						</div>
+						<cite class="chat-message__author" style={`color: ${colorForAuthor(author)}`}>{author}</cite>
 					</div>
 					<p>{testimonial.quote}</p>
 					<footer>
@@ -144,14 +141,6 @@ const colorForAuthor = (name: string) => {
 		flex: 0 0 2.5rem;
 		border-radius: 50%;
 		object-fit: cover;
-	}
-
-	.chat-message__illustration-label {
-		display: block;
-		margin-block-start: 0.1rem;
-		color: #697681;
-		font-size: 0.62rem;
-		line-height: 1.2;
 	}
 
 	.chat-message footer {
