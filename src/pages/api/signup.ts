@@ -9,6 +9,7 @@ const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/sit
 
 type SignupBody = {
 	name: string;
+	phone: string;
 	email: string;
 	consent: boolean;
 	website: string;
@@ -55,19 +56,24 @@ async function readLimitedBody(request: Request): Promise<unknown | undefined> {
 function validateBody(value: unknown): SignupBody | undefined {
 	if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
 	const body = value as Record<string, unknown>;
-	const allowed = new Set(["name", "email", "consent", "website", "turnstileToken"]);
+	const allowed = new Set(["name", "phone", "email", "consent", "website", "turnstileToken"]);
 	if (Object.keys(body).some((key) => !allowed.has(key))) return undefined;
-	if (typeof body.name !== "string" || typeof body.email !== "string") return undefined;
+	if (typeof body.name !== "string" || typeof body.phone !== "string" || typeof body.email !== "string") return undefined;
 	if (typeof body.consent !== "boolean" || typeof body.website !== "string" || typeof body.turnstileToken !== "string") return undefined;
 
 	const name = body.name.trim().replace(/\s+/gu, " ");
+	const rawPhone = body.phone.trim();
 	const email = body.email.trim();
+	if (rawPhone.length > 24 || !/^\+?[\d\s().-]+$/u.test(rawPhone)) return undefined;
+	const compactPhone = rawPhone.replace(/[\s().-]/gu, "");
+	const phone = compactPhone.startsWith("+972") ? `0${compactPhone.slice(4)}` : compactPhone;
 	if (!name || name.length > 120 || /[\u0000-\u001f\u007f]/u.test(name)) return undefined;
+	if (!/^0(?:5\d{8}|[23489]\d{7}|7\d{8})$/u.test(phone)) return undefined;
 	if (!email || email.length > 254 || /[\u0000-\u0020\u007f]/u.test(email) || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/u.test(email)) return undefined;
 	if (body.consent !== true || body.turnstileToken.length < 1 || body.turnstileToken.length > 2048) return undefined;
 	if (body.website.length > 0) return undefined;
 
-	return { name, email, consent: true, website: "", turnstileToken: body.turnstileToken };
+	return { name, phone, email, consent: true, website: "", turnstileToken: body.turnstileToken };
 }
 
 async function verifyTurnstile(token: string, request: Request, expectedHost: string): Promise<boolean> {
@@ -158,7 +164,7 @@ export const POST: APIRoute = async ({ request }) => {
 		const createSubscriber = (token: string) => fetch(`${RESPONDER_API}/subscribers`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-			body: JSON.stringify({ email: body.email, name: body.name, list_ids: [listId], override: false }),
+			body: JSON.stringify({ email: body.email, name: body.name, phone: body.phone, list_ids: [listId], override: false }),
 			signal: AbortSignal.timeout(10_000),
 		});
 		let createResponse = await createSubscriber(accessToken);

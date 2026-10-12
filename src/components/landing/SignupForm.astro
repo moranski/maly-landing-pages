@@ -24,6 +24,10 @@ const enabled = Boolean(siteKey && safeCheckoutUrl);
 		<label for="signup-name">שם מלא</label>
 		<input id="signup-name" name="name" type="text" autocomplete="name" maxlength="120" required />
 
+		<label for="signup-phone">מספר טלפון</label>
+		<input id="signup-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" dir="ltr" placeholder="05X-XXXXXXX" required aria-describedby="signup-phone-hint" />
+		<small id="signup-phone-hint">יש להזין מספר ישראלי תקין, למשל 050-1234567 או ‎+972-50-1234567.</small>
+
 		<label for="signup-email">כתובת אימייל</label>
 		<input id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" dir="ltr" required />
 
@@ -118,6 +122,23 @@ const enabled = Boolean(siteKey && safeCheckoutUrl);
 	}
 
 	const form = document.querySelector<HTMLFormElement>("[data-signup-form]");
+	const phoneInput = form?.querySelector<HTMLInputElement>('input[name="phone"]');
+
+	function normalizeIsraeliPhone(value: string): string | undefined {
+		const trimmed = value.trim();
+		if (!trimmed || !/^\+?[\d\s().-]+$/u.test(trimmed)) return undefined;
+		const compact = trimmed.replace(/[\s().-]/gu, "");
+		const international = compact.startsWith("+972") ? `0${compact.slice(4)}` : compact;
+		return /^0(?:5\d{8}|[23489]\d{7}|7\d{8})$/u.test(international) ? international : undefined;
+	}
+
+	phoneInput?.addEventListener("input", () => {
+		phoneInput.setCustomValidity(normalizeIsraeliPhone(phoneInput.value) ? "" : "נא להזין מספר טלפון ישראלי תקין.");
+	});
+	phoneInput?.addEventListener("blur", () => {
+		const normalized = normalizeIsraeliPhone(phoneInput.value);
+		if (normalized) phoneInput.value = normalized;
+	});
 
 	form?.addEventListener("submit", async (event) => {
 		event.preventDefault();
@@ -138,6 +159,7 @@ const enabled = Boolean(siteKey && safeCheckoutUrl);
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({
 					name: String(data.get("name") ?? ""),
+					phone: normalizeIsraeliPhone(String(data.get("phone") ?? "")) ?? "",
 					email: String(data.get("email") ?? ""),
 					consent: data.get("consent") === "on",
 					website: String(data.get("website") ?? ""),
@@ -152,7 +174,7 @@ const enabled = Boolean(siteKey && safeCheckoutUrl);
 
 			const messages: Record<string, string> = {
 				duplicate: "כתובת האימייל הזו כבר רשומה. לא בוצע שינוי בפרטים.",
-				invalid_input: "נא לבדוק את השם, כתובת האימייל וההסכמה לדיוור.",
+				invalid_input: "נא לבדוק את השם, מספר הטלפון, כתובת האימייל וההסכמה לדיוור.",
 				verification_failed: "בדיקת האבטחה נכשלה. נא לנסות שוב.",
 				rate_limited: "נשלחו יותר מדי בקשות. נא להמתין מעט ולנסות שוב.",
 			};

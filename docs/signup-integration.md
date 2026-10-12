@@ -17,7 +17,7 @@
 ## התנהגות API
 
 - אימות Responder מתבצע ב־`POST https://graph.responder.live/v2/oauth/token`; האסימון הזמני משמש מיד לקריאת API ואינו נשמר.
-- יצירת הנרשם מתבצעת ב־`POST https://graph.responder.live/v2/subscribers` עם `email`, `name`, `list_ids` ו־`override: false`.
+- יצירת הנרשם מתבצעת ב־`POST https://graph.responder.live/v2/subscribers` עם `email`, `name`, `phone`, `list_ids` ו־`override: false`. הטלפון נבדק בצד הדפדפן וב־Worker ומנורמל למספר ישראלי המתחיל ב־`0` לפני השליחה.
 - אם Responder מחזיר `duplicate: true`, הטופס מציג הודעה ולא מעדכן את הנרשם ולא ממשיך לתשלום.
 - Turnstile חייב לאשר `success`, מארח שתואם ל־`SITE_URL` ופעולה `signup`. חריגה ממגבלת הקצב נחסמת לפני פנייה לספק.
 
