@@ -19,7 +19,8 @@
 - אימות Responder מתבצע ב־`POST https://graph.responder.live/v2/oauth/token`; האסימון הזמני משמש מיד לקריאת API ואינו נשמר.
 - יצירת הנרשם מתבצעת ב־`POST https://graph.responder.live/v2/subscribers` עם `email`, `name`, `phone`, `list_ids` ו־`override: false`. הטלפון נבדק בצד הדפדפן וב־Worker ומנורמל למספר ישראלי המתחיל ב־`0` לפני השליחה.
 - אם Responder מחזיר `duplicate: true`, הטופס מציג הודעה ולא מעדכן את הנרשם ולא ממשיך לתשלום.
-- Turnstile חייב לאשר `success`, מארח שתואם ל־`SITE_URL` ופעולה `signup`. חריגה ממגבלת הקצב נחסמת לפני פנייה לספק.
+- הווידג׳ט מוגדר להרצה רק לאחר לחיצה על כפתור השליחה ומופיע רק אם Turnstile דורש אינטראקציה (`execution=execute`, `appearance=interaction-only`). Turnstile חייב לאשר `success`, מארח שתואם ל־`SITE_URL` ופעולה `signup`. חריגה ממגבלת הקצב נחסמת לפני פנייה לספק.
+- אפשר להשאיר את מצב הווידג׳ט הקיים (Managed) כדי להציג אתגר למבקרים חשודים בלבד. מצב Invisible אמיתי נקבע בהגדרות הווידג׳ט ב־Cloudflare, ולא באמצעות מאפיין HTML; לפני מעבר אליו יש לעדכן את מדיניות הפרטיות בהתאם ל־Turnstile Privacy Addendum.
 
 ## Rate Limiting
 

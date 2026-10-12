@@ -41,7 +41,7 @@ const enabled = Boolean(siteKey && safeCheckoutUrl);
 			<input id="signup-website" name="website" type="text" tabindex="-1" autocomplete="off" />
 		</div>
 
-		<div class="cf-turnstile" data-sitekey={siteKey} data-action="signup" data-language="he"></div>
+		<div id="signup-turnstile" class="cf-turnstile" data-sitekey={siteKey} data-action="signup" data-language="he" data-execution="execute" data-appearance="interaction-only" data-callback="onSignupTurnstileSuccess" data-error-callback="onSignupTurnstileError"></div>
 		<button class="button button--primary" type="submit">{submitLabel}</button>
 		<p class="signup-form__status" data-signup-status role="status" aria-live="polite"></p>
 	</form>
@@ -118,11 +118,20 @@ const enabled = Boolean(siteKey && safeCheckoutUrl);
 
 <script>
 	interface TurnstileApi {
-		reset: () => void;
+		execute: (widgetId: string) => void;
+		reset: (widgetId: string) => void;
+	}
+	interface SignupWindow extends Window {
+		turnstile?: TurnstileApi;
+		onSignupTurnstileSuccess?: (token: string) => void;
+		onSignupTurnstileError?: () => void;
 	}
 
 	const form = document.querySelector<HTMLFormElement>("[data-signup-form]");
 	const phoneInput = form?.querySelector<HTMLInputElement>('input[name="phone"]');
+	const turnstileWidget = form?.querySelector<HTMLElement>(".cf-turnstile");
+	const signupWindow = window as SignupWindow;
+	let waitingForTurnstile = false;
 
 	function normalizeIsraeliPhone(value: string): string | undefined {
 		const trimmed = value.trim();
@@ -140,17 +149,25 @@ const enabled = Boolean(siteKey && safeCheckoutUrl);
 		if (normalized) phoneInput.value = normalized;
 	});
 
-	form?.addEventListener("submit", async (event) => {
-		event.preventDefault();
+	signupWindow.onSignupTurnstileSuccess = (token) => {
+		if (!waitingForTurnstile || !form) return;
+		waitingForTurnstile = false;
+		void submitSignup(token);
+	};
+	signupWindow.onSignupTurnstileError = () => {
+		if (!waitingForTurnstile) return;
+		waitingForTurnstile = false;
+		const submit = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
+		const status = form?.querySelector<HTMLElement>("[data-signup-status]");
+		if (status) status.textContent = "בדיקת האבטחה נכשלה. נא לנסות שוב.";
+		if (submit) submit.disabled = false;
+	};
+
+	async function submitSignup(token: string) {
+		if (!form) return;
 		const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
 		const status = form.querySelector<HTMLElement>("[data-signup-status]");
 		const data = new FormData(form);
-		const token = String(data.get("cf-turnstile-response") ?? "");
-		if (!token) {
-			if (status) status.textContent = "נא להשלים את בדיקת האבטחה לפני השליחה.";
-			return;
-		}
-
 		if (submit) submit.disabled = true;
 		if (status) status.textContent = "שולחים את הפרטים…";
 		try {
@@ -182,7 +199,27 @@ const enabled = Boolean(siteKey && safeCheckoutUrl);
 		} catch {
 			if (status) status.textContent = "לא הצלחנו לשלוח את הטופס. נא לבדוק את החיבור ולנסות שוב.";
 		} finally {
-			(window as Window & { turnstile?: TurnstileApi }).turnstile?.reset();
+			if (turnstileWidget) signupWindow.turnstile?.reset("#signup-turnstile");
+			if (submit) submit.disabled = false;
+		}
+	}
+
+	form?.addEventListener("submit", (event) => {
+		event.preventDefault();
+		const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+		const status = form.querySelector<HTMLElement>("[data-signup-status]");
+		if (!turnstileWidget || !signupWindow.turnstile) {
+			if (status) status.textContent = "בדיקת האבטחה עדיין נטענת. נא לנסות שוב בעוד רגע.";
+			return;
+		}
+		waitingForTurnstile = true;
+		if (submit) submit.disabled = true;
+		if (status) status.textContent = "בודקים את הבקשה…";
+		try {
+			signupWindow.turnstile.execute("#signup-turnstile");
+		} catch {
+			waitingForTurnstile = false;
+			if (status) status.textContent = "בדיקת האבטחה לא זמינה כרגע. נא לנסות שוב.";
 			if (submit) submit.disabled = false;
 		}
 	});
