@@ -4,7 +4,7 @@
 
 ## משתני Worker
 
-הגדירו ב־Cloudflare Worker Variables את `SITE_URL` ככתובת הקנונית המדויקת של האתר, כולל `https://`, וכן את `TURNSTILE_SITE_KEY`, `RESPONDER_CLIENT_ID` ו־`RESPONDER_LIST_ID`. מפתח Turnstile ומזהי החשבון והרשימה אינם סודות; מפתח Turnstile יוצג בדף כחלק מהווידג׳ט. ה־endpoint משווה את `SITE_URL` ל־Origin ולשם המארח ש־Turnstile מאמת.
+המשתנים `SITE_URL`, `TURNSTILE_SITE_KEY`, `RESPONDER_CLIENT_ID` ו־`RESPONDER_LIST_ID` מוגדרים ב־`wrangler.toml`. מפתח Turnstile ומזהי החשבון והרשימה אינם סודות; מפתח Turnstile יוצג בדף כחלק מהווידג׳ט. ה־endpoint משווה את `SITE_URL` ל־Origin ולשם המארח ש־Turnstile מאמת.
 
 שמרו את הערכים הרגישים כ־Cloudflare Secrets דרך `npx wrangler secret put <NAME>` או במסך Settings → Variables and Secrets של ה־Worker:
 
@@ -23,7 +23,7 @@
 
 ## Rate Limiting
 
-ה־Worker מוגדר למקסימום 5 בקשות הרשמה בדקה לכל IP, בנוסף ל־Turnstile. `namespace_id` של ה־binding הוא `88120417`; מזהה זה חייב להיות ייחודי לחשבון Cloudflare כדי שמונה הבקשות לא ישותף עם Worker אחר. אם הוא כבר בשימוש בחשבון, הקצו מזהה מספרי ייחודי ועדכנו את `wrangler.json` לפני פריסה.
+ה־Worker מוגדר למקסימום 5 בקשות הרשמה בדקה לכל IP, בנוסף ל־Turnstile. `namespace_id` של ה־binding הוא `88120417`; מזהה זה חייב להיות ייחודי לחשבון Cloudflare כדי שמונה הבקשות לא ישותף עם Worker אחר. אם הוא כבר בשימוש בחשבון, הקצו מזהה מספרי ייחודי ועדכנו את `wrangler.toml` לפני פריסה.
 
 ## פיתוח מקומי
 

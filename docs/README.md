@@ -12,7 +12,7 @@ EmDash הוא מקור האמת למודל התוכן, להגדרות האתר �
 | עקרונות כתיבה משותפים | [`docs/writing-style.md`](writing-style.md) | כללים כלליים שאינם מחליפים את תקציר הדף |
 | מקור עיצוב חיצוני | הכלי או הקובץ המקושרים בתקציר הדף | ההחלטות החזותיות נשמרות במקור העיצוב; ה־repo מכיל את המימוש |
 | renderer, routing, רכיבי UI ואינטגרציות | `src/` ו־`astro.config.mjs` | פיתוח ב־repo |
-| bindings, כתובת אתר והגדרות פריסה | `wrangler.json` וסביבת Cloudflare | סודות נשמרים ב־Cloudflare secrets |
+| bindings, כתובת אתר והגדרות פריסה | `wrangler.toml` וסביבת Cloudflare | סודות נשמרים ב־Cloudflare secrets |
 | הוראות ותהליכי עבודה | `AGENTS.md`, `.agents/skills/`, `docs/workflows/` | ניתוב וכללי שימוש בכלים |
 | פרטיות והסכמה | [`docs/privacy-consent.md`](privacy-consent.md) | התנהגות EmPrivacy ו־GTM |
 | היסטוריית החלטות | `docs/landing-pages/<slug>/decisions/` | תיעוד היסטורי; התקציר העדכני הוא ההנחיה הפעילה |

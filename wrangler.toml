@@ -1,0 +1,44 @@
+name = "maly-landing-pages"
+main = "./src/worker.ts"
+compatibility_date = "2026-09-27"
+compatibility_flags = ["nodejs_compat", "disallow_eval_during_startup"]
+worker_loaders = [{ binding = "LOADER" }]
+upload_source_maps = true
+
+[vars]
+GTM_ID = "GTM-TK82BZVF"
+RESPONDER_CLIENT_ID = "238"
+RESPONDER_LIST_ID = "122801"
+SITE_URL = "https://maly-landing-pages.moranski.workers.dev"
+TURNSTILE_SITE_KEY = "0x4AAAAAAFU7KqgLE7RO9zWX"
+
+[[ratelimits]]
+name = "SIGNUP_RATE_LIMITER"
+namespace_id = "88120417"
+
+[ratelimits.simple]
+limit = 5
+period = 60
+
+[[d1_databases]]
+binding = "DB"
+database_name = "maly-landing-pages"
+database_id = "12b6981d-cc2f-4559-891b-413d64738a78"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "maly-landing-pages-media"
+
+[[kv_namespaces]]
+binding = "SESSION"
+id = "fcc9f4e02785442cb8ec441d9536682b"
+
+[triggers]
+crons = ["* * * * *"]
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+
+[observability]
+enabled = true

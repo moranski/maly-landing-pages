@@ -10,7 +10,7 @@
 | עקרונות כתיבה משותפים | `docs/writing-style.md` |
 | עיצוב חזותי מאושר | המקור החיצוני המקושר בתקציר הדף |
 | קוד תצוגה, רכיבים, routing ואינטגרציות | ה־repo |
-| הגדרות Worker, bindings וסודות | `wrangler.json` ו־Cloudflare secrets |
+| הגדרות Worker, bindings וסודות | `wrangler.toml` ו־Cloudflare secrets |
 | נימוק היסטורי להחלטות | `docs/landing-pages/<slug>/decisions/` |
 
 ## יצירת דף
