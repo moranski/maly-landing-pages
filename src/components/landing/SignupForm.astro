@@ -1,0 +1,167 @@
+---
+import { env } from "cloudflare:workers";
+
+interface Props {
+	submitLabel: string;
+	consentLabel: string;
+	checkoutUrl: string;
+}
+
+const { submitLabel, consentLabel, checkoutUrl } = Astro.props;
+const siteKey = env.TURNSTILE_SITE_KEY;
+let safeCheckoutUrl: string | undefined;
+try {
+	const parsed = new URL(checkoutUrl);
+	if (parsed.protocol === "https:") safeCheckoutUrl = parsed.href;
+} catch {
+	// An invalid or non-HTTPS destination disables the form rather than redirecting unsafely.
+}
+const enabled = Boolean(siteKey && safeCheckoutUrl);
+---
+
+{enabled ? (
+	<form class="signup-form" data-signup-form data-checkout-url={safeCheckoutUrl}>
+		<label for="signup-name">שם מלא</label>
+		<input id="signup-name" name="name" type="text" autocomplete="name" maxlength="120" required />
+
+		<label for="signup-email">כתובת אימייל</label>
+		<input id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" dir="ltr" required />
+
+		<label class="signup-form__consent">
+			<input name="consent" type="checkbox" required />
+			<span>{consentLabel}</span>
+		</label>
+
+		<div class="signup-form__trap" aria-hidden="true">
+			<label for="signup-website">אתר</label>
+			<input id="signup-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+		</div>
+
+		<div class="cf-turnstile" data-sitekey={siteKey} data-action="signup" data-language="he"></div>
+		<button class="button button--primary" type="submit">{submitLabel}</button>
+		<p class="signup-form__status" data-signup-status role="status" aria-live="polite"></p>
+	</form>
+) : (
+	<p role="status">הטופס אינו זמין כרגע. אפשר לנסות שוב מאוחר יותר.</p>
+)}
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<noscript><p>כדי לשלוח את הטופס, יש להפעיל JavaScript בדפדפן.</p></noscript>
+
+<style>
+	.signup-form {
+		display: grid;
+		gap: var(--space-3);
+		min-width: 0;
+		text-align: start;
+	}
+
+	.signup-form > label:not(.signup-form__consent) {
+		font-size: 0.875rem;
+		font-weight: 600;
+	}
+
+	.signup-form > input {
+		width: 100%;
+		min-width: 0;
+		min-height: 48px;
+		padding: var(--space-3);
+		border: 1px solid var(--color-border);
+		border-radius: 12px;
+		background: var(--color-surface-warm);
+		color: var(--color-text);
+		font: inherit;
+	}
+
+	.signup-form__consent {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: var(--space-2);
+		align-items: start;
+		margin-block: var(--space-2);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+	}
+
+	.signup-form__consent input {
+		width: 1.125rem;
+		height: 1.125rem;
+		margin: 0.1rem 0 0;
+		accent-color: var(--color-accent);
+	}
+
+	.signup-form :focus-visible {
+		outline: 3px solid var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	.signup-form__trap {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	.signup-form__status:empty { display: none; }
+	.signup-form__status { margin: 0; color: var(--color-text); }
+
+	.signup-form .cf-turnstile {
+		max-width: 100%;
+		overflow: hidden;
+	}
+</style>
+
+<script>
+	interface TurnstileApi {
+		reset: () => void;
+	}
+
+	const form = document.querySelector<HTMLFormElement>("[data-signup-form]");
+
+	form?.addEventListener("submit", async (event) => {
+		event.preventDefault();
+		const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+		const status = form.querySelector<HTMLElement>("[data-signup-status]");
+		const data = new FormData(form);
+		const token = String(data.get("cf-turnstile-response") ?? "");
+		if (!token) {
+			if (status) status.textContent = "נא להשלים את בדיקת האבטחה לפני השליחה.";
+			return;
+		}
+
+		if (submit) submit.disabled = true;
+		if (status) status.textContent = "שולחים את הפרטים…";
+		try {
+			const response = await fetch("/api/signup", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					name: String(data.get("name") ?? ""),
+					email: String(data.get("email") ?? ""),
+					consent: data.get("consent") === "on",
+					website: String(data.get("website") ?? ""),
+					turnstileToken: token,
+				}),
+			});
+			const result = await response.json() as { ok?: boolean; error?: string };
+			if (response.ok && result.ok) {
+				window.location.assign(form.dataset.checkoutUrl ?? "/");
+				return;
+			}
+
+			const messages: Record<string, string> = {
+				duplicate: "כתובת האימייל הזו כבר רשומה. לא בוצע שינוי בפרטים.",
+				invalid_input: "נא לבדוק את השם, כתובת האימייל וההסכמה לדיוור.",
+				verification_failed: "בדיקת האבטחה נכשלה. נא לנסות שוב.",
+				rate_limited: "נשלחו יותר מדי בקשות. נא להמתין מעט ולנסות שוב.",
+			};
+			if (status) status.textContent = messages[result.error ?? ""] ?? "לא הצלחנו לשמור את הפרטים. נא לנסות שוב מאוחר יותר.";
+		} catch {
+			if (status) status.textContent = "לא הצלחנו לשלוח את הטופס. נא לבדוק את החיבור ולנסות שוב.";
+		} finally {
+			(window as Window & { turnstile?: TurnstileApi }).turnstile?.reset();
+			if (submit) submit.disabled = false;
+		}
+	});
+</script>
