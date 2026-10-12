@@ -29,7 +29,7 @@
 		"check": "npm run docs:check && astro build && tsc && wrangler deploy --dry-run",
 		"docs:check": "node scripts/check-page-documents.mjs",
 		"deploy": "wrangler deploy",
-		"predeploy": "npm test && npm run check",
+		"predeploy": "npm test && npm run docs:check && tsc",
 		"dev": "astro dev",
 		"preview": "astro build && wrangler dev",
 		"postinstall": "patch-package",
@@ -39,6 +39,7 @@
 	"allowScripts": {
 		"esbuild@0.28.1": true,
 		"workerd@1.20260926.1": true,
+		"workerd@1.20261006.1": true,
 		"sharp@0.35.4": true,
 		"workerd@1.20250906.0": true,
 		"sharp@0.35.5": true,

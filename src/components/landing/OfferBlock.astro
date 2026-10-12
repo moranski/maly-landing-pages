@@ -3,14 +3,11 @@ interface Props {
 	title: string;
 	body: string;
 	includes: string[];
-	lead: {
-		title: string;
-	};
 	demo?: boolean;
 	kicker?: string;
 }
 
-const { title, body, includes, lead, demo = false, kicker = "ההצטרפות כוללת" } = Astro.props;
+const { title, body, includes, demo = false, kicker = "ההצטרפות כוללת" } = Astro.props;
 ---
 
 <section id="offer" class="offer">
@@ -24,7 +21,6 @@ const { title, body, includes, lead, demo = false, kicker = "ההצטרפות כ
 			</ul>
 		</div>
 		<aside class="lead-box" aria-label="הצטרפות למסלול">
-			<p class="lead-box__title">{lead.title}</p>
 			<div class="lead-form-embed">
 				{demo ? (
 					<fieldset class="demo-form" disabled>

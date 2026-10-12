@@ -147,7 +147,7 @@ const extraExamples = [
             </DemoFrame>
             <DemoFrame id="offer-demo" title="הצעה ותשלום" type="landing_offer" fields="title, body, includes[].text" display={["OfferBlock"]}>
                 <p class="demo-note">הסכמה כוללת גם lead_endpoint, checkout_url, submit_label ו־consent_label. ה־renderer הנוכחי אינו משתמש בהם; הטופס כאן הוא המחשה מושבתת.</p>
-                <OfferBlock demo title="הצעה לדוגמה בלבד" body="תוכן המחשה להצעה, ללא רכישה או תשלום." includes={["פריט ראשון לדוגמה", "פריט שני להמחשת הרשימה"]} lead={{ title: "טופס המחשה מושבת" }} />
+                <OfferBlock demo title="הצעה לדוגמה בלבד" body="תוכן המחשה להצעה, ללא רכישה או תשלום." includes={["פריט ראשון לדוגמה", "פריט שני להמחשת הרשימה"]} />
             </DemoFrame>
             <DemoFrame id="final-demo" title="קריאה אחרונה לפעולה" type="landing_final_cta" fields="heading, paragraphs[].text, signature, cta_label, cta_href" display={["FinalCta"]}>
                 <FinalCta kicker={null} cta={{ label: "חזרה לתוכן העניינים", href: "#contents" }}>
