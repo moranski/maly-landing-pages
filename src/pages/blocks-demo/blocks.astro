@@ -1,0 +1,130 @@
+---
+import ParallaxBackground from "../../components/demo/ParallaxBackground.astro";
+import "../../styles/global.css";
+import "../../styles/presentation.css";
+import LandingHeader from "../../components/landing/LandingHeader.astro";
+import LandingPageContent from "../../components/landing/LandingPageContent.astro";
+import Section from "../../components/landing/Section.astro";
+import CardGrid from "../../components/landing/CardGrid.astro";
+import TestimonialsBlock from "../../components/landing/TestimonialsBlock.astro";
+import ImageGallery from "../../components/landing/ImageGallery.astro";
+import FaqList from "../../components/landing/FaqList.astro";
+
+export const prerender = false;
+if (!import.meta.env.DEV) return new Response("העמוד לא נמצא", { status: 404 });
+
+const page = {
+	title: "דוגמאות לבלוקים",
+	description: "תצוגה מקומית של בלוקים באתר, כולל עדויות לקוח בסגנון הודעות.",
+	hero: {
+		eyebrow: "קטלוג תצוגה מקומי",
+		title: "דוגמאות לבלוקים באתר",
+		subtitle: "עמוד קצר לבדיקת המראה של רכיבי התוכן, בנפרד מדף הקריאה.",
+		body: ["הטקסטים בעמוד הם תוכן המחשה בלבד. עדויות הלקוח כאן אינן ביקורות אמיתיות."],
+		primaryCta: { label: "לצפייה בעדויות", href: "#testimonials" },
+		secondaryCta: { label: "לכל הדוגמאות", href: "/blocks-demo" },
+		visual: {
+			src: "/images/blocks-demo/lesson.svg",
+			alt: "איור של כרטיסיות לימוד לדוגמה",
+			title: "פתיח עם תמונה",
+			caption: "בלוק פתיח — תוכן ואיור להמחשה",
+		},
+	},
+};
+
+const cards = [
+	{ title: "רואים דוגמה", body: "מסתכלים יחד על שלב אחד לפני שמנסים לבד." },
+	{ title: "מתרגלים בקצב שלנו", body: "מתקדמים לאט, עם מקום לעצור ולחזור." },
+	{ title: "ממשיכים בביטחון", body: "כל הצלחה קטנה עוזרת להמשיך לשלב הבא." },
+];
+
+const testimonials = [
+	{ quote: "פתאום היא ביקשה לקרוא שלט בדרך הביתה. היה מרגש לראות שהיא רוצה לנסות לבד.", attribution: "אמא של נועה", authorImage: { src: "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4RE5NPEBVJEERKRGA83B3FT.jpg", alt: "תמונת המחשה של משפחה עם שני ילדים בשעת שקיעה" } },
+	{ quote: "התרגול קצר ונעים, ואפשר לחזור עליו כשמתאים לנו. זה הוריד הרבה מתח מהלמידה בבית.", attribution: "אבא של יואב", authorImage: { src: "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4RE5MZ0S2FNE9HS0VZA03DT.jpg", alt: "תמונת המחשה של אב ובנו מחייכים בחוץ" } },
+	{ quote: "אהבתי שיש הסבר ברור לכל שלב. אנחנו יודעים מה לעשות, בלי להפוך את זה למאבק.", attribution: "אמא של תמר", authorImage: { src: "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4RE5Q3DCGX30JZFFW59PY7C.jpg", alt: "תמונת המחשה של אם עם שני ילדיה" } },
+];
+
+const faq = [
+	{ question: "האם העדויות אמיתיות?", answer: "לא. אלה משפטים מומצאים שנועדו להציג את עיצוב הבלוק בלבד." },
+	{ question: "אילו רכיבים מופיעים בעמוד?", answer: "פתיח, מקטע טקסט, כרטיסים, גלריית תמונות, עדויות לקוח ושאלות נפוצות." },
+];
+---
+
+<!doctype html>
+<html lang="he" dir="rtl">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex, nofollow" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" />
+		<title>{page.title} — תצוגה מקומית</title>
+	</head>
+	<body id="presentation-review" class="landing-page blocks-samples-demo presentation-review">
+		<ParallaxBackground />
+		<LandingHeader title="דוגמאות לבלוקים" cta={{ label: "לקטלוג המלא", href: "/blocks-demo" }} />
+		<LandingPageContent page={page}>
+			<Section title="מקטע תוכן" kicker="בלוק תוכן" surface="stone">
+				<p>כאן מופיע טקסט לדוגמה בתוך מקטע. אפשר לשלב בו הסבר קצר שמוביל את הקוראים לנושא הבא.</p>
+			</Section>
+			<Section title="כרטיסים" kicker="שלושה צעדים" surface="sage">
+				<CardGrid items={cards} ordered />
+			</Section>
+			<Section title="גלריית תמונות" kicker="כך זה נראה" surface="blue">
+				<p>גלריה לדוגמה עם איורים מקומיים.</p>
+				<ImageGallery images={[
+					{ src: "/images/blocks-demo/lesson.svg", alt: "כרטיסיות לימוד מאוירות", caption: "לומדים עם כרטיסיות" },
+					{ src: "/images/blocks-demo/practice.svg", alt: "דף תרגול מאויר", caption: "מתרגלים צעד אחר צעד" },
+				]} />
+			</Section>
+			<div id="testimonials" class="testimonial-sample">
+				<p class="sample-label">עדויות לדוגמה בלבד — לא ביקורות אמיתיות</p>
+				<TestimonialsBlock title="הודעות מהורים" testimonials={testimonials} />
+			</div>
+			<Section title="שאלות נפוצות" kicker="עוד כמה פרטים" surface="butter">
+				<FaqList items={faq} />
+			</Section>
+		</LandingPageContent>
+	</body>
+</html>
+
+<style>
+	:global(.blocks-samples-demo > main) {
+		width: min(100%, 760px);
+		margin-inline: auto;
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.testimonial-sample {
+		display: grid;
+		gap: 0.5rem;
+		padding: clamp(0.75rem, 3vw, 1.5rem);
+		border: 1px solid #d9e0e8;
+		border-radius: 24px;
+		background: #fff;
+		box-shadow: 0 12px 32px rgb(22 42 72 / 10%);
+	}
+
+	.sample-label {
+		margin: 0;
+		color: #536171;
+		font-size: 0.8rem;
+		font-weight: 600;
+		text-align: center;
+	}
+
+	:global(.blocks-samples-demo .section) {
+		padding: 1.25rem;
+		border-radius: 24px;
+	}
+
+	:global(.blocks-samples-demo #testimonials .section) {
+		padding: 0;
+		border: 0;
+		background: transparent;
+	}
+
+	:global(.blocks-samples-demo #testimonials .section__header) {
+		margin-block-end: 1rem;
+	}
+</style>

@@ -4,6 +4,7 @@ import Section from "./Section.astro";
 interface Testimonial {
 	quote: string;
 	attribution?: string;
+	authorImage?: { src: string; alt: string };
 }
 
 interface Props {
@@ -12,21 +13,45 @@ interface Props {
 }
 
 const { title, testimonials } = Astro.props;
+const authorColors = ["#18794e", "#b44336", "#7152a3", "#147d8b", "#a05a00", "#bd4775"];
+const colorForAuthor = (name: string) => {
+	let hash = 0;
+	for (const character of name) hash = (hash * 31 + character.codePointAt(0)!) >>> 0;
+	return authorColors[hash % authorColors.length];
+};
 ---
 
 <Section title={title} tone="tinted">
 	<div class="chat-thread" role="list" aria-label="עדויות של לומדים">
-		{testimonials.map((testimonial) => (
+		<div class="chat-thread__heading" aria-hidden="true">
+			<span class="chat-thread__avatar">ה</span>
+			<span>קבוצת ההורים</span>
+		</div>
+		{testimonials.map((testimonial) => {
+			const author = testimonial.attribution?.trim() || "שם לא צוין";
+			return (
 			<article class="chat-message" role="listitem">
-				<p>{testimonial.quote}</p>
-				<footer>
-					{testimonial.attribution && <cite>{testimonial.attribution}</cite>}
-					<svg class="chat-message__checks" viewBox="0 0 20 14" role="img" aria-label="ההודעה נקראה">
-						<path d="m1 7 4 4L14 2M7 7l4 4 8-9" />
-					</svg>
-				</footer>
+				<svg class="chat-message__tail" width="10" height="16" viewBox="0 0 8 13" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+					<path fill="#fff" transform="translate(8 0) scale(-1 1)" d="M1.533 2.568 8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568Z" />
+				</svg>
+				<div class="chat-message__bubble">
+					<div class="chat-message__sender">
+						{testimonial.authorImage && <img class="chat-message__profile" src={testimonial.authorImage.src} alt={testimonial.authorImage.alt} width="40" height="40" loading="lazy" style="width: 2.5rem; height: 2.5rem; object-fit: cover; border-radius: 50%;" />}
+						<div>
+							<cite class="chat-message__author" style={`color: ${colorForAuthor(author)}`}>{author}</cite>
+							{testimonial.authorImage && <span class="chat-message__illustration-label">תמונת המחשה</span>}
+						</div>
+					</div>
+					<p>{testimonial.quote}</p>
+					<footer>
+						<svg class="chat-message__checks" viewBox="0 0 20 14" role="img" aria-label="ההודעה נקראה">
+							<path d="m1 7 4 4L14 2M7 7l4 4 8-9" />
+						</svg>
+					</footer>
+				</div>
 			</article>
-		))}
+			);
+		})}
 	</div>
 </Section>
 
@@ -43,38 +68,90 @@ const { title, testimonials } = Astro.props;
 		background-size: 13px 13px;
 	}
 
+	.chat-thread__heading {
+		display: flex;
+		align-items: center;
+		gap: 0.55rem;
+		padding: 0.1rem 0.15rem 0.35rem;
+		color: #52616a;
+		font-size: 0.75rem;
+		font-weight: 700;
+	}
+
+	.chat-thread__avatar {
+		display: grid;
+		width: 1.8rem;
+		height: 1.8rem;
+		place-items: center;
+		border-radius: 50%;
+		background: #d8eee4;
+		color: #18794e;
+		font-size: 0.8rem;
+	}
+
 	.chat-message {
 		position: relative;
 		justify-self: start;
 		width: min(100%, 44rem);
-		padding: 0.9rem 1rem 0.65rem;
-		border: 1px solid #e5e7eb;
-		border-radius: 16px 16px 4px 16px;
-		background: #fff;
-		box-shadow: 0 1px 1px rgb(20 30 40 / 8%);
 		text-align: start;
 	}
 
-	.chat-message::before {
+	.chat-message__tail {
 		position: absolute;
-		inset-block-start: 0.85rem;
-		inset-inline-start: -0.45rem;
-		width: 0.75rem;
-		height: 0.75rem;
-		background: #fff;
-		border-inline-start: 1px solid #e5e7eb;
-		border-block-end: 1px solid #e5e7eb;
-		content: "";
-		transform: rotate(45deg);
+		inset-block-start: 0;
+		inset-inline-start: -0.5625rem;
+		z-index: 0;
+		width: 10px;
+		height: 16px;
+		overflow: visible;
+		fill: #fff;
 	}
 
-	.chat-message > p {
+	.chat-message__bubble {
 		position: relative;
+		z-index: 1;
+		padding: 0.9rem 1rem 0.65rem;
+		border-radius: 16px 0 16px 16px;
+		background: #fff;
+	}
+
+	.chat-message__bubble > p {
 		margin: 0;
 		color: #202a32;
 		font-size: 0.9rem;
 		line-height: 1.65;
 		white-space: pre-wrap;
+	}
+
+	.chat-message__author {
+		display: block;
+		font-size: 0.76rem;
+		font-style: normal;
+		font-weight: 700;
+		line-height: 1.35;
+	}
+
+	.chat-message__sender {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-block-end: 0.4rem;
+	}
+
+	.chat-message__profile {
+		width: 2.5rem;
+		height: 2.5rem;
+		flex: 0 0 2.5rem;
+		border-radius: 50%;
+		object-fit: cover;
+	}
+
+	.chat-message__illustration-label {
+		display: block;
+		margin-block-start: 0.1rem;
+		color: #697681;
+		font-size: 0.62rem;
+		line-height: 1.2;
 	}
 
 	.chat-message footer {
@@ -87,10 +164,6 @@ const { title, testimonials } = Astro.props;
 		color: #667781;
 		font-size: 0.7rem;
 		font-weight: 600;
-	}
-
-	.chat-message cite {
-		font-style: normal;
 	}
 
 	.chat-message__checks {
