@@ -15,24 +15,93 @@ const { title, testimonials } = Astro.props;
 ---
 
 <Section title={title} tone="tinted">
-	{testimonials.map((testimonial) => (
-		<blockquote>
-			<p>{testimonial.quote}</p>
-			{testimonial.attribution && <footer><cite>{testimonial.attribution}</cite></footer>}
-		</blockquote>
-	))}
+	<div class="chat-thread" role="list" aria-label="עדויות של לומדים">
+		{testimonials.map((testimonial) => (
+			<article class="chat-message" role="listitem">
+				<p>{testimonial.quote}</p>
+				<footer>
+					{testimonial.attribution && <cite>{testimonial.attribution}</cite>}
+					<svg class="chat-message__checks" viewBox="0 0 20 14" role="img" aria-label="ההודעה נקראה">
+						<path d="m1 7 4 4L14 2M7 7l4 4 8-9" />
+					</svg>
+				</footer>
+			</article>
+		))}
+	</div>
 </Section>
 
 <style>
-	blockquote footer {
-		margin-block-start: var(--space-3);
-		color: var(--color-text-muted);
-		font-size: 0.75rem;
-		font-style: normal;
-		font-weight: 700;
+	.chat-thread {
+		display: grid;
+		gap: 0.75rem;
+		width: 100%;
+		padding: clamp(0.75rem, 2vw, 1.25rem);
+		border: 1px solid #e4e0d8;
+		border-radius: 18px;
+		background-color: #eeeae2;
+		background-image: radial-gradient(#d8d2c8 0.65px, transparent 0.65px);
+		background-size: 13px 13px;
 	}
 
-	blockquote cite {
+	.chat-message {
+		position: relative;
+		justify-self: start;
+		width: min(100%, 44rem);
+		padding: 0.9rem 1rem 0.65rem;
+		border: 1px solid #e5e7eb;
+		border-radius: 16px 16px 4px 16px;
+		background: #fff;
+		box-shadow: 0 1px 1px rgb(20 30 40 / 8%);
+		text-align: start;
+	}
+
+	.chat-message::before {
+		position: absolute;
+		inset-block-start: 0.85rem;
+		inset-inline-start: -0.45rem;
+		width: 0.75rem;
+		height: 0.75rem;
+		background: #fff;
+		border-inline-start: 1px solid #e5e7eb;
+		border-block-end: 1px solid #e5e7eb;
+		content: "";
+		transform: rotate(45deg);
+	}
+
+	.chat-message > p {
+		position: relative;
+		margin: 0;
+		color: #202a32;
+		font-size: 0.9rem;
+		line-height: 1.65;
+		white-space: pre-wrap;
+	}
+
+	.chat-message footer {
+		display: flex;
+		min-height: 1rem;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		margin-block-start: 0.45rem;
+		color: #667781;
+		font-size: 0.7rem;
+		font-weight: 600;
+	}
+
+	.chat-message cite {
 		font-style: normal;
 	}
+
+	.chat-message__checks {
+		width: 1rem;
+		height: 0.75rem;
+		flex: 0 0 auto;
+		fill: none;
+		stroke: #34b7f1;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 2;
+	}
+
 </style>
