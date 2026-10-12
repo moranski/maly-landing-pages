@@ -179,7 +179,7 @@ export const POST: APIRoute = async ({ request }) => {
 		}
 		const created = await createResponse.json() as { status?: boolean; duplicate?: boolean; createdId?: number; capacity?: boolean };
 		if (created.duplicate === true) return json({ ok: false, error: "duplicate" }, 409);
-		if (created.status === true && Number.isSafeInteger(created.createdId) && (created.createdId ?? 0) > 0 && created.capacity !== true) {
+		if (created.status === true) {
 			return json({ ok: true }, 200);
 		}
 
