@@ -94,7 +94,7 @@ const heroPage = {
 				</Section>;
 			}
 			if (blockKind === "landing_testimonials") return <TestimonialsBlock title={String(block.title ?? "")} testimonials={testimonialItems(block.testimonials)} />;
-			if (blockKind === "landing_offer") return <OfferBlock demo={preview} kicker={presentation ? "רוצים להתחיל?" : undefined} title={String(block.title ?? "")} body={String(block.body ?? "")} includes={textItems(block.includes)} submitLabel={String(block.submit_label ?? "שומרים פרטים וממשיכים לתשלום")} consentLabel={String(block.consent_label ?? "אני מאשר/ת קבלת עדכונים והצעות ממלי באימייל.")} checkoutUrl={String(block.checkout_url ?? "")} />;
+			if (blockKind === "landing_offer") return <OfferBlock demo={preview} kicker={presentation ? "רוצים להתחיל?" : undefined} title={String(block.title ?? "")} body={String(block.body ?? "")} includes={textItems(block.includes)} submitLabel={String(block.submit_label ?? "")} consentLabel={String(block.consent_label ?? "אני מאשר/ת קבלת עדכונים והצעות ממלי באימייל.")} checkoutUrl={String(block.checkout_url ?? "")} />;
 			if (blockKind === "landing_final_cta") return <FinalCta kicker={presentation ? null : undefined} cta={{ label: String(block.cta_label ?? ""), href: String(block.cta_href ?? "#offer") }}><h2>{String(block.heading ?? "")}</h2>{textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}{typeof block.signature === "string" && <strong>{block.signature}</strong>}</FinalCta>;
 			return null;
 		})

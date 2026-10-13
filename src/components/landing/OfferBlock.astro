@@ -3,25 +3,31 @@ interface Props {
 	title: string;
 	body: string;
 	includes: string[];
-	submitLabel?: string;
+	submitLabel: string;
 	consentLabel?: string;
 	checkoutUrl?: string;
 	demo?: boolean;
 	kicker?: string;
 }
 
-import SignupForm from "./SignupForm.astro";
-
 const {
 	title,
 	body,
 	includes,
-	submitLabel = "שומרים פרטים וממשיכים לתשלום",
+	submitLabel,
 	consentLabel = "אני מאשר/ת קבלת עדכונים והצעות ממלי באימייל.",
 	checkoutUrl = "",
 	demo = false,
 	kicker = "ההצטרפות כוללת",
 } = Astro.props;
+
+let safeCheckoutUrl = "";
+try {
+	const parsedCheckoutUrl = new URL(checkoutUrl);
+	if (parsedCheckoutUrl.protocol === "https:") safeCheckoutUrl = parsedCheckoutUrl.href;
+} catch {
+	// Keep the CTA unavailable when the configured destination is missing or invalid.
+}
 ---
 
 <section id="offer" class="offer">
@@ -36,15 +42,10 @@ const {
 		</div>
 		<aside class="lead-box" aria-label="הצטרפות למסלול">
 			<div class="lead-form-embed">
-				{demo ? (
-					<fieldset class="demo-form" disabled>
-						<legend>טופס לדוגמה בלבד — השליחה מושבתת</legend>
-						<label>שם לדוגמה<input type="text" placeholder="ישראל ישראלי" /></label>
-						<label>דוא״ל לדוגמה<input type="email" placeholder="example@example.com" dir="ltr" /></label>
-						<button type="button" class="button button--primary" disabled>שליחה מושבתת בהדגמה</button>
-					</fieldset>
+				{safeCheckoutUrl ? (
+					<a class="button button--primary" href={safeCheckoutUrl}>{submitLabel}</a>
 				) : (
-					<SignupForm submitLabel={submitLabel} consentLabel={consentLabel} checkoutUrl={checkoutUrl} />
+					<p class="offer__missing-url" role="status">{demo ? "קישור ההצטרפות יוצג כאן לאחר שיוגדר." : "קישור ההצטרפות אינו זמין כרגע."}</p>
 				)}
 			</div>
 		</aside>
@@ -142,12 +143,13 @@ const {
 		text-align: start;
 	}
 
-	.demo-form { margin: 0; padding: 0; border: 0; display: grid; gap: var(--space-4); min-width: 0; }
-	.demo-form legend { padding: 0; margin-block-end: var(--space-4); font-size: 0.875rem; }
-	.demo-form label { display: grid; gap: var(--space-2); font-size: 0.875rem; }
-	.demo-form input { width: 100%; min-width: 0; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-surface-warm); color: var(--color-text-muted); }
-	.demo-form button { cursor: not-allowed; opacity: 0.65; }
-	.demo-form button:hover { transform: none; background: var(--color-accent); }
+	.offer__missing-url { margin: 0; text-align: center; }
+	.lead-form-embed .button {
+		width: 100%;
+		background: #087f5b;
+		box-shadow: 0 8px 20px rgb(8 127 91 / 24%);
+	}
+	.lead-form-embed .button:hover { background: #066b4c; }
 
 	@media (max-width: 900px) {
 		.offer__inner {

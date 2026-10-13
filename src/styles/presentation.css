@@ -92,10 +92,10 @@ html:has(#presentation-review) { min-width: 0; }
 #presentation-review .demo-form label { display: grid; gap: 8px; font-size: 14px; }
 #presentation-review .demo-form input { width: 100%; min-width: 0; padding: 12px; border: 1px solid var(--color-border); border-radius: 12px; }
 #presentation-review .info-card__index { display: inline-grid; width: 32px; height: 32px; place-items: center; border-radius: 999px; }
-#presentation-review .final-cta { background: var(--surface-navy); color: white; padding: 24px 20px; border-radius: 24px; text-align: start; border: none; }
-#presentation-review .final-cta h2, #presentation-review .final-cta p, #presentation-review .final-cta strong { color: white; }
-#presentation-review .final-cta .button { background: var(--surface-butter); color: #00236f; }
-#presentation-review .final-cta strong { font-size: 20px; color: white; }
+#presentation-review .final-cta { background: var(--surface-peach); color: var(--surface-navy); padding: 24px 20px; border-radius: 24px; text-align: start; border: 1px solid rgb(0 35 111 / .14); }
+#presentation-review .final-cta h2, #presentation-review .final-cta p, #presentation-review .final-cta strong { color: var(--surface-navy); }
+#presentation-review .final-cta .button { background: var(--surface-navy); color: white; }
+#presentation-review .final-cta strong { font-size: 20px; }
 #presentation-review .profile-image__frame { border: 1px solid var(--color-border); box-shadow: none; }
 #presentation-review .profile-image figcaption, #presentation-review .image-gallery figcaption { font-size: 14px; line-height: 1.6; }
 #presentation-review .sticky-cta { background: rgb(251 249 245 / .95); border-top: 1px solid var(--color-border); box-shadow: none; }
