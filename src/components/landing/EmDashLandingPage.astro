@@ -86,7 +86,7 @@ const heroPage = {
 				const tone = surface ? (surface === "blue" || surface === "navy" ? "deep" : "plain") : gallery.length > 0 ? "deep" : block.tone === "tinted" || block.tone === "deep" ? block.tone : "plain";
 				return <Section surface={surface} id={typeof block.id === "string" ? block.id : undefined} kicker={typeof block.kicker === "string" ? block.kicker : undefined} title={String(block.title ?? "")} tone={tone}>
 					{profileSrc && <ProfileImage src={profileSrc} alt={typeof block.profile_alt === "string" ? block.profile_alt : ""} caption={typeof block.profile_caption === "string" ? block.profile_caption : undefined} />}
-					{block.id === "why-it-didnt-work" ? (
+					{(block.id === "why_it_didnt_work" || block.id === "why-it-didnt-work") ? (
 						<ul class="reason-list" role="list">
 							{textItems(block.paragraphs).map((reason) => <li><span class="reason-list__marker" aria-hidden="true">×</span><span>{reason.replace(/^[✓×✕]\s*/, "")}</span></li>)}
 						</ul>

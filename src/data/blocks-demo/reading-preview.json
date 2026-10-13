@@ -62,7 +62,8 @@
         "_key": "01M3PD19259P25FG4EMQ09Q3DX",
         "tone": "plain",
         "ordered_cards": false,
-        "background": "אבן"
+        "background": "אבן",
+        "id": "homework_frustration"
       },
       {
         "_type": "landing_content_section",
@@ -80,7 +81,8 @@
         "_version": 1,
         "_key": "01M3PD1925X3D78H9DKMMA3S24",
         "ordered_cards": false,
-        "background": "מרווה"
+        "background": "מרווה",
+        "id": "reading_foundations"
       },
       {
         "_type": "landing_content_section",
@@ -109,7 +111,8 @@
         "_version": 1,
         "_key": "01M3PD19251BAT084Z134KD4DM",
         "tone": "plain",
-        "background": "מרווה"
+        "background": "מרווה",
+        "id": "learning_steps"
       },
       {
         "_type": "landing_content_section",
@@ -148,7 +151,8 @@
         "_version": 1,
         "_key": "01M3PD1925CYSCR2GSKNZ3ZT0B",
         "ordered_cards": false,
-        "background": "אפרסק"
+        "background": "אפרסק",
+        "id": "meet_maly"
       },
       {
         "_type": "landing_content_section",
@@ -223,11 +227,12 @@
         "_key": "01M3PD1925W39NW8NTXJ6EXDA1",
         "tone": "plain",
         "ordered_cards": false,
-        "background": "כחול"
+        "background": "כחול",
+        "id": "daily_practice"
       },
       {
         "_type": "landing_content_section",
-        "id": "fit",
+        "id": "program_fit",
         "kicker": "",
         "title": "הילד שלכם מכיר קצת אנגלית, אבל עדיין מתקשה לקרוא?",
         "paragraphs": [
@@ -281,7 +286,8 @@
         "_key": "01M3PD19250PEWAFNR1T03XRPW",
         "tone": "plain",
         "ordered_cards": false,
-        "background": "שנהב"
+        "background": "שנהב",
+        "id": "frequently_asked_questions"
       },
       {
         "_type": "landing_offer",

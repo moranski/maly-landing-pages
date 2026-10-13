@@ -14,6 +14,8 @@
 
 ## מפת הקשר פעיל
 
+מזהי המקטעים בשדה `id` נכתבים באנגלית ב־`snake_case`: `homework_frustration`, `why_it_didnt_work`, `reading_foundations`, `learning_steps`, `meet_maly`, `daily_practice`, `program_fit`, `frequently_asked_questions`. אלה מזהי תצוגה ועוגני קישור; מזהי הרשומות ומפתחות הבלוקים הפנימיים של EmDash נשמרים כפי שהם.
+
 - עקרונות כתיבה משותפים: [`docs/writing-style.md`](../../writing-style.md)
 - הנחות ועקרונות ייחודיים לדף: [`brief.md`](brief.md)
 - Stitch הוא המקור להחלטות העיצוב החזותיות; `src/` הוא המימוש הנוכחי.
