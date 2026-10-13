@@ -1,4 +1,6 @@
 ---
+import LandingFonts from "../../components/LandingFonts.astro";
+import { landingBackgroundStyle } from "../../lib/landing/media-images";
 import ParallaxBackground from "../../components/demo/ParallaxBackground.astro";
 import "../../styles/global.css";
 import "../../styles/presentation.css";
@@ -40,9 +42,9 @@ const faq = [
  <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow" /><title>{page.title}</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" />
+  <LandingFonts />
  </head>
- <body class="landing-page story-demo">
+ <body style={landingBackgroundStyle(!import.meta.env.DEV)} class="landing-page story-demo">
 <ParallaxBackground />
   <LandingHeader title="תוכן לדוגמה" cta={{ label: "לקטלוג", href: "/blocks-demo" }} />
   <LandingPageContent page={page}>

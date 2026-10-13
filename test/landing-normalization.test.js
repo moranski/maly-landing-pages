@@ -1,3 +1,4 @@
+// Co-authored-by: Codex <codex@openai.com>
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFile } from 'node:fs/promises';
@@ -74,6 +75,17 @@ test('retained versions resolve declared tone only and never inspect content IDs
 test('normalization allowlists every nested field', () => {
   const result = normalize(section({ agent_context: 'PRIVATE', paragraphs: [{ text: 'Visible', agent_context: 'PRIVATE' }], cards: [{ title: 'Title', body: 'Body', password: 'PRIVATE' }] }));
   assert.ok(!JSON.stringify(result).includes('PRIVATE'));
+});
+
+test('media dimensions survive normalization only as a valid numeric pair', () => {
+  const img = { src: '/photo.webp', width: 364, height: 363, agent_context: 'PRIVATE' };
+  const profile = normalize(section({ profile_image: img, profile_alt: 'Portrait' })).page.blocks[0].profile;
+  assert.equal(profile.width, 364); assert.equal(profile.height, 363);
+  assert.ok(!JSON.stringify(profile).includes('PRIVATE'));
+  for (const invalid of [-1, 0, '364', 1.5, Infinity, NaN, undefined]) {
+    const image = normalize(section({ profile_image: { ...img, width: invalid }, profile_alt: 'Portrait' })).page.blocks[0].profile;
+    assert.equal('width' in image, false); assert.equal('height' in image, false);
+  }
 });
 
 test('destinations reject executable, protocol-relative, malformed and empty URLs', () => {

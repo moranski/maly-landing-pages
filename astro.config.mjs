@@ -1,3 +1,4 @@
+// Co-authored-by: Codex <codex@openai.com>
 // @ts-check
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
@@ -27,6 +28,11 @@ export default defineConfig({
 	// optimization pass. This avoids a cold-start optimizer reload while the
 	// worker is already importing the CMS admin routes.
 	vite: {
+		build: {
+			// Inline the small landing stylesheets without embedding fonts/images
+			// or the much larger CMS admin styles in HTML.
+			assetsInlineLimit: (filePath, content) => filePath.endsWith(".css") ? content.length < 40 * 1024 : undefined,
+		},
 		ssr: {
 			optimizeDeps: {
 				include: [

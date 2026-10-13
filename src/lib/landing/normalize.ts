@@ -1,8 +1,9 @@
+// Co-authored-by: Codex <codex@openai.com>
 import { getSectionBackground, type SectionSurface } from "../../scripts/section-background.js";
 
 export type ParagraphFormat = "paragraphs" | "bullets" | "checklist" | "cross_list";
 export interface Cta { label: string; href: string }
-export interface Image { src: string; alt: string; caption?: string }
+export interface Image { src: string; alt: string; caption?: string; width?: number; height?: number }
 export interface Hero {
 	eyebrow?: string; title: string; subtitle: string; body: string[];
 	primaryCta?: Cta; secondaryCta?: Cta;
@@ -86,7 +87,9 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 			const src = destination(source);
 			const description = text(alt);
 			if (!src || src.startsWith("#") || !description) { report(path, "invalid_image"); return; }
-			return { src, alt: description };
+			const dimension = (v: unknown): number | undefined => typeof v === "number" && Number.isInteger(v) && v > 0 ? v : undefined;
+			const width = dimension(media?.width), height = dimension(media?.height);
+			return { src, alt: description, ...(width && height ? { width, height } : {}) };
 		};
 		const cta = (label: unknown, href: unknown, path: string, httpsOnly = false): Cta | undefined => {
 			const l = required(label, `${path}.label`), h = destination(href, httpsOnly);

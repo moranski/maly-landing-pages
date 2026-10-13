@@ -1,16 +1,20 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
+import { responsiveMediaImage } from "../../lib/landing/media-images";
 interface Props {
 	src: string;
 	alt: string;
 	caption?: string;
+	width?: number;
+	height?: number;
 }
 
-const { src, alt, caption } = Astro.props;
+const { src, alt, caption, width: originalWidth } = Astro.props;
 ---
 
 <figure class="profile-image">
 	<div class="profile-image__frame">
-		<img src={src} alt={alt} width="572" height="577" loading="lazy" decoding="async" />
+		<img {...responsiveMediaImage(src, [168, 336], "168px", !import.meta.env.DEV, originalWidth)} alt={alt} width="572" height="577" loading="lazy" decoding="async" />
 	</div>
 	{caption && <figcaption>{caption}</figcaption>}
 </figure>

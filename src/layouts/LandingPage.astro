@@ -1,4 +1,6 @@
 ---
+import LandingFonts from "../components/LandingFonts.astro";
+import { landingBackgroundStyle } from "../lib/landing/media-images";
 import ParallaxBackground from "../components/demo/ParallaxBackground.astro";
 import StickyMobileCta from "../components/landing/StickyMobileCta.astro";
 import LandingHeader from "../components/landing/LandingHeader.astro";
@@ -36,9 +38,9 @@ const emdashPage = createPublicPageContext({
 		<meta name="generator" content={Astro.generator} />
 		<title>{page.title}</title>
 		{preview ? <meta name="robots" content="noindex, nofollow" /> : <EmDashHead page={emdashPage} />}
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" />
+		<LandingFonts />
 	</head>
-	<body class="landing-page" data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId} {...(!preview && edit ? edit : {})}>
+	<body style={landingBackgroundStyle(!import.meta.env.DEV)} class="landing-page" data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId} {...(!preview && edit ? edit : {})}>
 		<ParallaxBackground />
 		{!preview && <EmDashBodyStart page={emdashPage} />}
 		{preview && <aside class="draft-notice"><strong>תצוגת טיוטה מקומית — לא פורסמה</strong><a href="/blocks-demo">לקטלוג האלמנטים</a></aside>}

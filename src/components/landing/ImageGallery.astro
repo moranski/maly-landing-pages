@@ -1,8 +1,12 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
+import { responsiveMediaImage } from "../../lib/landing/media-images";
 interface ImageItem {
 	src: string;
 	alt: string;
 	caption?: string;
+	width?: number;
+	height?: number;
 }
 
 interface Props {
@@ -16,7 +20,7 @@ const { images } = Astro.props;
 	{
 		images.map((image) => (
 			<figure>
-				<img src={image.src} alt={image.alt} width="1599" height="899" loading="lazy" decoding="async" />
+				<img {...responsiveMediaImage(image.src, [224, 320, 416, 640, 832], "(min-width: 512px) 416px, calc(100vw - 96px)", !import.meta.env.DEV, image.width)} alt={image.alt} width="1599" height="899" loading="lazy" decoding="async" />
 				{image.caption && <figcaption>{image.caption}</figcaption>}
 			</figure>
 		))

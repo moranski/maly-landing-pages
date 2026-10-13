@@ -6,8 +6,7 @@ body.landing-page {
  --color-border: #dcdde3;
  --color-accent: #ab3500;
  background-color: #12377b;
- --landing-background-image: url("https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4EN17571ZYTCHAZCSEMNK0V.01M4EN17H57PAR2NBFHRKCBDM7.png");
- background-image: var(--landing-background-image);
+ background-image: var(--landing-background-image, none);
  isolation: isolate;
  background-size: 362px 1086px;
  background-repeat: repeat;

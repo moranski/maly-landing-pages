@@ -1,5 +1,7 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
 import type { Hero } from "../../lib/landing/normalize";
+import { responsiveMediaImage } from "../../lib/landing/media-images";
 interface PageData { hero?: Hero; }
 
 interface Props {
@@ -28,7 +30,7 @@ const heroVisual = hero?.visual;
 				<div class="course-preview">
 					<img
 						class="course-preview__image"
-						src={heroVisual.src}
+						{...responsiveMediaImage(heroVisual.src, [224, 320, 402, 640, 804], "(min-width: 512px) 402px, calc(100vw - 110px)", !import.meta.env.DEV, heroVisual.width)}
 						alt={heroVisual.alt}
 						width="1599"
 						height="899"
