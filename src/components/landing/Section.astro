@@ -45,6 +45,24 @@ const { kicker, title, tone = "plain", id, surface } = Astro.props;
 		color: var(--color-text-inverse);
 	}
 
+	.surface--ivory { --section-surface: var(--surface-ivory); }
+	.surface--stone { --section-surface: var(--surface-stone); }
+	.surface--peach { --section-surface: var(--surface-peach); }
+	.surface--sage { --section-surface: var(--surface-sage); }
+	.surface--butter { --section-surface: var(--surface-butter); }
+	.surface--blue { --section-surface: var(--surface-blue); }
+	.surface--lilac { --section-surface: var(--surface-lilac); }
+	.surface--navy { --section-surface: var(--surface-navy); }
+
+	.section[class*="surface--"] {
+		padding: 1.25rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-card);
+		background: var(--section-surface);
+	}
+
+	.section--deep :global(.reason-list__marker) { color: #ffb4ab; }
+
 	.section__inner {
 		width: 100%;
 		margin-inline: auto;

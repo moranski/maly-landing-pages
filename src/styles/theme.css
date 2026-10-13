@@ -1,4 +1,12 @@
 :root {
+	--surface-ivory: #fbf9f5;
+	--surface-stone: #e2e7ee;
+	--surface-peach: #ffab7e;
+	--surface-sage: #98d6ae;
+	--surface-butter: #ffd45c;
+	--surface-blue: #2455bd;
+	--surface-lilac: #bb9ce5;
+	--surface-navy: #00236f;
 	/* Derived from the Google Stitch design system linked in
 	 * docs/landing-pages/reading/design-tokens.md. Stitch remains authoritative. */
 	--color-ink: #00236f;

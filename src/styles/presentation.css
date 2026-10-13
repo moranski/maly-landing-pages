@@ -2,14 +2,6 @@
  * Co-authored-by: Codex <codex@openai.com> */
 html:has(#presentation-review) { min-width: 0; }
 #presentation-review {
- --surface-ivory: #fbf9f5;
- --surface-stone: #e2e7ee;
- --surface-peach: #ffab7e;
- --surface-sage: #98d6ae;
- --surface-butter: #ffd45c;
- --surface-blue: #2455bd;
- --surface-lilac: #bb9ce5;
- --surface-navy: #00236f;
  --color-border: #dcdde3;
  --color-accent: #ab3500;
  background-color: #12377b;

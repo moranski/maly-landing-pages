@@ -167,7 +167,7 @@ const extraExamples = [
                 <p class="demo-note">הרכיב מוצג כאן בתוך המסגרת כדי לבדוק אותו בנפרד.</p>
                 <StickyMobileCta cta={{ label: "לתוכן העניינים", href: "#contents" }} />
             </DemoFrame>
-            {surfaces.map(s => <DemoFrame id={`surface-${s.name}`} title={`רקע — ${s.label} (${s.color})`} type="landing_content_section" fields="tone — צבעי הרקע הנוספים הם אפשרות תצוגה בקוד, לא שדה CMS חדש" display={["Section"]}>
+            {surfaces.map(s => <DemoFrame id={`surface-${s.name}`} title={`רקע — ${s.label} (${s.color})`} type="landing_content_section" fields="background — סוג רקע שנבחר לכל מקטע באדמין EmDash" display={["Section"]}>
                 <Section title="רואים דוגמה ומנסים יחד" kicker="בואו נתחיל מהבסיס" surface={s.name} tone={s.name === "navy" ? "deep" : "plain"}><p>משהו עוד לא מסתדר? אפשר לעצור ולנסות שוב. כאן בודקים איך הטקסט נראה על הרקע הזה.</p><CardGrid items={[cards[0]]} /></Section>
             </DemoFrame>)}
             {primitives.map(({ id, label, tag: Tag, text }) => <DemoFrame id={id} title={label} display={["Section"]}><Tag class={id}>{text}</Tag></DemoFrame>)}

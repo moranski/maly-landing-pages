@@ -61,7 +61,8 @@
         "_version": 1,
         "_key": "01M3PD19259P25FG4EMQ09Q3DX",
         "tone": "plain",
-        "ordered_cards": false
+        "ordered_cards": false,
+        "background": "אבן"
       },
       {
         "_type": "landing_content_section",
@@ -78,7 +79,8 @@
         ],
         "_version": 1,
         "_key": "01M3PD1925X3D78H9DKMMA3S24",
-        "ordered_cards": false
+        "ordered_cards": false,
+        "background": "מרווה"
       },
       {
         "_type": "landing_content_section",
@@ -106,7 +108,8 @@
         ],
         "_version": 1,
         "_key": "01M3PD19251BAT084Z134KD4DM",
-        "tone": "plain"
+        "tone": "plain",
+        "background": "מרווה"
       },
       {
         "_type": "landing_content_section",
@@ -144,7 +147,8 @@
         ],
         "_version": 1,
         "_key": "01M3PD1925CYSCR2GSKNZ3ZT0B",
-        "ordered_cards": false
+        "ordered_cards": false,
+        "background": "אפרסק"
       },
       {
         "_type": "landing_content_section",
@@ -218,7 +222,8 @@
         "_version": 1,
         "_key": "01M3PD1925W39NW8NTXJ6EXDA1",
         "tone": "plain",
-        "ordered_cards": false
+        "ordered_cards": false,
+        "background": "כחול"
       },
       {
         "_type": "landing_content_section",
@@ -239,7 +244,8 @@
         "_version": 1,
         "_key": "01M3PD1925MNGB0E5562KEATEW",
         "tone": "plain",
-        "ordered_cards": false
+        "ordered_cards": false,
+        "background": "שנהב"
       },
       {
         "_type": "landing_content_section",
@@ -274,7 +280,8 @@
         "_version": 1,
         "_key": "01M3PD19250PEWAFNR1T03XRPW",
         "tone": "plain",
-        "ordered_cards": false
+        "ordered_cards": false,
+        "background": "שנהב"
       },
       {
         "_type": "landing_offer",

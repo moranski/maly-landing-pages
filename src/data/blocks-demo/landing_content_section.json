@@ -1,6 +1,6 @@
 {
   "notice": "Read-only snapshot from EmDash MCP; EmDash is authoritative. Not used to create or update the CMS.",
-  "verifiedAt": "2026-10-08",
+  "verifiedAt": "2026-10-13",
   "collection": "landing_pages",
   "field": "layout",
   "slug": "landing_content_section",
@@ -22,6 +22,15 @@
       "label": "כותרת",
       "type": "string",
       "required": true
+    },
+    {
+      "slug": "background",
+      "label": "סוג רקע",
+      "type": "select",
+      "defaultValue": "שנהב",
+      "validation": {
+        "options": ["שנהב", "אבן", "אפרסק", "מרווה", "צהוב", "כחול", "סגול", "כחול כהה"]
+      }
     },
     {
       "slug": "tone",
