@@ -84,15 +84,16 @@ body.landing-page .final-cta { background: var(--surface-peach); color: var(--su
 body.landing-page .final-cta h2, body.landing-page .final-cta p, body.landing-page .final-cta strong { color: var(--surface-navy); }
 body.landing-page .final-cta .button { background: var(--surface-navy); color: white; }
 /* CMS presets override contextual defaults, including the final and header CTAs. */
-body.landing-page [data-cta-style="orange"] { --cta-background: #ab3500; --cta-hover: #8e3100; --cta-text: white; --cta-border: transparent; }
+body.landing-page [data-cta-style="orange"] { --cta-background: #ab3500; --cta-hover: #8e3100; --cta-text: #fff; --cta-border: transparent; }
 /* Co-authored-by: Codex <codex@openai.com> */
-body.landing-page [data-cta-style="red-orange"] { --cta-background: #e84220; --cta-hover: #f05231; --cta-text: #111111; --cta-border: #e84220; }
+body.landing-page [data-cta-style="red-orange"] { --cta-background: #e84220; --cta-hover: #f05231; --cta-text: #fff; --cta-border: #e84220; }
 body.landing-page [data-cta-style="navy"] { --cta-background: #00236f; --cta-hover: #001a54; --cta-text: white; --cta-border: transparent; }
 body.landing-page [data-cta-style="outline"] { --cta-background: transparent; --cta-hover: rgb(0 35 111 / .08); --cta-text: #00236f; --cta-border: #00236f; }
 body.landing-page [data-cta-style="white"] { --cta-background: white; --cta-hover: #e7effa; --cta-text: #00236f; --cta-border: #00236f; }
 body.landing-page :is(.button, .site-header__cta)[data-cta-style] {
  background: var(--cta-background); color: var(--cta-text); border: 1.5px solid var(--cta-border);
 }
+body.landing-page :is(.button, .site-header__cta):is([data-cta-style="orange"], [data-cta-style="red-orange"]) { font-weight: 700; }
 body.landing-page :is(.button, .site-header__cta)[data-cta-style]:hover,
 body.landing-page .button[data-cta-style].button--hover { background: var(--cta-hover); }
 body.landing-page .final-cta strong { font-size: 20px; }
