@@ -3,6 +3,7 @@ import ParallaxBackground from "../components/demo/ParallaxBackground.astro";
 import "../styles/global.css";
 import "../styles/presentation.css";
 import Kicker from "../components/landing/Kicker.astro";
+import ParagraphContent from "../components/landing/ParagraphContent.astro";
 import FaqList from "../components/landing/FaqList.astro";
 import DemoFrame from "../components/demo/DemoFrame.astro";
 import StickyMobileCta from "../components/landing/StickyMobileCta.astro";
@@ -22,9 +23,9 @@ if (!import.meta.env.DEV) {
 
 const examples = [
 	{ id: "top", label: "פתיח" },
-	{ id: "text-plain", label: "מקטע טקסט — רגיל (plain)" },
-	{ id: "text-tinted", label: "מקטע טקסט — בהיר (tinted)" },
-	{ id: "text-deep", label: "מקטע טקסט — כהה (deep)" },
+	{ id: "text-ivory", label: "מקטע טקסט — שנהב (ivory)" },
+	{ id: "text-stone", label: "מקטע טקסט — אבן (stone)" },
+	{ id: "text-navy", label: "מקטע טקסט — כחול כהה (navy)" },
 	{ id: "cards", label: "כרטיסים רגילים" },
 	{ id: "ordered-cards", label: "כרטיסים ממוספרים" },
 	{ id: "profile", label: "תמונת פרופיל" },
@@ -97,7 +98,7 @@ const extraExamples = [
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" />
 		<title>{page.title} — הדגמה מקומית</title>
 	</head>
-	<body id="presentation-review" class="landing-page blocks-demo presentation-review">
+	<body class="landing-page blocks-demo">
 <ParallaxBackground />
 		<LandingHeader title="דוגמאות לבלוקים" cta={{ label: "תוכן עניינים", href: "#contents" }} />
 		<nav id="contents" class="demo-contents" aria-label="תוכן עניינים לדוגמאות">
@@ -112,14 +113,17 @@ const extraExamples = [
             <DemoFrame id="hero-demo" title="פתיח" type="landing_hero" fields="eyebrow, title, subtitle, body, visual_*, cta_*" display={["LandingPageContent"]}>
                 <LandingPageContent page={page} />
             </DemoFrame>
-            {(["plain", "tinted", "deep"] as const).map((tone) => (
-                <DemoFrame id={`text-${tone}`} title={`מקטע תוכן — ${tone}`} type="landing_content_section" fields="kicker, title, tone, paragraphs[].text" display={["Section"]}>
-                    <Section title="כותרת מקטע לדוגמה" kicker="כותרת קטנה לדוגמה" tone={tone}>
+            {(["ivory", "stone", "navy"] as const).map((surface) => (
+                <DemoFrame id={`text-${surface}`} title={`מקטע תוכן — ${surface}`} type="landing_content_section" fields="kicker, title, background, paragraph_format, paragraphs[].text" display={["Section"]}>
+                    <Section title="כותרת מקטע לדוגמה" kicker="כותרת קטנה לדוגמה" surface={surface}>
                         <p>פסקה לדוגמה בלבד. כאן אפשר לבדוק את גוון המקטע, קריאות הטקסט והריווח.</p>
                         <p>פסקה נוספת לדוגמה, מוצגת במסגרת משלה.</p>
                     </Section>
                 </DemoFrame>
             ))}
+            {(["paragraphs", "bullets", "checklist", "cross_list"] as const).map(format => <DemoFrame id={`paragraph-format-${format}`} title={`תצוגת פסקאות — ${format}`} type="landing_content_section" fields="paragraph_format, paragraphs[].text" display={["ParagraphContent"]}>
+                <Section title="טקסט נשמר כפי שנכתב"><ParagraphContent format={format} items={["✓ סימן כחלק מהטקסט", "× טקסט לדוגמה", "✕ סימן נוסף"]} /></Section>
+            </DemoFrame>)}
             <DemoFrame id="cards" title="מקטע תוכן — כרטיסים רגילים" type="landing_content_section" fields="cards[].title, cards[].body, ordered_cards = false" display={["Section", "CardGrid"]}>
                 <Section title="כרטיסים רגילים לדוגמה"><CardGrid items={cards} /></Section>
             </DemoFrame>
@@ -132,8 +136,8 @@ const extraExamples = [
                 </Section>
             </DemoFrame>
             <DemoFrame id="gallery" title="מקטע תוכן — גלריה" type="landing_content_section" fields="gallery[].image, gallery[].alt, gallery[].caption" display={["Section", "ImageGallery"]}>
-                <p class="demo-note">במיפוי הנוכחי גלריה מוצגת תמיד בגוון deep.</p>
-                <Section title="גלריה לדוגמה" tone="deep">
+                <p class="demo-note">רקע הגלריה נבחר במפורש ואינו תלוי בנוכחות תמונות.</p>
+                <Section title="גלריה לדוגמה" surface="navy">
                     <ImageGallery images={[
                         { src: "/images/blocks-demo/lesson.svg", alt: "איור של כרטיסיות אותיות לדוגמה", caption: "תמונה ראשונה — כרטיסיות להמחשה" },
                         { src: "/images/blocks-demo/practice.svg", alt: "איור של דף תרגול לדוגמה", caption: "תמונה שנייה — דף תרגול להמחשה" },
@@ -146,8 +150,8 @@ const extraExamples = [
                 </Section>
             </DemoFrame>
             <DemoFrame id="offer-demo" title="הצעה ותשלום" type="landing_offer" fields="title, body, includes[].text" display={["OfferBlock"]}>
-                <p class="demo-note">הסכמה כוללת גם lead_endpoint, checkout_url, submit_label ו־consent_label. ה־renderer הנוכחי אינו משתמש בהם; הטופס כאן הוא המחשה מושבתת.</p>
-                <OfferBlock demo title="הצעה לדוגמה בלבד" body="תוכן המחשה להצעה, ללא רכישה או תשלום." includes={["פריט ראשון לדוגמה", "פריט שני להמחשת הרשימה"]} />
+                <p class="demo-note">הכפתור משתמש ב־checkout_url וב־submit_label. אין טופס קליטת לידים בבלוק ההצעה.</p>
+                <OfferBlock title="הצעה לדוגמה בלבד" body="תוכן המחשה להצעה, ללא רכישה או תשלום." includes={["פריט ראשון לדוגמה", "פריט שני להמחשת הרשימה"]} cta={{ label: "להמשך הדוגמה", href: "#contact" }} />
             </DemoFrame>
             <DemoFrame id="final-demo" title="קריאה אחרונה לפעולה" type="landing_final_cta" fields="heading, paragraphs[].text, signature, cta_label, cta_href" display={["FinalCta"]}>
                 <FinalCta kicker={null} cta={{ label: "חזרה לתוכן העניינים", href: "#contents" }}>
@@ -168,7 +172,7 @@ const extraExamples = [
                 <StickyMobileCta cta={{ label: "לתוכן העניינים", href: "#contents" }} />
             </DemoFrame>
             {surfaces.map(s => <DemoFrame id={`surface-${s.name}`} title={`רקע — ${s.label} (${s.color})`} type="landing_content_section" fields="background — סוג רקע שנבחר לכל מקטע באדמין EmDash" display={["Section"]}>
-                <Section title="רואים דוגמה ומנסים יחד" kicker="בואו נתחיל מהבסיס" surface={s.name} tone={s.name === "navy" ? "deep" : "plain"}><p>משהו עוד לא מסתדר? אפשר לעצור ולנסות שוב. כאן בודקים איך הטקסט נראה על הרקע הזה.</p><CardGrid items={[cards[0]]} /></Section>
+                <Section title="רואים דוגמה ומנסים יחד" kicker="בואו נתחיל מהבסיס" surface={s.name}><p>משהו עוד לא מסתדר? אפשר לעצור ולנסות שוב. כאן בודקים איך הטקסט נראה על הרקע הזה.</p><CardGrid items={[cards[0]]} /></Section>
             </DemoFrame>)}
             {primitives.map(({ id, label, tag: Tag, text }) => <DemoFrame id={id} title={label} display={["Section"]}><Tag class={id}>{text}</Tag></DemoFrame>)}
             {(["outline", "soft", "inverse"] as const).map(variant => <DemoFrame id={`kicker-${variant}`} title={`קיקר — ${variant}`} display={["Kicker"]}><div class:list={["primitive-surface", variant === "inverse" && "primitive-surface--inverse"]}><Kicker variant={variant}>בואו תראו איך זה נראה</Kicker><h2>כותרת לדוגמה מתחת לקיקר</h2></div></DemoFrame>)}
@@ -178,7 +182,7 @@ const extraExamples = [
             <DemoFrame id="numbered-badge" title="תג מספר — בנפרד" display={["CardGrid"]}><span class="info-card__index">1</span></DemoFrame>
             <DemoFrame id="single-image" title="תמונה וכיתוב" type="landing_content_section" fields="gallery[].image, alt, caption" display={["ImageGallery"]}><ImageGallery images={[{ src: "/images/blocks-demo/lesson.svg", alt: "כרטיסיות מאוירות להמחשה", caption: "רואים דוגמה — איור מקומי" }]} /></DemoFrame>
             <DemoFrame id="single-faq" title="שאלה ותשובה בודדות" type="landing_content_section" fields="faq_items[].question, answer" display={["FaqList"]}><FaqList items={[faq[1]]} /></DemoFrame>
-            <DemoFrame id="testimonial" title="מקום לעדות מאושרת — הצעת תצוגה" display={["Section"]}><div class="testimonial-placeholder">כאן תופיע עדות מאושרת</div><p class="demo-note">אין סוג בלוק עדות בסכמה הנוכחית. כאן בודקים תצוגה בלבד.</p></DemoFrame>
+            <DemoFrame id="testimonial" title="מקום לעדות מאושרת — הצעת תצוגה" display={["Section"]}><div class="testimonial-placeholder">כאן תופיע עדות מאושרת</div><p class="demo-note">עדויות אמיתיות מנוהלות בבלוק landing_testimonials; כאן מוצג רכיב הדגמה בלבד.</p></DemoFrame>
             <DemoFrame id="check-item" title="פריט ברשימה" type="landing_offer" fields="includes[].text" display={["OfferBlock"]}><ul class="check-list"><li>פרט ראשון לדוגמה</li></ul></DemoFrame>
             <DemoFrame id="name-field" title="שדה שם מושבת" display={["OfferBlock"]}><div class="demo-form"><label>שם לדוגמה<input type="text" placeholder="שם" disabled /></label></div></DemoFrame>
             <DemoFrame id="email-field" title="שדה דוא״ל מושבת" display={["OfferBlock"]}><div class="demo-form"><label>דוא״ל לדוגמה<input type="email" placeholder="name@example.com" dir="ltr" disabled /></label></div></DemoFrame>

@@ -1,0 +1,19 @@
+---
+import type { ParagraphFormat } from "../../lib/landing/normalize";
+interface Props { items: string[]; format?: ParagraphFormat; }
+const { items, format = "paragraphs" } = Astro.props;
+const marker = { bullets: "•", checklist: "✓", cross_list: "×" };
+---
+{items.length > 0 && (format === "paragraphs"
+  ? items.map(item => <p>{item}</p>)
+  : <ul class:list={["paragraph-list", `paragraph-list--${format}`]} role="list">
+      {items.map(item => <li><span class="paragraph-list__marker" aria-hidden="true">{marker[format]}</span><span>{item}</span></li>)}
+    </ul>)}
+<style>
+	@layer landing-components {
+  .paragraph-list { display: grid; gap: 1.25rem; margin: 0; padding: 0; list-style: none; }
+  .paragraph-list li { display: flex; align-items: flex-start; gap: .75rem; line-height: 1.65; }
+  .paragraph-list__marker { flex: 0 0 1.5rem; color: var(--paragraph-marker-color, var(--color-ink)); font-size: 1.5rem; font-weight: 800; line-height: 1.1; text-align: center; }
+  .paragraph-list--cross_list .paragraph-list__marker { color: var(--paragraph-marker-color, #b42318); }
+	}
+</style>

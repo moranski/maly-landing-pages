@@ -8,125 +8,33 @@ import OfferBlock from "./OfferBlock.astro";
 import ProfileImage from "./ProfileImage.astro";
 import Section from "./Section.astro";
 import FaqList from "./FaqList.astro";
+import ParagraphContent from "./ParagraphContent.astro";
 import TestimonialsBlock from "./TestimonialsBlock.astro";
 import type { EditProxy } from "emdash";
-import { getSectionBackground } from "../../scripts/section-background.js";
+import { normalizeLandingPage } from "../../lib/landing/normalize";
 
-type Media = { src?: string; url?: string; previewUrl?: string; meta?: { storageKey?: string } };
-type Block = Record<string, unknown> & { _type?: string; type?: string };
-
-interface Props {
-	preview?: boolean;
-	presentation?: boolean;
-	contentId?: string;
-	edit?: EditProxy;
-	page: { title: string; description: string; lang?: string; dir?: "rtl" | "ltr"; layout: Block[] };
+interface Props { page: unknown; preview?: boolean; contentId?: string; edit?: EditProxy; }
+const { page: rawPage, contentId, edit, preview = false } = Astro.props;
+const { page, diagnostics } = normalizeLandingPage(rawPage);
+if (diagnostics.length) console.warn("Landing page validation", diagnostics);
+if (!page) {
+  Astro.response.status = 500;
+  return new Response(null, { status: 500 });
 }
-
-const { page, contentId, edit, preview = false, presentation = preview } = Astro.props;
-const blocks = Array.isArray(page.layout) ? page.layout : [];
-const kind = (block: Block) => block._type ?? block.type;
-const hero = blocks.find((block) => kind(block) === "landing_hero");
-const textItems = (value: unknown) =>
-	Array.isArray(value)
-		? value.flatMap((item) => typeof item === "string" ? [item] : item && typeof item === "object" && typeof (item as { text?: unknown }).text === "string" ? [(item as { text: string }).text] : [])
-		: [];
-const records = (value: unknown) => Array.isArray(value) ? value.filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object") : [];
-const mediaSrc = (value: unknown) => {
-	if (typeof value === "string") return value;
-	if (!value || typeof value !== "object") return undefined;
-	const media = value as Media;
-	return media.src ?? media.url ?? media.previewUrl ?? (media.meta?.storageKey ? `/_emdash/api/media/file/${encodeURIComponent(media.meta.storageKey)}` : undefined);
-};
-const testimonialItems = (value: unknown) => records(value).map((item) => {
-	const imageSrc = mediaSrc(item.author_image);
-	const imageAlt = item.author_image && typeof item.author_image === "object"
-		? String((item.author_image as Media & { alt?: string }).alt ?? "תמונת פרופיל להמחשה בלבד")
-		: "תמונת פרופיל להמחשה בלבד";
-	return {
-		quote: String(item.quote ?? ""),
-		attribution: typeof item.attribution === "string" ? item.attribution : undefined,
-		authorImage: imageSrc ? { src: imageSrc, alt: imageAlt } : undefined,
-	};
-});
-
-if (!hero) throw new Error("A landing page needs a landing_hero block.");
-const heroData = hero as Record<string, unknown>;
-const heroPage = {
-	title: page.title,
-	description: page.description,
-	hero: {
-		eyebrow: typeof heroData.eyebrow === "string" ? heroData.eyebrow : undefined,
-		title: String(heroData.title ?? ""),
-		subtitle: String(heroData.subtitle ?? ""),
-		body: textItems(heroData.body),
-		primaryCta: { label: String(heroData.cta_label ?? ""), href: String(heroData.cta_href ?? "#offer") },
-		visual: {
-			src: mediaSrc(heroData.visual_image) ?? "",
-			alt: String(heroData.visual_alt ?? ""),
-			title: String(heroData.visual_title ?? ""),
-			caption: String(heroData.visual_caption ?? ""),
-		},
-	},
-};
 ---
-
-<LandingPageLayout page={{ ...heroPage, lang: page.lang ?? "he", dir: page.dir ?? "rtl" }} preview={preview} presentation={presentation} contentId={contentId} edit={edit}>
-	<LandingPageContent page={heroPage} layoutEdit={edit?.layout}>
-	{
-		blocks.filter((block) => block !== hero).map((block) => {
-			const blockKind = kind(block);
-			if (blockKind === "landing_content_section") {
-				const profileSrc = mediaSrc(block.profile_image);
-				const gallery = records(block.gallery).flatMap((image) => {
-					const src = mediaSrc(image.image);
-					return src && typeof image.alt === "string" ? [{ src, alt: image.alt, caption: typeof image.caption === "string" ? image.caption : undefined }] : [];
-				});
-				const surface = getSectionBackground(block.background) ?? (presentation ? "ivory" : undefined);
-				const tone = surface ? (surface === "blue" || surface === "navy" ? "deep" : "plain") : gallery.length > 0 ? "deep" : block.tone === "tinted" || block.tone === "deep" ? block.tone : "plain";
-				return <Section surface={surface} id={typeof block.id === "string" ? block.id : undefined} kicker={typeof block.kicker === "string" ? block.kicker : undefined} title={String(block.title ?? "")} tone={tone}>
-					{profileSrc && <ProfileImage src={profileSrc} alt={typeof block.profile_alt === "string" ? block.profile_alt : ""} caption={typeof block.profile_caption === "string" ? block.profile_caption : undefined} />}
-					{(block.id === "why_it_didnt_work" || block.id === "why-it-didnt-work") ? (
-						<ul class="reason-list" role="list">
-							{textItems(block.paragraphs).map((reason) => <li><span class="reason-list__marker" aria-hidden="true">×</span><span>{reason.replace(/^[✓×✕]\s*/, "")}</span></li>)}
-						</ul>
-					) : textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}
-					{records(block.cards).length > 0 && <CardGrid ordered={block.ordered_cards === true} items={records(block.cards).map((card) => ({ title: String(card.title ?? ""), body: String(card.body ?? "") }))} />}
-					{gallery.length > 0 && <ImageGallery images={gallery} />}
-					{records(block.faq_items).length > 0 && (presentation ? <FaqList items={records(block.faq_items).map(item => ({ question: String(item.question ?? ""), answer: String(item.answer ?? "") }))} /> : records(block.faq_items).map((item) => <><h3>{String(item.question ?? "")}</h3><p>{String(item.answer ?? "")}</p></>))}
-				</Section>;
-			}
-			if (blockKind === "landing_testimonials") return <TestimonialsBlock title={String(block.title ?? "")} testimonials={testimonialItems(block.testimonials)} />;
-			if (blockKind === "landing_offer") return <OfferBlock demo={preview} kicker={presentation ? "רוצים להתחיל?" : undefined} title={String(block.title ?? "")} body={String(block.body ?? "")} includes={textItems(block.includes)} submitLabel={String(block.submit_label ?? "")} consentLabel={String(block.consent_label ?? "אני מאשר/ת קבלת עדכונים והצעות ממלי באימייל.")} checkoutUrl={String(block.checkout_url ?? "")} />;
-			if (blockKind === "landing_final_cta") return <FinalCta kicker={presentation ? null : undefined} cta={{ label: String(block.cta_label ?? ""), href: String(block.cta_href ?? "#offer") }}><h2>{String(block.heading ?? "")}</h2>{textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}{typeof block.signature === "string" && <strong>{block.signature}</strong>}</FinalCta>;
-			return null;
-		})
-	}
-	</LandingPageContent>
+<LandingPageLayout page={page} preview={preview} contentId={contentId} edit={edit}>
+  <LandingPageContent page={page} layoutEdit={edit?.layout}>
+    {page.blocks.map(block => {
+      if (block.kind === "section") return <Section surface={block.surface} id={block.id} kicker={block.kicker} title={block.title}>
+        {block.profile && <ProfileImage {...block.profile} />}
+        <ParagraphContent items={block.paragraphs} format={block.paragraphFormat} />
+        {block.cards.length > 0 && <CardGrid ordered={block.orderedCards} items={block.cards} />}
+        {block.gallery.length > 0 && <ImageGallery images={block.gallery} />}
+        {block.faq.length > 0 && <FaqList items={block.faq} />}
+      </Section>;
+      if (block.kind === "testimonials") return <TestimonialsBlock title={block.title} testimonials={block.items} />;
+      if (block.kind === "offer") return <OfferBlock title={block.title} body={block.body} includes={block.includes} kicker={block.kicker} cta={block.cta} />;
+      if (block.kind === "final") return <FinalCta kicker={block.kicker} cta={block.cta}><h2>{block.heading}</h2><ParagraphContent items={block.paragraphs} />{block.signature && <strong>{block.signature}</strong>}</FinalCta>;
+    })}
+  </LandingPageContent>
 </LandingPageLayout>
-
-<style>
-	.reason-list {
-		display: grid;
-		gap: 1.25rem;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.reason-list li {
-		display: flex;
-		align-items: flex-start;
-		gap: 0.75rem;
-		line-height: 1.65;
-	}
-
-	.reason-list__marker {
-		flex: 0 0 1.5rem;
-		color: #b42318;
-		font-size: 1.5rem;
-		font-weight: 800;
-		line-height: 1.1;
-		text-align: center;
-	}
-</style>

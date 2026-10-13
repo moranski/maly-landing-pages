@@ -24,6 +24,7 @@ const { images } = Astro.props;
 </div>
 
 <style>
+	@layer landing-components {
 	.image-gallery {
 		width: 100%;
 		display: grid;
@@ -54,5 +55,6 @@ const { images } = Astro.props;
 		font-size: 0.75rem;
 		font-weight: 600;
 		text-align: center;
+	}
 	}
 </style>

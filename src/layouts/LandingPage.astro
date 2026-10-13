@@ -10,26 +10,9 @@ import { createPublicPageContext } from "emdash/page";
 import type { EditProxy } from "emdash";
 import { isValidGtmId } from "../scripts/consent-gated-gtm.js";
 
-interface Props {
-	preview?: boolean;
-	presentation?: boolean;
-	page: {
-		title: string;
-		description: string;
-		lang: string;
-		dir: "rtl" | "ltr";
-		hero: {
-			primaryCta: {
-				label: string;
-				href: string;
-			};
-		};
-	};
-	contentId?: string;
-	edit?: EditProxy;
-}
-
-const { page, contentId, edit, preview = false, presentation = preview } = Astro.props;
+import type { LandingPage } from "../lib/landing/normalize";
+interface Props { preview?: boolean; page: LandingPage; contentId?: string; edit?: EditProxy; }
+const { page, contentId, edit, preview = false } = Astro.props;
 const gtmId = env.GTM_ID;
 const validGtmId = isValidGtmId(gtmId) ? gtmId : undefined;
 const emdashPage = createPublicPageContext({
@@ -53,15 +36,18 @@ const emdashPage = createPublicPageContext({
 		<meta name="generator" content={Astro.generator} />
 		<title>{page.title}</title>
 		{preview ? <meta name="robots" content="noindex, nofollow" /> : <EmDashHead page={emdashPage} />}
-		{presentation && <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" />}
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap" />
 	</head>
-	<body id={presentation ? "presentation-review" : undefined} class:list={["landing-page", presentation && "presentation-review"]} data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId} {...(!preview && edit ? edit : {})}>
-		{presentation && <ParallaxBackground />}
+	<body class="landing-page" data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId} {...(!preview && edit ? edit : {})}>
+		<ParallaxBackground />
 		{!preview && <EmDashBodyStart page={emdashPage} />}
 		{preview && <aside class="draft-notice"><strong>תצוגת טיוטה מקומית — לא פורסמה</strong><a href="/blocks-demo">לקטלוג האלמנטים</a></aside>}
-		<LandingHeader title={page.title} titleEdit={edit?.title} cta={page.hero.primaryCta} />
+		<LandingHeader title={page.title} titleEdit={edit?.title} cta={page.hero?.primaryCta} />
 		<slot />
-		<StickyMobileCta cta={page.hero.primaryCta} />
+		<footer class="landing-footer">
+			<a href="https://maly-empower.com/%D7%94%D7%A6%D7%94%D7%A8%D7%AA-%D7%A0%D7%92%D7%99%D7%A9%D7%95%D7%AA/">הצהרת נגישות</a>
+		</footer>
+		{page.hero?.primaryCta && <StickyMobileCta cta={page.hero.primaryCta} />}
 		{!preview && <EmDashBodyEnd page={emdashPage} />}
 	</body>
 </html>
@@ -97,6 +83,10 @@ const emdashPage = createPublicPageContext({
 </script>
 
 <style is:global>
+ /* Co-authored-by: Codex <codex@openai.com> */
+ body.landing-page:has(> .landing-footer) > main { padding-block-end: 2rem; }
+ .landing-footer { width: min(100%, 512px); margin-inline: auto; padding: 0 16px calc(132px + env(safe-area-inset-bottom)); }
+ .landing-footer a { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 12px 20px; border-radius: 12px; background: var(--surface-ivory); color: var(--color-ink); text-decoration: underline; text-underline-offset: .2em; }
  .draft-notice { width: min(100%, 512px); padding: 80px 16px 0; margin-inline: auto; display: grid; gap: 8px; font-size: 14px; }
  .draft-notice + .site-header + main { padding-block-start: 24px; }
 	#emprivacy-root {

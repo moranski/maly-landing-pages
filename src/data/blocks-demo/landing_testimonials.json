@@ -1,0 +1,46 @@
+{
+  "slug": "landing_testimonials",
+  "label": "עדויות לקוחות",
+  "version": 2,
+  "fields": [
+    {
+      "slug": "title",
+      "label": "כותרת",
+      "type": "string",
+      "required": true,
+      "validation": {
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    {
+      "slug": "testimonials",
+      "label": "עדויות",
+      "type": "repeater",
+      "required": true,
+      "validation": {
+        "subFields": [
+          {
+            "slug": "quote",
+            "type": "text",
+            "label": "ציטוט",
+            "required": true
+          },
+          {
+            "slug": "attribution",
+            "type": "string",
+            "label": "שם / ייחוס",
+            "required": false
+          },
+          {
+            "slug": "author_image",
+            "type": "image",
+            "label": "תמונת פרופיל להמחשה בלבד",
+            "required": false
+          }
+        ],
+        "minItems": 1
+      }
+    }
+  ]
+}

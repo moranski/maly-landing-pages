@@ -3,18 +3,17 @@ import Kicker from "./Kicker.astro";
 interface Props {
 	kicker?: string;
 	title: string;
-	tone?: "plain" | "tinted" | "deep";
 	id?: string;
 	surface?: "ivory" | "stone" | "peach" | "sage" | "butter" | "blue" | "lilac" | "navy";
 }
 
-const { kicker, title, tone = "plain", id, surface } = Astro.props;
+const { kicker, title, id, surface = "ivory" } = Astro.props;
 ---
 
-<section id={id} class:list={["section", `section--${tone}`, surface && `surface--${surface}`]}>
+<section id={id} class:list={["section", `surface--${surface}`]}>
 	<div class="section__inner">
 		<div class="section__header">
-			{kicker && (surface ? <Kicker variant={tone === "deep" ? "inverse" : "soft"}>{kicker}</Kicker> : <p class="kicker">{kicker}</p>)}
+			{kicker && <Kicker variant="soft">{kicker}</Kicker>}
 			<h2>{title}</h2>
 		</div>
 		<div class="section__content section-prose">
@@ -24,25 +23,12 @@ const { kicker, title, tone = "plain", id, surface } = Astro.props;
 </section>
 
 <style>
+	@layer landing-components {
 	.section {
 		position: relative;
 		width: 100%;
 		padding: 0;
 		background: transparent;
-	}
-
-	.section--tinted {
-		padding: 1.25rem;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-card);
-		background: #f5f3ef;
-	}
-
-	.section--deep {
-		padding: 1.25rem;
-		border-radius: var(--radius-card);
-		background: var(--color-ink);
-		color: var(--color-text-inverse);
 	}
 
 	.surface--ivory { --section-surface: var(--surface-ivory); }
@@ -54,14 +40,12 @@ const { kicker, title, tone = "plain", id, surface } = Astro.props;
 	.surface--lilac { --section-surface: var(--surface-lilac); }
 	.surface--navy { --section-surface: var(--surface-navy); }
 
-	.section[class*="surface--"] {
+	.section {
 		padding: 1.25rem;
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-card);
 		background: var(--section-surface);
 	}
-
-	.section--deep :global(.reason-list__marker) { color: #ffb4ab; }
 
 	.section__inner {
 		width: 100%;
@@ -85,15 +69,6 @@ const { kicker, title, tone = "plain", id, surface } = Astro.props;
 		margin: 0;
 	}
 
-	.section--deep h2 {
-		color: var(--color-text-inverse);
-	}
-
-	.section--deep .section__header > .kicker {
-		background: color-mix(in srgb, white 12%, transparent);
-		color: #ffdbce;
-	}
-
 	.section__content {
 		display: grid;
 		gap: var(--space-3);
@@ -107,10 +82,6 @@ const { kicker, title, tone = "plain", id, surface } = Astro.props;
 		font-size: 0.875rem;
 		line-height: 1.6;
 		text-align: start;
-	}
-
-	.section--deep .section-prose > :global(p) {
-		color: color-mix(in srgb, white 88%, transparent);
 	}
 
 	.section-prose :global(p + p) {
@@ -174,5 +145,6 @@ const { kicker, title, tone = "plain", id, surface } = Astro.props;
 		color: var(--color-text-muted);
 		font-size: 0.75rem;
 		text-align: start;
+	}
 	}
 </style>

@@ -13,38 +13,23 @@ interface Props {
 }
 
 const { title, testimonials } = Astro.props;
-const authorColors = ["#18794e", "#b44336", "#7152a3", "#147d8b", "#a05a00", "#bd4775"];
-const colorForAuthor = (name: string) => {
-	let hash = 0;
-	for (const character of name) hash = (hash * 31 + character.codePointAt(0)!) >>> 0;
-	return authorColors[hash % authorColors.length];
-};
 ---
 
-<Section title={title} tone="tinted">
+<Section title={title} surface="stone">
 	<div class="chat-thread" role="list" aria-label="עדויות של לומדים">
-		<div class="chat-thread__heading" aria-hidden="true">
-			<span class="chat-thread__avatar">ה</span>
-			<span>קבוצת ההורים</span>
-		</div>
 		{testimonials.map((testimonial) => {
-			const author = testimonial.attribution?.trim() || "שם לא צוין";
+			const author = testimonial.attribution;
 			return (
 			<article class="chat-message" role="listitem">
 				<svg class="chat-message__tail" width="10" height="16" viewBox="0 0 8 13" preserveAspectRatio="none" aria-hidden="true" focusable="false">
 					<path fill="#fff" transform="translate(8 0) scale(-1 1)" d="M1.533 2.568 8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568Z" />
 				</svg>
 				<div class="chat-message__bubble">
-					<div class="chat-message__sender">
+					{(author || testimonial.authorImage) && <div class="chat-message__sender">
 						{testimonial.authorImage && <img class="chat-message__profile" src={testimonial.authorImage.src} alt={testimonial.authorImage.alt} width="40" height="40" loading="lazy" style="width: 2.5rem; height: 2.5rem; object-fit: cover; border-radius: 50%;" />}
-						<cite class="chat-message__author" style={`color: ${colorForAuthor(author)}`}>{author}</cite>
-					</div>
+						{author && <cite class="chat-message__author">{author}</cite>}
+					</div>}
 					<p>{testimonial.quote}</p>
-					<footer>
-						<svg class="chat-message__checks" viewBox="0 0 20 14" role="img" aria-label="ההודעה נקראה">
-							<path d="m1 7 4 4L14 2M7 7l4 4 8-9" />
-						</svg>
-					</footer>
 				</div>
 			</article>
 			);
@@ -53,6 +38,7 @@ const colorForAuthor = (name: string) => {
 </Section>
 
 <style>
+	@layer landing-components {
 	.chat-thread {
 		display: grid;
 		gap: 0.75rem;
@@ -63,27 +49,6 @@ const colorForAuthor = (name: string) => {
 		background-color: #eeeae2;
 		background-image: radial-gradient(#d8d2c8 0.65px, transparent 0.65px);
 		background-size: 13px 13px;
-	}
-
-	.chat-thread__heading {
-		display: flex;
-		align-items: center;
-		gap: 0.55rem;
-		padding: 0.1rem 0.15rem 0.35rem;
-		color: #52616a;
-		font-size: 0.75rem;
-		font-weight: 700;
-	}
-
-	.chat-thread__avatar {
-		display: grid;
-		width: 1.8rem;
-		height: 1.8rem;
-		place-items: center;
-		border-radius: 50%;
-		background: #d8eee4;
-		color: #18794e;
-		font-size: 0.8rem;
 	}
 
 	.chat-message {
@@ -121,6 +86,7 @@ const colorForAuthor = (name: string) => {
 	}
 
 	.chat-message__author {
+		color: var(--color-ink);
 		display: block;
 		font-size: 0.76rem;
 		font-style: normal;
@@ -143,27 +109,5 @@ const colorForAuthor = (name: string) => {
 		object-fit: cover;
 	}
 
-	.chat-message footer {
-		display: flex;
-		min-height: 1rem;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.75rem;
-		margin-block-start: 0.45rem;
-		color: #667781;
-		font-size: 0.7rem;
-		font-weight: 600;
 	}
-
-	.chat-message__checks {
-		width: 1rem;
-		height: 0.75rem;
-		flex: 0 0 auto;
-		fill: none;
-		stroke: #34b7f1;
-		stroke-linecap: round;
-		stroke-linejoin: round;
-		stroke-width: 2;
-	}
-
 </style>

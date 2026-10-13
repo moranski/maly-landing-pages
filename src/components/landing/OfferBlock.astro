@@ -1,58 +1,22 @@
 ---
-interface Props {
-	title: string;
-	body: string;
-	includes: string[];
-	submitLabel: string;
-	consentLabel?: string;
-	checkoutUrl?: string;
-	demo?: boolean;
-	kicker?: string;
-}
-
-const {
-	title,
-	body,
-	includes,
-	submitLabel,
-	consentLabel = "אני מאשר/ת קבלת עדכונים והצעות ממלי באימייל.",
-	checkoutUrl = "",
-	demo = false,
-	kicker = "ההצטרפות כוללת",
-} = Astro.props;
-
-let safeCheckoutUrl = "";
-try {
-	const parsedCheckoutUrl = new URL(checkoutUrl);
-	if (parsedCheckoutUrl.protocol === "https:") safeCheckoutUrl = parsedCheckoutUrl.href;
-} catch {
-	// Keep the CTA unavailable when the configured destination is missing or invalid.
-}
+import type { Cta } from "../../lib/landing/normalize";
+interface Props { title: string; body: string; includes: string[]; kicker?: string; cta?: Cta; }
+const { title, body, includes, kicker, cta } = Astro.props;
 ---
-
 <section id="offer" class="offer">
-	<div class="offer__inner">
-		<div>
-			<p class="kicker">{kicker}</p>
-			<h2>{title}</h2>
-			<p>{body}</p>
-			<ul class="check-list">
-				{includes.map((item) => <li>{item}</li>)}
-			</ul>
-		</div>
-		<aside class="lead-box" aria-label="הצטרפות למסלול">
-			<div class="lead-form-embed">
-				{safeCheckoutUrl ? (
-					<a class="button button--primary" href={safeCheckoutUrl}>{submitLabel}</a>
-				) : (
-					<p class="offer__missing-url" role="status">{demo ? "קישור ההצטרפות יוצג כאן לאחר שיוגדר." : "קישור ההצטרפות אינו זמין כרגע."}</p>
-				)}
-			</div>
-		</aside>
-	</div>
+  <div class="offer__inner">
+    <div>
+      {kicker && <p class="kicker">{kicker}</p>}
+      <h2>{title}</h2><p>{body}</p>
+      {includes.length > 0 && <ul class="check-list">{includes.map(item => <li>{item}</li>)}</ul>}
+    </div>
+    {cta && <aside class="lead-box" aria-label={cta.label}>
+      <a class="button button--primary" href={cta.href}>{cta.label}</a>
+    </aside>}
+  </div>
 </section>
-
 <style>
+	@layer landing-components {
 	.offer {
 		width: 100%;
 		padding: 0;
@@ -131,25 +95,7 @@ try {
 		text-align: center;
 	}
 
-	.lead-box__title {
-		margin: 0;
-		color: var(--color-ink);
-		font-size: 1rem;
-		font-weight: 900;
-	}
-
-	.lead-form-embed {
-		min-width: 0;
-		text-align: start;
-	}
-
-	.offer__missing-url { margin: 0; text-align: center; }
-	.lead-form-embed .button {
-		width: 100%;
-		background: #087f5b;
-		box-shadow: 0 8px 20px rgb(8 127 91 / 24%);
-	}
-	.lead-form-embed .button:hover { background: #066b4c; }
+	.lead-box .button { width: 100%; justify-content: center; }
 
 	@media (max-width: 900px) {
 		.offer__inner {
@@ -159,5 +105,6 @@ try {
 		.lead-box {
 			position: static;
 		}
+	}
 	}
 </style>

@@ -1,11 +1,7 @@
 {
-  "notice": "Read-only snapshot from EmDash MCP; EmDash is authoritative. Not used to create or update the CMS.",
-  "verifiedAt": "2026-10-13",
-  "collection": "landing_pages",
-  "field": "layout",
   "slug": "landing_content_section",
   "label": "מקטע תוכן",
-  "version": 1,
+  "version": 2,
   "fields": [
     {
       "slug": "id",
@@ -21,27 +17,28 @@
       "slug": "title",
       "label": "כותרת",
       "type": "string",
-      "required": true
+      "required": true,
+      "validation": {
+        "minLength": 1,
+        "pattern": "\\S"
+      }
     },
     {
       "slug": "background",
       "label": "סוג רקע",
       "type": "select",
+      "required": true,
       "defaultValue": "שנהב",
       "validation": {
-        "options": ["שנהב", "אבן", "אפרסק", "מרווה", "צהוב", "כחול", "סגול", "כחול כהה"]
-      }
-    },
-    {
-      "slug": "tone",
-      "label": "גוון",
-      "type": "select",
-      "defaultValue": "plain",
-      "validation": {
         "options": [
-          "plain",
-          "tinted",
-          "deep"
+          "שנהב",
+          "אבן",
+          "אפרסק",
+          "מרווה",
+          "צהוב",
+          "כחול",
+          "סגול",
+          "כחול כהה"
         ]
       }
     },
@@ -151,6 +148,21 @@
             "label": "תשובה",
             "required": true
           }
+        ]
+      }
+    },
+    {
+      "slug": "paragraph_format",
+      "label": "תצוגת פסקאות",
+      "type": "select",
+      "required": true,
+      "defaultValue": "paragraphs",
+      "validation": {
+        "options": [
+          "paragraphs",
+          "bullets",
+          "checklist",
+          "cross_list"
         ]
       }
     }

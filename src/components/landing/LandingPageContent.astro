@@ -1,22 +1,6 @@
 ---
-interface PageData {
-	title: string;
-	description: string;
-	hero: {
-		eyebrow?: string;
-		title: string;
-		subtitle: string;
-		body: string[];
-		primaryCta: { label: string; href: string };
-		secondaryCta?: { label: string; href: string };
-		visual: {
-			src: string;
-			alt: string;
-			title: string;
-			caption: string;
-		};
-	};
-}
+import type { Hero } from "../../lib/landing/normalize";
+interface PageData { hero?: Hero; }
 
 interface Props {
 	page: PageData;
@@ -24,22 +8,23 @@ interface Props {
 }
 
 const { page, layoutEdit } = Astro.props;
-const heroVisual = page.hero.visual;
+const hero = page.hero;
+const heroVisual = hero?.visual;
 ---
 
 <main id="top" {...layoutEdit}>
-	<section class="hero">
+	{hero && <section class="hero">
 		<div class="hero__inner">
 			<div class="hero__copy">
-				{page.hero.eyebrow && <p class="kicker">{page.hero.eyebrow}</p>}
-				<h1>{page.hero.title}</h1>
-				<p class="hero__subtitle"><strong>{page.hero.subtitle}</strong></p>
+				{hero.eyebrow && <p class="kicker">{hero.eyebrow}</p>}
+				<h1>{hero.title}</h1>
+				<p class="hero__subtitle"><strong>{hero.subtitle}</strong></p>
 				<div class="hero__body">
-					{page.hero.body.map((paragraph) => <p>{paragraph}</p>)}
+					{hero.body.map((paragraph) => <p>{paragraph}</p>)}
 				</div>
 			</div>
 
-			<div class="hero__visual">
+			{heroVisual && <div class="hero__visual">
 				<div class="course-preview">
 					<img
 						class="course-preview__image"
@@ -50,23 +35,25 @@ const heroVisual = page.hero.visual;
 						loading="eager"
 						decoding="async"
 					/>
-					<div class="course-preview__caption">
-						<strong>{heroVisual.title}</strong>
-						<span>{heroVisual.caption}</span>
-					</div>
+					{(heroVisual.title || heroVisual.caption) && <div class="course-preview__caption">
+						{heroVisual.title && <strong>{heroVisual.title}</strong>}
+						{heroVisual.caption && <span>{heroVisual.caption}</span>}
+					</div>}
 				</div>
+			</div>}
+			{(hero.primaryCta || hero.secondaryCta) && <div class="hero__actions">
+				{hero.primaryCta && <a class="button button--primary" href={hero.primaryCta.href}>{hero.primaryCta.label}</a>}
+				{hero.secondaryCta && <a class="button button--secondary" href={hero.secondaryCta.href}>{hero.secondaryCta.label}</a>}
 			</div>
-			<div class="hero__actions">
-				<a class="button button--primary" href={page.hero.primaryCta.href}>{page.hero.primaryCta.label}</a>
-				{page.hero.secondaryCta && <a class="button button--secondary" href={page.hero.secondaryCta.href}>{page.hero.secondaryCta.label}</a>}
-			</div>
+		}
 		</div>
-	</section>
+	</section>}
 
 	<slot />
 </main>
 
 <style>
+	@layer landing-components {
 	.hero {
 		position: relative;
 		padding: 0;
@@ -187,4 +174,5 @@ const heroVisual = page.hero.visual;
 	}
 
 	.hero__actions .button { width: 100%; justify-content: center; }
+	}
 </style>

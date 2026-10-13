@@ -2,7 +2,7 @@
 interface Props {
 	title: string;
 	titleEdit?: Partial<{ "data-emdash-ref": string }>;
-	cta: { label: string; href: string };
+	cta?: { label: string; href: string };
 }
 
 const { title, titleEdit, cta } = Astro.props;
@@ -16,11 +16,12 @@ const { title, titleEdit, cta } = Astro.props;
 			</span>
 			<span class="site-brand__copy"><strong>מלי</strong><span {...titleEdit}>{title}</span></span>
 		</a>
-		<a class="site-header__cta" href={cta.href}>{cta.label}</a>
+		{cta && <a class="site-header__cta" href={cta.href}>{cta.label}</a>}
 	</div>
 </header>
 
 <style>
+	@layer landing-components {
 	.site-header { position: fixed; inset: 0 0 auto; z-index: 30; padding-block-start: env(safe-area-inset-top, 0px); border-block-end: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-surface) 92%, transparent); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
 	.site-header__inner { width: min(100%, 512px); min-height: 64px; margin-inline: auto; padding: 0 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
 	.site-brand { min-width: 0; display: flex; align-items: center; gap: 0.6rem; color: var(--color-ink); text-decoration: none; }
@@ -31,4 +32,5 @@ const { title, titleEdit, cta } = Astro.props;
 	.site-brand__copy span { overflow: hidden; color: var(--color-text-muted); font-size: 0.68rem; text-overflow: ellipsis; white-space: nowrap; }
 	.site-header__cta { flex: 0 0 auto; padding: 0.55rem 0.85rem; border-radius: var(--radius-pill); background: var(--color-accent); color: white; font-size: 0.78rem; font-weight: 700; text-decoration: none; }
 	@media (max-width: 760px) { .site-header__cta { display: none; } }
+	}
 </style>

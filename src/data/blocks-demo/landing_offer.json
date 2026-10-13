@@ -1,23 +1,27 @@
 {
-  "notice": "Read-only snapshot from EmDash MCP; EmDash is authoritative. Not used to create or update the CMS.",
-  "verifiedAt": "2026-10-08",
-  "collection": "landing_pages",
-  "field": "layout",
   "slug": "landing_offer",
   "label": "הצעה ותשלום",
-  "version": 1,
+  "version": 2,
   "fields": [
     {
       "slug": "title",
       "label": "כותרת",
       "type": "string",
-      "required": true
+      "required": true,
+      "validation": {
+        "minLength": 1,
+        "pattern": "\\S"
+      }
     },
     {
       "slug": "body",
       "label": "תוכן",
       "type": "text",
-      "required": true
+      "required": true,
+      "validation": {
+        "minLength": 1,
+        "pattern": "\\S"
+      }
     },
     {
       "slug": "includes",
@@ -37,28 +41,29 @@
       }
     },
     {
-      "slug": "lead_endpoint",
-      "label": "נקודת קליטת לידים",
-      "type": "string",
-      "required": true
-    },
-    {
       "slug": "checkout_url",
       "label": "קישור לתשלום",
       "type": "url",
-      "required": true
+      "required": true,
+      "validation": {
+        "minLength": 1,
+        "pattern": "^https://[^\\s]+$"
+      }
     },
     {
       "slug": "submit_label",
       "label": "טקסט כפתור",
       "type": "string",
-      "required": true
+      "required": true,
+      "validation": {
+        "minLength": 1,
+        "pattern": "\\S"
+      }
     },
     {
-      "slug": "consent_label",
-      "label": "טקסט הסכמה",
-      "type": "text",
-      "required": true
+      "slug": "kicker",
+      "label": "כותרת קטנה",
+      "type": "string"
     }
   ]
 }

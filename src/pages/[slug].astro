@@ -38,8 +38,7 @@ const pageData = emdashPage
 {
 	emdashPage ? (
 		<EmDashLandingPage
-			presentation={slug === "reading"}
-			page={pageData as never}
+			page={pageData}
 			contentId={emdashPage.id}
 			edit={emdashPage.edit}
 		/>

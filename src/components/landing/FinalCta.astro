@@ -1,13 +1,13 @@
 ---
 interface Props {
 	kicker?: string | null;
-	cta: {
+	cta?: {
 		label: string;
 		href: string;
 	};
 }
 
-const { cta, kicker = "מלי" } = Astro.props;
+const { cta, kicker } = Astro.props;
 ---
 
 <section id="contact" class="final-cta">
@@ -16,11 +16,12 @@ const { cta, kicker = "מלי" } = Astro.props;
 		<div class="final-cta__content">
 			<slot />
 		</div>
-		<a class="button button--primary" href={cta.href}>{cta.label}</a>
+		{cta && <a class="button button--primary" href={cta.href}>{cta.label}</a>}
 	</div>
 </section>
 
 <style>
+	@layer landing-components {
 	.final-cta {
 		width: 100%;
 		padding: 1.25rem;
@@ -62,5 +63,6 @@ const { cta, kicker = "מלי" } = Astro.props;
 
 	.final-cta .button {
 		margin-block-start: var(--space-4);
+	}
 	}
 </style>
