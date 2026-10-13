@@ -2,7 +2,7 @@
 import { getSectionBackground, type SectionSurface } from "../../scripts/section-background.js";
 
 export type ParagraphFormat = "paragraphs" | "bullets" | "checklist" | "cross_list";
-export type CtaStyle = "orange" | "navy" | "outline" | "white";
+export type CtaStyle = "orange" | "red-orange" | "navy" | "outline" | "white";
 export interface Cta { label: string; href: string; style?: CtaStyle }
 export interface Image { src: string; alt: string; caption?: string; width?: number; height?: number }
 export interface Hero {
@@ -36,7 +36,7 @@ const record = (value: unknown): Raw | undefined => value !== null && typeof val
 // Test blankness without changing editorial text, including literal list markers.
 const text = (value: unknown): string | undefined => typeof value === "string" && value.trim() ? value : undefined;
 const formats: ParagraphFormat[] = ["paragraphs", "bullets", "checklist", "cross_list"];
-const ctaStyles: Record<string, CtaStyle> = { "כתום": "orange", "כחול כהה": "navy", "מסגרת כחולה": "outline", "לבן": "white" };
+const ctaStyles: Record<string, CtaStyle> = { "כתום": "orange", "כתום אדום": "red-orange", "כחול כהה": "navy", "מסגרת כחולה": "outline", "לבן": "white" };
 const legacySurfaces: Record<string, SectionSurface> = { plain: "ivory", tinted: "stone", deep: "navy" };
 const versions: Record<string, number[]> = {
 	landing_hero: [1, 2], landing_content_section: [1, 2], landing_testimonials: [1, 2], landing_offer: [1, 2], landing_final_cta: [1, 2],
@@ -55,6 +55,13 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 	const diagnostics: Diagnostic[] = [];
 	const data = record(input) ?? {};
 	const issue = (path: string, code: string, blockKey?: string) => diagnostics.push({ path, code, ...(blockKey ? { blockKey } : {}) });
+	const resolveCtaStyle = (choice: unknown, path: string, blockKey?: string): CtaStyle | undefined => {
+		if (choice === undefined || choice === null || choice === "" || choice === "ברירת מחדל") return undefined;
+		if (typeof choice === "string" && Object.hasOwn(ctaStyles, choice)) return ctaStyles[choice];
+		issue(path, "invalid_choice", blockKey);
+		return undefined;
+	};
+	const defaultCtaStyle = resolveCtaStyle(data.cta_style, "cta_style");
 	const title = text(data.title), description = text(data.description);
 	for (const field of ["title", "description"]) if (!text(data[field])) issue(field, "required");
 	if (data.lang !== "he") issue("lang", "invalid");
@@ -96,9 +103,7 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 		const cta = (label: unknown, href: unknown, path: string, httpsOnly = false): Cta | undefined => {
 			const l = required(label, `${path}.label`), h = destination(href, httpsOnly);
 			if (!h) report(`${path}.href`, "invalid_destination");
-			const choice = b.cta_style;
-			const style = typeof choice === "string" && Object.hasOwn(ctaStyles, choice) ? ctaStyles[choice] : undefined;
-			if (choice !== undefined && choice !== null && choice !== "" && choice !== "ברירת מחדל" && !style) report("cta_style", "invalid_choice");
+			const style = resolveCtaStyle(b.cta_style, `${root}.cta_style`, key) ?? defaultCtaStyle;
 			return l && h ? { label: l, href: h, ...(style ? { style } : {}) } : undefined;
 		};
 		const kind = text(b._type ?? b.type);

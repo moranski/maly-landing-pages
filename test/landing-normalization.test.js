@@ -10,7 +10,7 @@ const normalize = (...blocks) => normalizeLandingPage({ title: 'Page', descripti
 
 test('CTA presets are allowlisted across every action and preserve legacy defaults', () => {
   const metadata = { title: 'Page', description: 'Description', lang: 'he', dir: 'rtl' };
-  for (const [choice, style] of [[undefined, undefined], ['ברירת מחדל', undefined], ['כתום', 'orange'], ['כחול כהה', 'navy'], ['מסגרת כחולה', 'outline'], ['לבן', 'white']]) {
+  for (const [choice, style] of [[undefined, undefined], ['ברירת מחדל', undefined], ['כתום', 'orange'], ['כתום אדום', 'red-orange'], ['כחול כהה', 'navy'], ['מסגרת כחולה', 'outline'], ['לבן', 'white']]) {
     for (const version of [1, 2]) {
       const layout = [
         { ...hero(), _version: version, cta_style: choice },
@@ -30,6 +30,25 @@ test('CTA presets are allowlisted across every action and preserve legacy defaul
     assert.equal(page.hero.primaryCta.style, undefined);
     assert.ok(diagnostics.some(d => d.path === 'layout[0].cta_style' && d.code === 'invalid_choice'));
   }
+});
+
+test('page CTA default is inherited unless the block selects its own preset', () => {
+  const metadata = { title: 'Page', description: 'Description', lang: 'he', dir: 'rtl', cta_style: 'כתום אדום' };
+  const offer = { _type: 'landing_offer', _version: 2, title: 'Offer', body: 'Body', includes: [{ text: 'Item' }], submit_label: 'Pay', checkout_url: 'https://example.com' };
+  const final = { _type: 'landing_final_cta', _version: 2, heading: 'Final', paragraphs: [{ text: 'Body' }], cta_label: 'Join', cta_href: '#offer', cta_style: 'כחול כהה' };
+  for (const inherited of [undefined, null, '', 'ברירת מחדל']) {
+    const { page, diagnostics } = normalizeLandingPage({ ...metadata, layout: [{ ...hero(), cta_style: inherited }, { ...offer, cta_style: inherited }, final] });
+    assert.deepEqual(diagnostics, []);
+    assert.equal(page.hero.primaryCta.style, 'red-orange');
+    assert.equal(page.blocks[0].cta.style, 'red-orange');
+    assert.equal(page.blocks[1].cta.style, 'navy');
+  }
+  const invalidPage = normalizeLandingPage({ ...metadata, cta_style: '__proto__', layout: [hero()] });
+  assert.equal(invalidPage.page.hero.primaryCta.style, undefined);
+  assert.ok(invalidPage.diagnostics.some(d => d.path === 'cta_style' && d.code === 'invalid_choice'));
+  const invalidBlock = normalizeLandingPage({ ...metadata, layout: [{ ...hero(), cta_style: 'arbitrary CSS' }] });
+  assert.equal(invalidBlock.page.hero.primaryCta.style, 'red-orange');
+  assert.ok(invalidBlock.diagnostics.some(d => d.path === 'layout[0].cta_style' && d.code === 'invalid_choice'));
 });
 
 test('all paragraph formats work for arbitrary IDs without changing prose', () => {
