@@ -1,16 +1,15 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
+import type { Cta } from "../../lib/landing/normalize";
 interface Props {
-	cta: {
-		label: string;
-		href: string;
-	};
+	cta: Cta;
 }
 
 const { cta } = Astro.props;
 ---
 
 <div class="sticky-cta" aria-label="פעולה ראשית">
-	<a class="button button--primary" href={cta.href}>{cta.label}</a>
+	<a class="button button--primary" data-cta-style={cta.style} href={cta.href}>{cta.label}</a>
 </div>
 
 <style>

@@ -44,8 +44,8 @@ const heroVisual = hero?.visual;
 				</div>
 			</div>}
 			{(hero.primaryCta || hero.secondaryCta) && <div class="hero__actions">
-				{hero.primaryCta && <a class="button button--primary" href={hero.primaryCta.href}>{hero.primaryCta.label}</a>}
-				{hero.secondaryCta && <a class="button button--secondary" href={hero.secondaryCta.href}>{hero.secondaryCta.label}</a>}
+				{hero.primaryCta && <a class="button button--primary" data-cta-style={hero.primaryCta.style} href={hero.primaryCta.href}>{hero.primaryCta.label}</a>}
+				{hero.secondaryCta && <a class="button button--secondary" data-cta-style={hero.secondaryCta.style} href={hero.secondaryCta.href}>{hero.secondaryCta.label}</a>}
 			</div>
 		}
 		</div>

@@ -17,6 +17,14 @@ import ProfileImage from "../components/landing/ProfileImage.astro";
 import ImageGallery from "../components/landing/ImageGallery.astro";
 import OfferBlock from "../components/landing/OfferBlock.astro";
 import FinalCta from "../components/landing/FinalCta.astro";
+import type { CtaStyle } from "../lib/landing/normalize";
+
+const ctaPresets: { style: CtaStyle; label: string }[] = [
+    { style: "orange", label: "כתום" },
+    { style: "navy", label: "כחול כהה" },
+    { style: "outline", label: "מסגרת כחולה" },
+    { style: "white", label: "לבן" },
+];
 
 export const prerender = false;
 if (!import.meta.env.DEV) {
@@ -179,6 +187,10 @@ const extraExamples = [
             {primitives.map(({ id, label, tag: Tag, text }) => <DemoFrame id={id} title={label} display={["Section"]}><Tag class={id}>{text}</Tag></DemoFrame>)}
             {(["outline", "soft", "inverse"] as const).map(variant => <DemoFrame id={`kicker-${variant}`} title={`קיקר — ${variant}`} display={["Kicker"]}><div class:list={["primitive-surface", variant === "inverse" && "primitive-surface--inverse"]}><Kicker variant={variant}>בואו תראו איך זה נראה</Kicker><h2>כותרת לדוגמה מתחת לקיקר</h2></div></DemoFrame>)}
             {(["primary", "secondary", "inverse"] as const).flatMap(variant => ["rest", "hover", "focus", "disabled"].map(state => <DemoFrame id={`button-${variant}-${state}`} title={`כפתור ${variant} — ${state}`} display={["LandingPageContent"]}><div class:list={["primitive-surface", variant === "inverse" && "primitive-surface--inverse"]}><button type="button" disabled={state === "disabled"} class:list={["button", `button--${variant}`, state === "hover" && "button--hover", state === "focus" && "button--focus"]}>לפרטי הדוגמה</button></div></DemoFrame>))}
+            {ctaPresets.map(({ style, label }) => <DemoFrame id={`cta-style-${style}`} title={`סגנון כפתור — ${label}`} type="landing_offer" fields="cta_style — סגנון כפתור בפתיח, בהצעה ובסיום" display={["OfferBlock", "FinalCta"]}>
+                <OfferBlock title="הצעה לדוגמה" body="סגנון הכפתור נבחר באדמין EmDash." includes={["תוכן המחשה בלבד"]} cta={{ label: "כן אני רוצה את הקורס!", href: "#contents", style }} />
+                <FinalCta cta={{ label: "כן אני רוצה את הקורס!", href: "#contents", style }}><h2>סיום לדוגמה</h2><p>אותה בחירה נשמרת גם בכפתור הסיום.</p></FinalCta>
+            </DemoFrame>)}
             <DemoFrame id="single-card" title="כרטיס בודד" type="landing_content_section" fields="cards[].title, cards[].body" display={["CardGrid"]}><CardGrid items={[cards[0]]} /></DemoFrame>
             <DemoFrame id="single-ordered" title="כרטיס ממוספר בודד" type="landing_content_section" fields="cards[], ordered_cards" display={["CardGrid"]}><CardGrid items={[cards[0]]} ordered /></DemoFrame>
             <DemoFrame id="numbered-badge" title="תג מספר — בנפרד" display={["CardGrid"]}><span class="info-card__index">1</span></DemoFrame>

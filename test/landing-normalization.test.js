@@ -8,6 +8,30 @@ const hero = () => ({ _type: 'landing_hero', _version: 2, _key: 'hero', title: '
 const section = (extra = {}) => ({ _type: 'landing_content_section', _version: 2, _key: 'section', title: 'Section', background: 'שנהב', paragraph_format: 'paragraphs', paragraphs: [{ text: 'Text' }], ...extra });
 const normalize = (...blocks) => normalizeLandingPage({ title: 'Page', description: 'Description', lang: 'he', dir: 'rtl', layout: [hero(), ...blocks] });
 
+test('CTA presets are allowlisted across every action and preserve legacy defaults', () => {
+  const metadata = { title: 'Page', description: 'Description', lang: 'he', dir: 'rtl' };
+  for (const [choice, style] of [[undefined, undefined], ['ברירת מחדל', undefined], ['כתום', 'orange'], ['כחול כהה', 'navy'], ['מסגרת כחולה', 'outline'], ['לבן', 'white']]) {
+    for (const version of [1, 2]) {
+      const layout = [
+        { ...hero(), _version: version, cta_style: choice },
+        { _type: 'landing_offer', _version: version, title: 'Offer', body: 'Body', includes: [{ text: 'Item' }], submit_label: 'Pay', checkout_url: 'https://example.com', cta_style: choice },
+        { _type: 'landing_final_cta', _version: version, heading: 'Final', paragraphs: [{ text: 'Body' }], cta_label: 'Join', cta_href: '#offer', cta_style: choice },
+      ];
+      const { page, diagnostics } = normalizeLandingPage({ ...metadata, layout });
+      assert.deepEqual(diagnostics, []);
+      for (const cta of [page.hero.primaryCta, ...page.blocks.map(b => b.cta)]) {
+        assert.equal(cta.style, style);
+        assert.equal(Object.hasOwn(cta, 'style'), style !== undefined);
+      }
+    }
+  }
+  for (const invalid of ['__proto__', 'constructor', 'background: red', {}, 123]) {
+    const { page, diagnostics } = normalizeLandingPage({ ...metadata, layout: [{ ...hero(), cta_style: invalid }] });
+    assert.equal(page.hero.primaryCta.style, undefined);
+    assert.ok(diagnostics.some(d => d.path === 'layout[0].cta_style' && d.code === 'invalid_choice'));
+  }
+});
+
 test('all paragraph formats work for arbitrary IDs without changing prose', () => {
   for (const format of ['paragraphs', 'bullets', 'checklist', 'cross_list']) {
     const texts = ['✓ literal', '× literal', '✕ literal', '  whitespace around prose  '];

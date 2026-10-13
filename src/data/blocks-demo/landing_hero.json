@@ -56,6 +56,21 @@
       }
     },
     {
+      "slug": "cta_style",
+      "label": "סגנון כפתור",
+      "type": "select",
+      "defaultValue": "ברירת מחדל",
+      "validation": {
+        "options": [
+          "ברירת מחדל",
+          "כתום",
+          "כחול כהה",
+          "מסגרת כחולה",
+          "לבן"
+        ]
+      }
+    },
+    {
       "slug": "cta_href",
       "label": "קישור כפתור",
       "type": "url",

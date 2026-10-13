@@ -1,10 +1,9 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
+import type { Cta } from "../../lib/landing/normalize";
 interface Props {
 	kicker?: string | null;
-	cta?: {
-		label: string;
-		href: string;
-	};
+	cta?: Cta;
 }
 
 const { cta, kicker } = Astro.props;
@@ -16,7 +15,7 @@ const { cta, kicker } = Astro.props;
 		<div class="final-cta__content">
 			<slot />
 		</div>
-		{cta && <a class="button button--primary" href={cta.href}>{cta.label}</a>}
+		{cta && <a class="button button--primary" data-cta-style={cta.style} href={cta.href}>{cta.label}</a>}
 	</div>
 </section>
 

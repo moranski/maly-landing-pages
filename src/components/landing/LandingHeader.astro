@@ -1,9 +1,10 @@
 ---
+import type { Cta } from "../../lib/landing/normalize";
 // Co-authored-by: Codex <codex@openai.com>
 interface Props {
 	title: string;
 	titleEdit?: Partial<{ "data-emdash-ref": string }>;
-	cta?: { label: string; href: string };
+	cta?: Cta;
 }
 
 const { title, titleEdit, cta } = Astro.props;
@@ -17,7 +18,7 @@ const { title, titleEdit, cta } = Astro.props;
 			</span>
 			<span class="site-brand__copy"><strong>מלי</strong><span {...titleEdit}>{title}</span></span>
 		</a>
-		{cta && <a class="site-header__cta" href={cta.href}>{cta.label}</a>}
+		{cta && <a class="site-header__cta" data-cta-style={cta.style} href={cta.href}>{cta.label}</a>}
 	</div>
 </header>
 
