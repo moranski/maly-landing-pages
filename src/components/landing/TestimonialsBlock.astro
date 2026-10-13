@@ -1,5 +1,7 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
 import Section from "./Section.astro";
+import { mediaImageUrl } from "../../lib/landing/media-images";
 
 interface Testimonial {
 	quote: string;
@@ -26,7 +28,7 @@ const { title, testimonials } = Astro.props;
 				</svg>
 				<div class="chat-message__bubble">
 					{(author || testimonial.authorImage) && <div class="chat-message__sender">
-						{testimonial.authorImage && <img class="chat-message__profile" src={testimonial.authorImage.src} alt={testimonial.authorImage.alt} width="40" height="40" loading="lazy" style="width: 2.5rem; height: 2.5rem; object-fit: cover; border-radius: 50%;" />}
+						{testimonial.authorImage && <img class="chat-message__profile" src={mediaImageUrl(testimonial.authorImage.src, 80, !import.meta.env.DEV)} alt={testimonial.authorImage.alt} width="40" height="40" loading="lazy" decoding="async" style="width: 2.5rem; height: 2.5rem; object-fit: cover; border-radius: 50%;" />}
 						{author && <cite class="chat-message__author">{author}</cite>}
 					</div>}
 					<p>{testimonial.quote}</p>

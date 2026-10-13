@@ -13,10 +13,11 @@ function localMediaPath(src: string): string | undefined {
 	} catch { return; }
 }
 
-export function mediaImageUrl(src: string, width: number, optimize: boolean): string {
+export function mediaImageUrl(src: string, width: number, optimize: boolean, quality = 85): string {
 	const path = optimize ? localMediaPath(src) : undefined;
 	if (!path || !Number.isInteger(width) || width < 1 || width > 4000) return src;
-	return `/_image?${new URLSearchParams({ href: path, w: String(width), f: "webp", q: "85" })}`;
+	const boundedQuality = Number.isInteger(quality) && quality >= 1 && quality <= 100 ? quality : 85;
+	return `/_image?${new URLSearchParams({ href: path, w: String(width), f: "webp", q: String(boundedQuality) })}`;
 }
 
 export function responsiveMediaImage(src: string, widths: number[], sizes: string, optimize: boolean, originalWidth?: number) {
@@ -37,5 +38,6 @@ export function responsiveMediaImage(src: string, widths: number[], sizes: strin
 const background = `${mediaOrigin}/_emdash/api/media/file/01M4EN17571ZYTCHAZCSEMNK0V.01M4EN17H57PAR2NBFHRKCBDM7.png`;
 export function landingBackgroundStyle(optimize: boolean): string {
 	// Keep the original 2x resolution for the repeating 362px-wide tile.
-	return `--landing-background-image: url("${mediaImageUrl(background, 724, optimize)}")`;
+	// The decorative tile can use stronger compression than lesson text/images.
+	return `--landing-background-image: url("${mediaImageUrl(background, 724, optimize, 65)}")`;
 }

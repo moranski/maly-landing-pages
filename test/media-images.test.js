@@ -51,6 +51,13 @@ test('small originals cap every descriptor and unknown dimensions omit srcset', 
 });
 
 test('the background preserves the 2x tile resolution and avoids PNG delivery in production', () => {
-  assert.match(landingBackgroundStyle(true), /w=724&f=webp&q=85/);
+  assert.match(landingBackgroundStyle(true), /w=724&f=webp&q=65/);
   assert.match(landingBackgroundStyle(false), /https:\/\/.*\.png/);
+});
+
+test('compression overrides are bounded and do not change the default for lesson images', () => {
+  assert.equal(new URL(mediaImageUrl(path, 724, true, 65), origin).searchParams.get('q'), '65');
+  for (const quality of [0, -1, 101, 65.5, NaN, Infinity]) {
+    assert.equal(new URL(mediaImageUrl(path, 724, true, quality), origin).searchParams.get('q'), '85');
+  }
 });

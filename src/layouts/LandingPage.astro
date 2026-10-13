@@ -66,11 +66,17 @@ const emdashPage = createPublicPageContext({
 		let pending = false;
 		const updateConsentViewport = () => {
 			pending = false;
+			// Read all geometry before setting styles: each write can invalidate
+			// layout, so interleaving the reads forces repeated synchronous work.
+			const height = viewport.height;
+			const width = viewport.width;
+			const left = viewport.offsetLeft;
+			const bottom = Math.max(0, window.innerHeight - height - viewport.offsetTop);
 			const style = document.documentElement.style;
-			style.setProperty("--consent-visible-height", `${viewport.height}px`);
-			style.setProperty("--consent-visible-width", `${viewport.width}px`);
-			style.setProperty("--consent-visible-left", `${viewport.offsetLeft}px`);
-			style.setProperty("--consent-visible-bottom", `${Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop)}px`);
+			style.setProperty("--consent-visible-height", `${height}px`);
+			style.setProperty("--consent-visible-width", `${width}px`);
+			style.setProperty("--consent-visible-left", `${left}px`);
+			style.setProperty("--consent-visible-bottom", `${bottom}px`);
 		};
 		const scheduleUpdate = () => {
 			if (pending) return;
