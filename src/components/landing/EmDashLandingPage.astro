@@ -87,7 +87,11 @@ const heroPage = {
 				const tone = presentation ? "plain" : gallery.length > 0 ? "deep" : block.tone === "tinted" || block.tone === "deep" ? block.tone : "plain";
 				return <Section surface={surface} id={typeof block.id === "string" ? block.id : undefined} kicker={typeof block.kicker === "string" ? block.kicker : undefined} title={String(block.title ?? "")} tone={tone}>
 					{profileSrc && <ProfileImage src={profileSrc} alt={typeof block.profile_alt === "string" ? block.profile_alt : ""} caption={typeof block.profile_caption === "string" ? block.profile_caption : undefined} />}
-					{textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}
+					{block.id === "why-it-didnt-work" ? (
+						<ul class="reason-list" role="list">
+							{textItems(block.paragraphs).map((reason) => <li><span class="reason-list__marker" aria-hidden="true">×</span><span>{reason.replace(/^[✓×✕]\s*/, "")}</span></li>)}
+						</ul>
+					) : textItems(block.paragraphs).map((paragraph) => <p>{paragraph}</p>)}
 					{records(block.cards).length > 0 && <CardGrid ordered={block.ordered_cards === true} items={records(block.cards).map((card) => ({ title: String(card.title ?? ""), body: String(card.body ?? "") }))} />}
 					{gallery.length > 0 && <ImageGallery images={gallery} />}
 					{records(block.faq_items).length > 0 && (presentation ? <FaqList items={records(block.faq_items).map(item => ({ question: String(item.question ?? ""), answer: String(item.answer ?? "") }))} /> : records(block.faq_items).map((item) => <><h3>{String(item.question ?? "")}</h3><p>{String(item.answer ?? "")}</p></>))}
@@ -101,3 +105,29 @@ const heroPage = {
 	}
 	</LandingPageContent>
 </LandingPageLayout>
+
+<style>
+	.reason-list {
+		display: grid;
+		gap: 1.25rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.reason-list li {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.75rem;
+		line-height: 1.65;
+	}
+
+	.reason-list__marker {
+		flex: 0 0 1.5rem;
+		color: #b42318;
+		font-size: 1.5rem;
+		font-weight: 800;
+		line-height: 1.1;
+		text-align: center;
+	}
+</style>
