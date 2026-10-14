@@ -14,6 +14,10 @@ Co-authored-by: Codex <codex@openai.com>
 
 The desktop hero, content sections, testimonials, offer and personal appeal align to the same outer edges. The hero copy receives slightly more width than its media (1.25:1), and its CTA can reach 480px. The shared wider frame follows the user's request for equal widths across all blocks.
 
+Typography scale updated on 2026-10-14: body copy is 24px with 1.55 line height; the hero heading scales fluidly up to 48px (36px minimum on narrow screens); section headings scale up to 40px; card headings are 32px; nested headings 28px; captions 18px; kickers and form labels 16px; buttons 20px. Apply body sizing consistently to paragraphs, lists, FAQs, testimonials, and offer details. Compact brand metadata and decorative numerals may remain smaller.
+
+<!-- Co-authored-by: Codex <codex@openai.com> -->
+
 | Role | Value |
 | --- | --- |
 | Warm canvas | `#FBF9F5` |

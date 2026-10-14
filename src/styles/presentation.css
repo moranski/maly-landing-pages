@@ -5,6 +5,14 @@ html { min-width: 0; }
 body.landing-page {
  --color-border: #dcdde3;
  --color-accent: #ab3500;
+ --type-body: 24px;
+ --type-h1: clamp(36px, 6vw, 48px);
+ --type-h2: clamp(32px, 5vw, 40px);
+ --type-h3: 32px;
+ --type-h4: 28px;
+ --type-label: 16px;
+ --type-caption: 18px;
+ --type-control: 20px;
  background-color: #12377b;
  background-image: var(--landing-background-image, none);
  isolation: isolate;
@@ -144,6 +152,32 @@ body.landing-page .rich-text[data-list-style="checklist"] ul > li::before,
 body.landing-page .rich-text[data-list-style="cross_list"] ul > li::before { position: absolute; inset-inline-start: 0; width: 1.5rem; font-weight: 700; text-align: center; color: var(--paragraph-marker-color, var(--color-ink)); }
 body.landing-page .rich-text[data-list-style="checklist"] ul > li::before { content: "✓"; }
 body.landing-page .rich-text[data-list-style="cross_list"] ul > li::before { content: "×"; color: var(--paragraph-marker-color, #b42318); }
+
+/* Updated page typography scale: 24px body, 48px hero, proportional headings and labels. */
+/* Co-authored-by: Codex <codex@openai.com> */
+body.landing-page .hero h1 { font-size: var(--type-h1); line-height: 1.2; }
+body.landing-page .hero__subtitle { font-size: var(--type-h3); line-height: 1.35; }
+body.landing-page .section__header h2,
+body.landing-page .offer h2,
+body.landing-page .final-cta :is(h2) { font-size: var(--type-h2); line-height: 1.25; }
+body.landing-page :is(.section-prose, .offer, .final-cta, .faq-item) :is(p, li),
+body.landing-page .rich-text :is(p, li),
+body.landing-page .info-card p,
+body.landing-page .check-list li,
+body.landing-page .faq-item summary,
+body.landing-page .chat-message__bubble > p { font-size: var(--type-body); line-height: 1.55; }
+body.landing-page :is(.info-card h3, .rich-text h3) { font-size: var(--type-h3); line-height: 1.3; }
+body.landing-page .rich-text h4 { font-size: var(--type-h4); line-height: 1.35; }
+body.landing-page .kicker { font-size: var(--type-label); line-height: 1.35; }
+body.landing-page :is(.course-preview__caption span, .profile-image figcaption, .image-gallery figcaption, .type-caption) { font-size: var(--type-caption); line-height: 1.5; }
+body.landing-page :is(.button, .site-header__cta) { font-size: var(--type-control); line-height: 1.3; }
+body.landing-page .chat-message__author { font-size: var(--type-label); }
+body.landing-page .demo-form label { font-size: var(--type-label); }
+body.landing-page :is(.type-h1, .type-h2) { font-size: var(--type-h2); line-height: 1.25; }
+body.landing-page .type-h1 { font-size: var(--type-h1); line-height: 1.2; }
+body.landing-page .type-h3 { font-size: var(--type-h3); line-height: 1.3; }
+body.landing-page .type-body { font-size: var(--type-body); line-height: 1.55; }
+body.landing-page .rich-text strong { font-size: inherit; }
 
 /* Desktop adaptation of the mobile Stitch design.
  * Co-authored-by: Codex <codex@openai.com> */
