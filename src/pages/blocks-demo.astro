@@ -1,11 +1,16 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
+import { plainTextToRichText } from "../lib/landing/rich-text";
 import LandingFonts from "../components/LandingFonts.astro";
 import { landingBackgroundStyle } from "../lib/landing/media-images";
 import ParallaxBackground from "../components/demo/ParallaxBackground.astro";
 import "../styles/global.css";
 import "../styles/presentation.css";
 import Kicker from "../components/landing/Kicker.astro";
-import ParagraphContent from "../components/landing/ParagraphContent.astro";
+import RichTextContent from "../components/landing/RichTextContent.astro";
+import RichTextEditorDemo from "../components/demo/RichTextEditorDemo";
+import { normalizeRichText } from "../lib/landing/rich-text";
+import { destination } from "../lib/landing/normalize";
 import FaqList from "../components/landing/FaqList.astro";
 import DemoFrame from "../components/demo/DemoFrame.astro";
 import StickyMobileCta from "../components/landing/StickyMobileCta.astro";
@@ -34,6 +39,8 @@ if (!import.meta.env.DEV) {
 
 const examples = [
 	{ id: "top", label: "פתיח" },
+	{ id: "rich-text-standard", label: "טקסט עשיר" },
+	{ id: "rich-text-editor", label: "עורך טקסט עשיר" },
 	{ id: "text-ivory", label: "מקטע טקסט — שנהב (ivory)" },
 	{ id: "text-stone", label: "מקטע טקסט — אבן (stone)" },
 	{ id: "text-navy", label: "מקטע טקסט — כחול כהה (navy)" },
@@ -55,12 +62,28 @@ const page = {
 		eyebrow: "פתיח — דוגמה",
 		title: "כך נראים הבלוקים של האתר",
 		subtitle: "תוכן לדוגמה בלבד, לבדיקת המראה והמבנה בעברית.",
-		body: ["כל דוגמה מוצגת בנפרד. אפשר לעבור בין הדוגמאות באמצעות תוכן העניינים.", "האיורים והטקסטים הם להמחשה. הטופס מושבת וכל הכפתורים מקשרים למקטעים בדף הזה."],
+		body: plainTextToRichText(["כל דוגמה מוצגת בנפרד. אפשר לעבור בין הדוגמאות באמצעות תוכן העניינים.", "האיורים והטקסטים הם להמחשה. הטופס מושבת וכל הכפתורים מקשרים למקטעים בדף הזה."]),
 		primaryCta: { label: "לצפייה בהצעה לדוגמה", href: "#offer" },
 		secondaryCta: { label: "לגלריית ההמחשה", href: "#gallery" },
 		visual: { src: "/images/blocks-demo/lesson.svg", alt: "איור לדוגמה של כרטיסיות אותיות", title: "תצוגה לדוגמה", caption: "איור מקומי להמחשת תמונת הפתיח" },
 	},
 };
+const richExample = normalizeRichText([
+    { ...plainTextToRichText(["כותרת פנימית לדוגמה"])[0], _key: "heading", style: "h3" },
+    { ...plainTextToRichText([""])[0], _key: "emphasis", children: [
+        { _type: "span", _key: "a", text: "טקסט רגיל עם ", marks: [] },
+        { _type: "span", _key: "b", text: "הדגשה בתוך משפט", marks: ["strong"] },
+        { _type: "span", _key: "c", text: " וגם טקסט נטוי", marks: ["em"] },
+        { _type: "span", _key: "d", text: " וקישור לדוגמה", marks: ["link"] },
+    ], markDefs: [{ _type: "link", _key: "link", href: "#contents" }] },
+    { ...plainTextToRichText(["פסקה נוספת, לפני הרשימה. התוכן כאן להמחשה בלבד."])[0], _key: "paragraph" },
+    { ...plainTextToRichText(["פריט ראשון", "פריט שני"], true)[0], _key: "bullet-a" },
+    { ...plainTextToRichText(["פריט שני"], true)[0], _key: "bullet-b" },
+    { ...plainTextToRichText(["צעד ממוספר ראשון"])[0], _key: "number-a", listItem: "number", level: 1 },
+    { ...plainTextToRichText(["צעד ממוספר שני"])[0], _key: "number-b", listItem: "number", level: 1 },
+    { ...plainTextToRichText(["ציטוט לדוגמה בלבד"])[0], _key: "quote", style: "blockquote" },
+    { ...plainTextToRichText(["כותרת קטנה פנימית"])[0], _key: "subheading", style: "h4" },
+], () => {}, destination);
 const cards = [
 	{ title: "כרטיס לדוגמה: היכרות", body: "משפט קצר שמציג רעיון אחד ומאפשר לבדוק את ריווח הטקסט." },
 	{ title: "כרטיס לדוגמה: תרגול", body: "כאן מופיע הסבר נוסף לדוגמה, באורך מעט שונה, כדי להמחיש כמה כרטיסים ברצף." },
@@ -125,16 +148,23 @@ const extraExamples = [
                 <LandingPageContent page={page} />
             </DemoFrame>
             {(["ivory", "stone", "navy"] as const).map((surface) => (
-                <DemoFrame id={`text-${surface}`} title={`מקטע תוכן — ${surface}`} type="landing_content_section" fields="kicker, title, background, paragraph_format, paragraphs[].text" display={["Section"]}>
+                <DemoFrame id={`text-${surface}`} title={`מקטע תוכן — ${surface}`} type="landing_content_section" fields="kicker, title, background, body, list_style" display={["Section"]}>
                     <Section title="כותרת מקטע לדוגמה" kicker="כותרת קטנה לדוגמה" surface={surface}>
                         <p>פסקה לדוגמה בלבד. כאן אפשר לבדוק את גוון המקטע, קריאות הטקסט והריווח.</p>
                         <p>פסקה נוספת לדוגמה, מוצגת במסגרת משלה.</p>
                     </Section>
                 </DemoFrame>
             ))}
-            {(["paragraphs", "bullets", "checklist", "cross_list"] as const).map(format => <DemoFrame id={`paragraph-format-${format}`} title={`תצוגת פסקאות — ${format}`} type="landing_content_section" fields="paragraph_format, paragraphs[].text" display={["ParagraphContent"]}>
-                <Section title="טקסט נשמר כפי שנכתב"><ParagraphContent format={format} items={["✓ סימן כחלק מהטקסט", "× טקסט לדוגמה", "✕ סימן נוסף"]} /></Section>
+            {(["standard", "checklist", "cross_list"] as const).map(listStyle => <DemoFrame id={`rich-text-${listStyle}`} title={`טקסט עשיר — ${listStyle}`} type="landing_content_section" fields="body, list_style" display={["RichTextContent"]}>
+                <Section title="פסקאות ורשימות באותו מקטע"><RichTextContent body={richExample} listStyle={listStyle} /></Section>
             </DemoFrame>)}
+            <DemoFrame id="rich-text-final" title="הדגשה בתוך פנייה אישית" type="landing_final_cta" fields="body" display={["FinalCta", "RichTextContent"]}>
+                <FinalCta><h2>פנייה לדוגמה</h2><RichTextContent body={richExample.slice(1, 3)} /><strong>חתימה לדוגמה</strong></FinalCta>
+            </DemoFrame>
+            <section id="rich-text-editor" class="demo-frame">
+                <h2>בדיקת עריכה בטקסט עשיר</h2>
+                <RichTextEditorDemo client:only="react" body={richExample} />
+            </section>
             <DemoFrame id="cards" title="מקטע תוכן — כרטיסים רגילים" type="landing_content_section" fields="cards[].title, cards[].body, ordered_cards = false" display={["Section", "CardGrid"]}>
                 <Section title="כרטיסים רגילים לדוגמה"><CardGrid items={cards} /></Section>
             </DemoFrame>
@@ -162,9 +192,9 @@ const extraExamples = [
             </DemoFrame>
             <DemoFrame id="offer-demo" title="הצעה ותשלום" type="landing_offer" fields="title, body, includes[].text" display={["OfferBlock"]}>
                 <p class="demo-note">הכפתור משתמש ב־checkout_url וב־submit_label. אין טופס קליטת לידים בבלוק ההצעה.</p>
-                <OfferBlock title="הצעה לדוגמה בלבד" body="תוכן המחשה להצעה, ללא רכישה או תשלום." includes={["פריט ראשון לדוגמה", "פריט שני להמחשת הרשימה"]} cta={{ label: "להמשך הדוגמה", href: "#contact" }} />
+                <OfferBlock title="הצעה לדוגמה בלבד" body={plainTextToRichText(["תוכן המחשה להצעה, ללא רכישה או תשלום."])} includes={["פריט ראשון לדוגמה", "פריט שני להמחשת הרשימה"]} cta={{ label: "להמשך הדוגמה", href: "#contact" }} />
             </DemoFrame>
-            <DemoFrame id="final-demo" title="קריאה אחרונה לפעולה" type="landing_final_cta" fields="heading, paragraphs[].text, signature, cta_label, cta_href" display={["FinalCta"]}>
+            <DemoFrame id="final-demo" title="קריאה אחרונה לפעולה" type="landing_final_cta" fields="heading, body, signature, cta_label, cta_href" display={["FinalCta"]}>
                 <FinalCta kicker={null} cta={{ label: "חזרה לתוכן העניינים", href: "#contents" }}>
                     <h2>כותרת סיום לדוגמה</h2>
                     <p>פסקת סיום לדוגמה שמרכזת את הצעד הבא בתוך הדף.</p>
@@ -172,7 +202,7 @@ const extraExamples = [
                 </FinalCta>
             </DemoFrame>
             <DemoFrame id="quote" title="ציטוט — אלמנט תצוגה" display={["Section"]}>
-                <p class="demo-note">סגנון קיים ב־Section. אין שדה ציטוט בסכמת הבלוק הפעילה.</p>
+                <p class="demo-note">ציטוטים נכתבים בתוך שדה הטקסט העשיר body. כאן מוצג הסגנון בנפרד.</p>
                 <Section title="ציטוט לדוגמה"><blockquote><p>ציטוט להמחשת הסגנון בלבד.</p></blockquote></Section>
             </DemoFrame>
             <DemoFrame id="header-demo" title="כותרת האתר — רכיב ממשק" display={["LandingHeader"]}>
@@ -189,7 +219,7 @@ const extraExamples = [
             {(["outline", "soft", "inverse"] as const).map(variant => <DemoFrame id={`kicker-${variant}`} title={`קיקר — ${variant}`} display={["Kicker"]}><div class:list={["primitive-surface", variant === "inverse" && "primitive-surface--inverse"]}><Kicker variant={variant}>בואו תראו איך זה נראה</Kicker><h2>כותרת לדוגמה מתחת לקיקר</h2></div></DemoFrame>)}
             {(["primary", "secondary", "inverse"] as const).flatMap(variant => ["rest", "hover", "focus", "disabled"].map(state => <DemoFrame id={`button-${variant}-${state}`} title={`כפתור ${variant} — ${state}`} display={["LandingPageContent"]}><div class:list={["primitive-surface", variant === "inverse" && "primitive-surface--inverse"]}><button type="button" disabled={state === "disabled"} class:list={["button", `button--${variant}`, state === "hover" && "button--hover", state === "focus" && "button--focus"]}>לפרטי הדוגמה</button></div></DemoFrame>))}
             {ctaPresets.map(({ style, label }) => <DemoFrame id={`cta-style-${style}`} title={`סגנון כפתור — ${label}`} type="landing_offer" fields="cta_style — סגנון כפתור בפתיח, בהצעה ובסיום" display={["OfferBlock", "FinalCta"]}>
-                <OfferBlock title="הצעה לדוגמה" body="סגנון הכפתור נבחר באדמין EmDash." includes={["תוכן המחשה בלבד"]} cta={{ label: "כן אני רוצה את הקורס!", href: "#contents", style }} />
+                <OfferBlock title="הצעה לדוגמה" body={plainTextToRichText(["סגנון הכפתור נבחר באדמין EmDash."])} includes={["תוכן המחשה בלבד"]} cta={{ label: "כן אני רוצה את הקורס!", href: "#contents", style }} />
                 <FinalCta cta={{ label: "כן אני רוצה את הקורס!", href: "#contents", style }}><h2>סיום לדוגמה</h2><p>אותה בחירה נשמרת גם בכפתור הסיום.</p></FinalCta>
             </DemoFrame>)}
             <DemoFrame id="single-card" title="כרטיס בודד" type="landing_content_section" fields="cards[].title, cards[].body" display={["CardGrid"]}><CardGrid items={[cards[0]]} /></DemoFrame>
@@ -218,6 +248,9 @@ const extraExamples = [
     .primitive-surface--inverse h2 { color: white; }
     :global(.blocks-demo [id]) { scroll-margin-top: 88px; }
     :global(.blocks-demo .demo-frame main) { padding: 0; min-height: 0; width: 100%; }
+    :global(.blocks-demo .demo-frame .hero) { width: 100%; }
+    :global(.blocks-demo #rich-text-editor) { min-width: 0; overflow-x: auto; padding: 1rem; }
+    :global(.blocks-demo [data-editor-value]) { max-width: 100%; white-space: pre-wrap; overflow-wrap: anywhere; }
     :global(.blocks-demo .demo-frame__preview .site-header) { position: static; }
     /* Make the normally fixed mobile control visible as an isolated sample. */
     :global(.blocks-demo .demo-frame__preview .sticky-cta) { position: static; display: block; }

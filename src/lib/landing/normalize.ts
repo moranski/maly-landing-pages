@@ -1,4 +1,5 @@
 // Co-authored-by: Codex <codex@openai.com>
+import { normalizeRichText, plainTextToRichText, type RichText, type ListStyle } from "./rich-text.ts";
 import { getSectionBackground, type SectionSurface } from "../../scripts/section-background.js";
 
 export type ParagraphFormat = "paragraphs" | "bullets" | "checklist" | "cross_list";
@@ -6,13 +7,13 @@ export type CtaStyle = "orange" | "red-orange" | "navy" | "outline" | "white";
 export interface Cta { label: string; href: string; style?: CtaStyle }
 export interface Image { src: string; alt: string; caption?: string; width?: number; height?: number }
 export interface Hero {
-	eyebrow?: string; title: string; subtitle: string; body: string[];
+	eyebrow?: string; title: string; subtitle: string; body: RichText;
 	primaryCta?: Cta; secondaryCta?: Cta;
 	visual?: Image & { title?: string };
 }
 export interface ContentSection {
 	kind: "section"; id?: string; kicker?: string; title: string; surface: SectionSurface;
-	paragraphFormat: ParagraphFormat; paragraphs: string[];
+	listStyle: ListStyle; body: RichText;
 	cards: { title: string; body: string }[]; orderedCards: boolean;
 	profile?: Image; gallery: Image[]; faq: { question: string; answer: string }[];
 }
@@ -21,10 +22,10 @@ export interface Testimonials {
 	items: { quote: string; attribution?: string; authorImage?: Image }[];
 }
 export interface Offer {
-	kind: "offer"; title: string; body: string; includes: string[]; kicker?: string; cta?: Cta;
+	kind: "offer"; title: string; body: RichText; includes: string[]; kicker?: string; cta?: Cta;
 }
 export interface FinalCta {
-	kind: "final"; heading: string; paragraphs: string[]; signature?: string; kicker?: string; cta?: Cta; image?: Image;
+	kind: "final"; heading: string; body: RichText; signature?: string; kicker?: string; cta?: Cta; image?: Image;
 }
 export interface LandingPage {
 	title: string; description: string; lang: "he"; dir: "rtl";
@@ -40,7 +41,7 @@ const formats: ParagraphFormat[] = ["paragraphs", "bullets", "checklist", "cross
 const ctaStyles: Record<string, CtaStyle> = { "כתום": "orange", "כתום אדום": "red-orange", "כחול כהה": "navy", "מסגרת כחולה": "outline", "לבן": "white" };
 const legacySurfaces: Record<string, SectionSurface> = { plain: "ivory", tinted: "stone", deep: "navy" };
 const versions: Record<string, number[]> = {
-	landing_hero: [1, 2], landing_content_section: [1, 2], landing_testimonials: [1, 2], landing_offer: [1, 2], landing_final_cta: [1, 2],
+	landing_hero: [1, 2, 3], landing_content_section: [1, 2, 3], landing_testimonials: [1, 2], landing_offer: [1, 2, 3], landing_final_cta: [1, 2, 3],
 };
 
 /** Returns a safe destination, never an inferred target or arbitrary protocol. */
@@ -89,6 +90,11 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 			if (mandatory && !result.length) report(path, "required");
 			return result;
 		};
+		const richBody = (mandatory = false): RichText => {
+			const body = normalizeRichText(b.body, (path, code) => report(`body${path}`, code), destination);
+			if (mandatory && !body.length) report("body", "required");
+			return body;
+		};
 		const image = (value: unknown, alt: unknown, path: string, mandatory = false): Image | undefined => {
 			if (value === undefined || value === null || value === "") { if (mandatory) report(path, "required"); return; }
 			const media = record(value);
@@ -116,7 +122,7 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 		if (!kind || !versions[kind]) { report("_type", "unknown_block_type"); return; }
 		if (typeof version !== "number" || !versions[kind].includes(version)) { report("_version", "unsupported_version"); return; }
 		if (kind === "landing_hero") {
-			const title = required(b.title, "title"), subtitle = required(b.subtitle, "subtitle"), body = texts(b.body, "body", true);
+			const title = required(b.title, "title"), subtitle = required(b.subtitle, "subtitle"), body = version === 3 ? richBody(true) : plainTextToRichText(texts(b.body, "body", true));
 			const primaryCta = cta(b.cta_label, b.cta_href, "cta");
 			const visual = image(b.visual_image, b.visual_alt, "visual_image", true);
 			const visualTitle = required(b.visual_title, "visual_title"), visualCaption = required(b.visual_caption, "visual_caption");
@@ -126,15 +132,17 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 			let surface = getSectionBackground(b.background);
 			if (!surface && version === 1) surface = legacySurfaces[typeof b.tone === "string" ? b.tone : ""] ?? "ivory";
 			if (!surface) { report("background", "invalid_choice"); return; }
-			const format = version === 1 ? "paragraphs" : b.paragraph_format;
+			const format = version === 1 || version === 3 ? "paragraphs" : b.paragraph_format;
 			if (!formats.includes(format as ParagraphFormat)) { report("paragraph_format", "invalid_choice"); return; }
+			const listStyle = version === 3 ? b.list_style : format === "checklist" || format === "cross_list" ? format : "standard";
+			if (!["standard", "checklist", "cross_list"].includes(String(listStyle))) { report("list_style", "invalid_choice"); return; }
 			const profile = image(b.profile_image, b.profile_alt, "profile_image");
 			const gallery = entries(b.gallery, "gallery").flatMap(([i, r]) => { const img = image(r.image, r.alt, `gallery[${i}].image`, true); return img ? [{ ...img, caption: text(r.caption) }] : []; });
 			const cards = entries(b.cards, "cards").flatMap(([i, r]) => { const title = required(r.title, `cards[${i}].title`), body = required(r.body, `cards[${i}].body`); return title && body ? [{ title, body }] : []; });
 			const faq = entries(b.faq_items, "faq_items").flatMap(([i, r]) => { const question = required(r.question, `faq_items[${i}].question`), answer = required(r.answer, `faq_items[${i}].answer`); return question && answer ? [{ question, answer }] : []; });
-			const paragraphs = texts(b.paragraphs, "paragraphs");
-			if (!paragraphs.length && !cards.length && !gallery.length && !faq.length && !profile) { report("content", "required"); return; }
-			if (title) page.blocks.push({ kind: "section", title, id: text(b.id), kicker: text(b.kicker), surface, paragraphFormat: format as ParagraphFormat, paragraphs, cards, orderedCards: b.ordered_cards === true, profile: profile ? { ...profile, caption: text(b.profile_caption) } : undefined, gallery, faq });
+			const body = version === 3 ? richBody() : plainTextToRichText(texts(b.paragraphs, "paragraphs"), format !== "paragraphs");
+			if (!body.length && !cards.length && !gallery.length && !faq.length && !profile) { report("content", "required"); return; }
+			if (title) page.blocks.push({ kind: "section", title, id: text(b.id), kicker: text(b.kicker), surface, listStyle: listStyle as ListStyle, body, cards, orderedCards: b.ordered_cards === true, profile: profile ? { ...profile, caption: text(b.profile_caption) } : undefined, gallery, faq });
 		} else if (kind === "landing_testimonials") {
 			const title = required(b.title, "title");
 			const items = entries(b.testimonials, "testimonials").flatMap(([i, r]) => {
@@ -145,14 +153,16 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 			if (!items.length) report("testimonials", "required");
 			if (title && items.length) page.blocks.push({ kind: "testimonials", title, items });
 		} else if (kind === "landing_offer") {
-			const title = required(b.title, "title"), body = required(b.body, "body"), includes = texts(b.includes, "includes", true);
+			const title = required(b.title, "title"), includes = texts(b.includes, "includes", true);
+			const legacyBody = version === 3 ? undefined : required(b.body, "body");
+			const body = version === 3 ? richBody(true) : plainTextToRichText(legacyBody ? [legacyBody] : []);
 			const action = cta(b.submit_label, b.checkout_url, "checkout", true);
-			if (title && body && includes.length) page.blocks.push({ kind: "offer", title, body, includes, cta: action, kicker: text(b.kicker) });
+			if (title && body.length && includes.length) page.blocks.push({ kind: "offer", title, body, includes, cta: action, kicker: text(b.kicker) });
 		} else if (kind === "landing_final_cta") {
-			const heading = required(b.heading, "heading"), paragraphs = texts(b.paragraphs, "paragraphs", true);
+			const heading = required(b.heading, "heading"), body = version === 3 ? richBody(true) : plainTextToRichText(texts(b.paragraphs, "paragraphs", true));
 			const action = cta(b.cta_label, b.cta_href, "cta");
 			const portrait = image(b.image, b.image_alt, "image");
-			if (heading && paragraphs.length) page.blocks.push({ kind: "final", heading, paragraphs, signature: text(b.signature), kicker: text(b.kicker), cta: action, image: portrait });
+			if (heading && body.length) page.blocks.push({ kind: "final", heading, body, signature: text(b.signature), kicker: text(b.kicker), cta: action, image: portrait });
 		}
 	});
 	if (heroCount !== 1 || !page.hero) issue("layout", "hero_contract");

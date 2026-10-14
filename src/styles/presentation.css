@@ -121,6 +121,30 @@ body.landing-page :is(.surface--blue, .surface--navy) :is(h2, .section-prose > p
 body.landing-page :is(.surface--blue, .surface--navy) .kicker { background: white; color: #00236f; border-color: white; }
 body.landing-page .surface--stone .faq-item { color: var(--color-text); }
 
+/* Rich prose shares the page typography; inline emphasis is never a signature.
+ * Co-authored-by: Codex <codex@openai.com> */
+body.landing-page .rich-text { width: 100%; min-width: 0; }
+body.landing-page .rich-text > * { margin: 0; }
+body.landing-page .rich-text > * + * { margin-block-start: 1rem; }
+body.landing-page .rich-text :is(p, li) { font-size: 16px; line-height: 1.65; color: inherit; }
+body.landing-page .rich-text strong { display: inline; margin: 0; color: inherit; font-size: inherit; font-weight: 700; }
+body.landing-page .rich-text :is(h3, h4) { width: auto; max-width: 100%; margin: 1.5rem 0 .75rem; padding: 0; background: none; border-radius: 0; box-shadow: none; text-align: start; color: inherit; line-height: 1.4; }
+body.landing-page .rich-text h3 { font-size: 22px; }
+body.landing-page .rich-text h4 { font-size: 18px; }
+body.landing-page .rich-text a { text-decoration: underline; text-underline-offset: .2em; }
+body.landing-page .rich-text :is(ul, ol) { padding-inline-start: 1.5rem; }
+body.landing-page .rich-text li + li { margin-block-start: .75rem; }
+body.landing-page .rich-text blockquote { padding: 1rem; border-inline-start: 3px solid currentColor; border-radius: 0; background: transparent; color: inherit; font-weight: 400; text-align: start; box-shadow: none; }
+body.landing-page .rich-text blockquote::before { content: none; }
+body.landing-page .rich-text[data-list-style="checklist"] ul,
+body.landing-page .rich-text[data-list-style="cross_list"] ul { list-style: none; padding-inline-start: 0; }
+body.landing-page .rich-text[data-list-style="checklist"] ul > li,
+body.landing-page .rich-text[data-list-style="cross_list"] ul > li { position: relative; padding-inline-start: 2.25rem; }
+body.landing-page .rich-text[data-list-style="checklist"] ul > li::before,
+body.landing-page .rich-text[data-list-style="cross_list"] ul > li::before { position: absolute; inset-inline-start: 0; width: 1.5rem; font-weight: 700; text-align: center; color: var(--paragraph-marker-color, var(--color-ink)); }
+body.landing-page .rich-text[data-list-style="checklist"] ul > li::before { content: "✓"; }
+body.landing-page .rich-text[data-list-style="cross_list"] ul > li::before { content: "×"; color: var(--paragraph-marker-color, #b42318); }
+
 /* Desktop adaptation of the mobile Stitch design.
  * Co-authored-by: Codex <codex@openai.com> */
 @media (min-width: 1024px) {
@@ -141,6 +165,7 @@ body.landing-page .surface--stone .faq-item { color: var(--color-text); }
  body.landing-page .hero__visual { grid-column: 2; grid-row: 1 / 3; order: 0; }
  body.landing-page .course-preview__image { max-height: none; }
  body.landing-page .section-prose > p,
+ body.landing-page .section-prose .rich-text > p,
  body.landing-page .offer p,
  body.landing-page .final-cta p { max-width: 65ch; }
  body.landing-page .card-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }

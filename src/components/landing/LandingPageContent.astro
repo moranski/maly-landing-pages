@@ -1,5 +1,6 @@
 ---
 // Co-authored-by: Codex <codex@openai.com>
+import RichTextContent from "./RichTextContent.astro";
 import type { Hero } from "../../lib/landing/normalize";
 import { responsiveMediaImage } from "../../lib/landing/media-images";
 interface PageData { hero?: Hero; }
@@ -22,7 +23,7 @@ const heroVisual = hero?.visual;
 				<h1>{hero.title}</h1>
 				<p class="hero__subtitle"><strong>{hero.subtitle}</strong></p>
 				<div class="hero__body">
-					{hero.body.map((paragraph) => <p>{paragraph}</p>)}
+					<RichTextContent body={hero.body} />
 				</div>
 			</div>
 

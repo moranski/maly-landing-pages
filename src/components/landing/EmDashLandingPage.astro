@@ -8,7 +8,7 @@ import OfferBlock from "./OfferBlock.astro";
 import ProfileImage from "./ProfileImage.astro";
 import Section from "./Section.astro";
 import FaqList from "./FaqList.astro";
-import ParagraphContent from "./ParagraphContent.astro";
+import RichTextContent from "./RichTextContent.astro";
 import TestimonialsBlock from "./TestimonialsBlock.astro";
 import type { EditProxy } from "emdash";
 import { normalizeLandingPage } from "../../lib/landing/normalize";
@@ -27,14 +27,14 @@ if (!page) {
     {page.blocks.map(block => {
       if (block.kind === "section") return <Section surface={block.surface} id={block.id} kicker={block.kicker} title={block.title}>
         {block.profile && <ProfileImage {...block.profile} />}
-        <ParagraphContent items={block.paragraphs} format={block.paragraphFormat} />
+        <RichTextContent body={block.body} listStyle={block.listStyle} />
         {block.cards.length > 0 && <CardGrid ordered={block.orderedCards} items={block.cards} />}
         {block.gallery.length > 0 && <ImageGallery images={block.gallery} />}
         {block.faq.length > 0 && <FaqList items={block.faq} />}
       </Section>;
       if (block.kind === "testimonials") return <TestimonialsBlock title={block.title} testimonials={block.items} />;
       if (block.kind === "offer") return <OfferBlock title={block.title} body={block.body} includes={block.includes} kicker={block.kicker} cta={block.cta} />;
-      if (block.kind === "final") return <FinalCta kicker={block.kicker} cta={block.cta} image={block.image}><h2>{block.heading}</h2><ParagraphContent items={block.paragraphs} />{block.signature && <strong>{block.signature}</strong>}</FinalCta>;
+      if (block.kind === "final") return <FinalCta kicker={block.kicker} cta={block.cta} image={block.image}><h2>{block.heading}</h2><RichTextContent body={block.body} />{block.signature && <strong>{block.signature}</strong>}</FinalCta>;
     })}
   </LandingPageContent>
 </LandingPageLayout>

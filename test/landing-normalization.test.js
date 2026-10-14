@@ -84,8 +84,9 @@ test('all paragraph formats work for arbitrary IDs without changing prose', () =
     const texts = ['✓ literal', '× literal', '✕ literal', '  whitespace around prose  '];
     const { page, diagnostics } = normalize(section({ id: 'unrelated', paragraph_format: format, paragraphs: texts.map(text => ({ text })) }));
     assert.deepEqual(diagnostics, []);
-    assert.equal(page.blocks[0].paragraphFormat, format);
-    assert.deepEqual(page.blocks[0].paragraphs, texts);
+    assert.equal(page.blocks[0].listStyle, ['checklist', 'cross_list'].includes(format) ? format : 'standard');
+    assert.equal(page.blocks[0].body[0].listItem, format === 'paragraphs' ? undefined : 'bullet');
+    assert.deepEqual(page.blocks[0].body.map(b => b.children.map(s => s.text).join('')), texts);
   }
 });
 
@@ -93,7 +94,7 @@ test('gallery, page slug, author spelling and preview cannot select styling', ()
   const plain = normalize(section()).page.blocks[0];
   const gallery = normalize(section({ gallery: [{ image: '/photo.webp', alt: 'Photo' }] })).page.blocks[0];
   assert.equal(plain.surface, gallery.surface);
-  assert.equal(gallery.paragraphFormat, plain.paragraphFormat);
+  assert.equal(gallery.listStyle, plain.listStyle);
   const base = { title: 'Page', description: 'Description', lang: 'he', dir: 'rtl', layout: [hero(), section()] };
   assert.deepEqual(normalizeLandingPage({ ...base, slug: 'reading', preview: true }), normalizeLandingPage({ ...base, slug: 'other', preview: false }));
   for (const attribution of ['Alice', 'Bob', '   ', undefined]) {
@@ -139,7 +140,7 @@ test('hero ordering, multiplicity, unsupported versions and malformed blocks are
 test('retained versions resolve declared tone only and never inspect content IDs', () => {
   for (const [tone, surface] of [['plain', 'ivory'], ['tinted', 'stone'], ['deep', 'navy'], ['unknown', 'ivory']]) {
     const block = normalize(section({ _version: 1, background: undefined, tone, id: 'why_it_didnt_work', gallery: [{ image: '/photo.webp', alt: 'Photo' }] })).page.blocks[0];
-    assert.equal(block.surface, surface); assert.equal(block.paragraphFormat, 'paragraphs');
+    assert.equal(block.surface, surface); assert.equal(block.listStyle, 'standard'); assert.equal(block.body[0].listItem, undefined);
   }
 });
 

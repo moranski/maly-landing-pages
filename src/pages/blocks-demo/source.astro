@@ -1,4 +1,5 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
 export const prerender = false;
 if (!import.meta.env.DEV) return new Response("העמוד לא נמצא", { status: 404 });
 // Explicit allowlist: this route never reads arbitrary workspace files.
@@ -25,7 +26,7 @@ const content = await read();
  <body>
   <a href="/blocks-demo">חזרה לדוגמאות</a>
   <h1><bdi>{file}</bdi></h1>
-  {file.endsWith(".json") && !file.endsWith("reading-preview.json") && <p>עותק לקריאה בלבד של הסכמה הפעילה, מאומת ב־13.10.2026. מקור האמת הוא EmDash; קובץ זה אינו מגדיר או משנה את המערכת.</p>}
+  {file.endsWith(".json") && !file.endsWith("reading-preview.json") && <p>עותק לקריאה בלבד של הסכמה שנקראה דרך EmDash MCP. מקור האמת הוא EmDash; קובץ זה אינו מגדיר או משנה את המערכת.</p>}
   {file.endsWith("reading-preview.json") && <p>עותק מסונן לתצוגת טיוטה מקומית. מקור האמת לתוכן הוא EmDash.</p>}
   <pre dir="ltr"><code>{content.split("\n").map((line, i) => <span id={`L${i + 1}`}><a href={`#L${i + 1}`} aria-label={`שורה ${i + 1}`}>{i + 1}</a>{line}{"\n"}</span>)}</code></pre>
  </body>

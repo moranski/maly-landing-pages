@@ -1,8 +1,8 @@
 {
   "notice": "עותק מסונן לתצוגת טיוטה מקומית; מקור האמת הוא EmDash. רוענן דרך MCP.",
   "entry": "landing_pages/reading",
-  "version": 91,
-  "draftRevisionId": "01M4WRWRWX3QET49Z9805FS365",
+  "version": 97,
+  "draftRevisionId": "01M4X4KR2A0NXJXKQKV5XG200J",
   "page": {
     "title": "תוכנית  ללימוד הקריאה באנגלית לילדים",
     "description": "מסלול דיגיטלי, צבעוני ומדורג לבניית יסודות הקריאה באנגלית ב־5 דקות ביום מבית אנגלית עם מלי.",
@@ -16,7 +16,29 @@
         "subtitle": "התוכנית הדיגיטלית שתלמד את הילד שלך לקרוא אנגלית מהבסיס",
         "body": [
           {
-            "text": "בתוכנית החדשה ״אנגלית מעצימה לי עם מלי״ הילד שלך רואה, שומע ומתרגל: קודם אותיות וצלילים, ואז מחבר אותם למילים. 40 שיעורים קצרים וצבעוניים, שאפשר ללמוד בבית בזמן שנוח לכם."
+            "_type": "block",
+            "_key": "text-0",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-0",
+                "text": "בתוכנית החדשה"
+              },
+              {
+                "_type": "span",
+                "_key": "c2e72lnsw",
+                "text": " ״אנגלית מעצימה לי עם מלי״",
+                "marks": [
+                  "strong"
+                ]
+              },
+              {
+                "_type": "span",
+                "_key": "fa73oh7no",
+                "text": " הילד שלך רואה, שומע ומתרגל: קודם אותיות וצלילים, ואז מחבר אותם למילים. 40 שיעורים קצרים וצבעוניים, שאפשר ללמוד בבית בזמן שנוח לכם."
+              }
+            ]
           }
         ],
         "cta_label": "כן אני רוצה את הקורס!",
@@ -29,7 +51,7 @@
         "visual_alt": "כרטיס לימוד מהתוכנית עם האות J ודוגמאות למילים שמתחילות בצליל שלה.",
         "visual_title": "40 שיעורים קצרים",
         "visual_caption": "ככה נראה אחד מכרטיסי הלימוד בתוכנית",
-        "_version": 2,
+        "_version": 3,
         "_key": "01M3PD19259TA5JVVRRACCWP9K",
         "cta_style": "ברירת מחדל"
       },
@@ -37,75 +59,158 @@
         "_type": "landing_content_section",
         "kicker": "",
         "title": "רק רצית לעזור בשיעורי הבית… ושוב הוא נתקע",
-        "paragraphs": [
-          {
-            "text": "את יושבת לידו, פותחת את הספר ומנסה לעזור. הוא מסתכל על מילה באנגלית, מזהה כמה אותיות, ואז מנחש. או פשוט מחכה שתקראי אותה בשבילו."
-          },
-          {
-            "text": "את מסבירה שוב. הוא מנסה, אבל הצלילים עוד לא מתחברים. ואז מגיע ה״אני לא טוב באנגלית״, ואת רק רוצה לעזור לו לנסות שוב בלי ששיעורי הבית יהפכו למאבק."
-          },
-          {
-            "text": "מאיפה מתחילים? מה מסבירים קודם? ואיך עוזרים לו לקרוא גם את המילה הבאה, בלי לתת לו בכל פעם את התשובה?"
-          }
-        ],
-        "_version": 2,
+        "_version": 3,
         "_key": "01M3PD19259P25FG4EMQ09Q3DX",
         "ordered_cards": false,
         "background": "אפרסק",
         "id": "homework_frustration",
-        "paragraph_format": "paragraphs"
+        "body": [
+          {
+            "_type": "block",
+            "_key": "text-0",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-0",
+                "text": "את יושבת לידו, פותחת את הספר ומנסה לעזור. הוא מסתכל על מילה באנגלית, מזהה כמה אותיות, ואז מנחש. או פשוט מחכה שתקראי אותה בשבילו.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_type": "block",
+            "_key": "text-1",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-1",
+                "text": "את מסבירה שוב. הוא מנסה, אבל הצלילים עוד לא מתחברים. ואז מגיע ה״אני לא טוב באנגלית״, ואת רק רוצה לעזור לו לנסות שוב בלי ששיעורי הבית יהפכו למאבק.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_type": "block",
+            "_key": "text-2",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-2",
+                "text": "מאיפה מתחילים? מה מסבירים קודם? ואיך עוזרים לו לקרוא גם את המילה הבאה, בלי לתת לו בכל פעם את התשובה?",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          }
+        ],
+        "list_style": "standard"
       },
       {
         "_type": "landing_content_section",
-        "_version": 2,
+        "_version": 3,
         "id": "why_it_didnt_work",
         "kicker": "",
         "title": "למה עד היום זה לא עבד?",
         "ordered_cards": false,
-        "paragraphs": [
-          {
-            "text": "כי לימדו אתכם עם אינסוף חוקים ודקדוק במקום להתחיל מבסיס ברור."
-          },
-          {
-            "text": "כי השיטות הקיימות משעממות ולא מצליחות להחזיק את תשומת הלב של הילדים."
-          },
-          {
-            "text": "כי לא היה תהליך קצר, צבעוני וחווייתי שמוביל שלב־שלב להצלחה."
-          }
-        ],
         "cards": [],
         "_key": "01M4TBBG4G6CH19RQ3XHWA7YRS",
         "background": "אבן",
-        "paragraph_format": "cross_list"
+        "body": [
+          {
+            "_type": "block",
+            "_key": "text-0",
+            "style": "normal",
+            "listItem": "bullet",
+            "level": 1,
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-0",
+                "text": "כי לימדו אתכם עם אינסוף חוקים ודקדוק במקום להתחיל מבסיס ברור."
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "text-1",
+            "style": "normal",
+            "listItem": "bullet",
+            "level": 1,
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-1",
+                "text": "כי השיטות הקיימות משעממות ולא מצליחות להחזיק את תשומת הלב של הילדים."
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "text-2",
+            "style": "normal",
+            "listItem": "bullet",
+            "level": 1,
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-2",
+                "text": "כי לא היה תהליך קצר, צבעוני וחווייתי שמוביל שלב־שלב להצלחה."
+              }
+            ]
+          }
+        ],
+        "list_style": "cross_list"
       },
       {
         "_type": "landing_content_section",
         "kicker": "בואי נתחיל מהבסיס",
         "title": "הוא מכיר את האותיות. עכשיו מחברים אותן למילים",
-        "paragraphs": [
-          {
-            "text": "לדעת איך קוראים לאות זה רק חלק מהעניין. כדי לקרוא מילה חדשה, הילד שלך צריך להכיר גם את הצלילים וללמוד לחבר ביניהם."
-          },
-          {
-            "text": "בתוכנית חוזרים למה שעוד לא ברור ומתרגלים יחד את החיבור הזה, צעד אחר צעד."
-          }
-        ],
-        "_version": 2,
+        "_version": 3,
         "_key": "01M3PD1925X3D78H9DKMMA3S24",
         "ordered_cards": false,
         "background": "מרווה",
         "id": "reading_foundations",
-        "paragraph_format": "paragraphs"
+        "body": [
+          {
+            "_type": "block",
+            "_key": "text-0",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-0",
+                "text": "לדעת איך קוראים לאות זה רק חלק מהעניין. כדי לקרוא מילה חדשה, הילד שלך צריך להכיר גם את הצלילים וללמוד לחבר ביניהם.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_type": "block",
+            "_key": "text-1",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-1",
+                "text": "בתוכנית חוזרים למה שעוד לא ברור ומתרגלים יחד את החיבור הזה, צעד אחר צעד.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          }
+        ],
+        "list_style": "standard"
       },
       {
         "_type": "landing_content_section",
         "kicker": "",
         "title": "רואים, שומעים, מנסים לקרוא",
-        "paragraphs": [
-          {
-            "text": "בכל שיעור הילד שלך לומד משהו קטן, רואה דוגמאות ומנסה בעצמו. בין השיעורים הוא חוזר ומתרגל את מה שלמד."
-          }
-        ],
         "ordered_cards": true,
         "cards": [
           {
@@ -121,11 +226,27 @@
             "body": "משהו עוד לא מסתדר? אפשר לחזור לשיעור, לשמוע שוב ולנסות עוד פעם."
           }
         ],
-        "_version": 2,
+        "_version": 3,
         "_key": "01M3PD19251BAT084Z134KD4DM",
         "background": "אפרסק",
         "id": "learning_steps",
-        "paragraph_format": "paragraphs"
+        "body": [
+          {
+            "_type": "block",
+            "_key": "text-0",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-0",
+                "text": "בכל שיעור הילד שלך לומד משהו קטן, רואה דוגמאות ומנסה בעצמו. בין השיעורים הוא חוזר ומתרגל את מה שלמד.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          }
+        ],
+        "list_style": "standard"
       },
       {
         "_type": "landing_content_section",
@@ -139,33 +260,61 @@
         },
         "profile_alt": "מלי כהן מחייכת למצלמה",
         "profile_caption": "מלי כהן",
-        "paragraphs": [
-          {
-            "text": "כבר יותר מ־20 שנה אני מלמדת ילדים ומבוגרים אנגלית."
-          },
-          {
-            "text": "פגשתי הרבה ילדים חכמים וסקרנים שאמרו ״אני לא טוב באנגלית״. לפעמים הם פשוט היו צריכים עוד זמן עם האותיות והצלילים, לפני שממשיכים הלאה."
-          },
-          {
-            "text": "בשבילם יצרתי את תוכנית הקריאה החדשה ״אנגלית מעצימה לי עם מלי״. לקחתי את הניסיון שלי מההוראה ובניתי שיעורים קצרים עם תמונות, צלילים ותרגול, כדי שהילד שלך יוכל להבין, לנסות ולחזור כשצריך."
-          }
-        ],
-        "_version": 2,
+        "_version": 3,
         "_key": "01M3PD1925CYSCR2GSKNZ3ZT0B",
         "ordered_cards": false,
         "background": "כחול",
         "id": "meet_maly",
-        "paragraph_format": "paragraphs"
+        "body": [
+          {
+            "_type": "block",
+            "_key": "text-0",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-0",
+                "text": "כבר יותר מ־20 שנה אני מלמדת ילדים ומבוגרים אנגלית.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_type": "block",
+            "_key": "text-1",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-1",
+                "text": "פגשתי הרבה ילדים חכמים וסקרנים שאמרו ״אני לא טוב באנגלית״. לפעמים הם פשוט היו צריכים עוד זמן עם האותיות והצלילים, לפני שממשיכים הלאה.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_type": "block",
+            "_key": "text-2",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-2",
+                "text": "בשבילם יצרתי את תוכנית הקריאה החדשה ״אנגלית מעצימה לי עם מלי״. לקחתי את הניסיון שלי מההוראה ובניתי שיעורים קצרים עם תמונות, צלילים ותרגול, כדי שהילד שלך יוכל להבין, לנסות ולחזור כשצריך.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          }
+        ],
+        "list_style": "standard"
       },
       {
         "_type": "landing_content_section",
         "kicker": "בואי תראי איך זה נראה",
         "title": "כמה דקות ביום, בזמן שנוח לכם",
-        "paragraphs": [
-          {
-            "text": "בחלק מהימים לומדים שיעור חדש, ובאחרים חוזרים ומתרגלים. בדרך כלל מקדישים לזה כ־5 דקות ביום. המסלול המומלץ נמשך כ־12 שבועות, ואפשר להתקדם בקצב שמתאים לילד שלך."
-          }
-        ],
         "cards": [
           {
             "title": "שיעור קצר, עוד צעד קדימה",
@@ -232,12 +381,28 @@
             "caption": "כיף לילדים להצליח באנגלית"
           }
         ],
-        "_version": 2,
+        "_version": 3,
         "_key": "01M3PD1925W39NW8NTXJ6EXDA1",
         "ordered_cards": false,
         "background": "שנהב",
         "id": "daily_practice",
-        "paragraph_format": "paragraphs"
+        "body": [
+          {
+            "_type": "block",
+            "_key": "text-0",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-0",
+                "text": "בחלק מהימים לומדים שיעור חדש, ובאחרים חוזרים ומתרגלים. בדרך כלל מקדישים לזה כ־5 דקות ביום. המסלול המומלץ נמשך כ־12 שבועות, ואפשר להתקדם בקצב שמתאים לילד שלך.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          }
+        ],
+        "list_style": "standard"
       },
       {
         "_type": "landing_testimonials",
@@ -312,22 +477,55 @@
         "id": "program_fit",
         "kicker": "",
         "title": "זה מתאים לילד שלך?",
-        "paragraphs": [
-          {
-            "text": "אם הוא מתבלבל בין אותיות, מכיר את השמות שלהן אבל לא את הצלילים, או מנחש במקום לקרוא — התוכנית יכולה להתאים לו."
-          },
-          {
-            "text": "אם הוא כבר קורא טקסטים באנגלית בקלות ואת מחפשת בעיקר להרחיב את אוצר המילים שלו, זה פחות הכיוון. התוכנית מתמקדת בבסיס הקריאה, ולא בדקדוק מתקדם או בהכנה לבגרות."
-          },
-          {
-            "text": "אם יש לו קושי לימודי משמעותי, אפשר לשלב את התוכנית כתרגול נוסף לצד ליווי שמתאים לו. היא לא מחליפה אבחון מקצועי."
-          }
-        ],
-        "_version": 2,
+        "_version": 3,
         "_key": "01M3PD1925MNGB0E5562KEATEW",
         "ordered_cards": false,
         "background": "שנהב",
-        "paragraph_format": "paragraphs"
+        "body": [
+          {
+            "_type": "block",
+            "_key": "text-0",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-0",
+                "text": "אם הוא מתבלבל בין אותיות, מכיר את השמות שלהן אבל לא את הצלילים, או מנחש במקום לקרוא — התוכנית יכולה להתאים לו.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_type": "block",
+            "_key": "text-1",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-1",
+                "text": "אם הוא כבר קורא טקסטים באנגלית בקלות ואת מחפשת בעיקר להרחיב את אוצר המילים שלו, זה פחות הכיוון. התוכנית מתמקדת בבסיס הקריאה, ולא בדקדוק מתקדם או בהכנה לבגרות.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_type": "block",
+            "_key": "text-2",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-2",
+                "text": "אם יש לו קושי לימודי משמעותי, אפשר לשלב את התוכנית כתרגול נוסף לצד ליווי שמתאים לו. היא לא מחליפה אבחון מקצועי.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          }
+        ],
+        "list_style": "standard"
       },
       {
         "_type": "landing_content_section",
@@ -359,17 +557,33 @@
             "answer": "התוכנית נותנת לילד שלך דרך לתרגל קריאה בבית. לחלק מהילדים זה יספיק, ואחרים יצטרכו גם עזרה נוספת. זה תלוי במה שהוא צריך."
           }
         ],
-        "_version": 2,
+        "_version": 3,
         "_key": "01M3PD19250PEWAFNR1T03XRPW",
         "ordered_cards": false,
         "background": "שנהב",
         "id": "frequently_asked_questions",
-        "paragraph_format": "paragraphs"
+        "body": [],
+        "list_style": "standard"
       },
       {
         "_type": "landing_offer",
         "title": "בואי נתחיל לתרגל בבית",
-        "body": "את בוחרת מתי, והוא מתקדם בקצב שלו. בלי לתאם שיעור ובלי לנסוע — פשוט ללמוד ולתרגל בבית.",
+        "body": [
+          {
+            "_type": "block",
+            "_key": "text-0",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-0",
+                "text": "את בוחרת מתי, והוא מתקדם בקצב שלו. בלי לתאם שיעור ובלי לנסוע — פשוט ללמוד ולתרגל בבית.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          }
+        ],
         "includes": [
           {
             "text": "40 שיעורים דיגיטליים קצרים, מאותיות וצלילים ועד מילים."
@@ -392,7 +606,7 @@
         ],
         "checkout_url": "https://secure.cardcom.solutions/EA/EA5/bTTx0BGcMEqeDCr0cVizMg/PaymentSP",
         "submit_label": "כן אני רוצה את הקורס!",
-        "_version": 2,
+        "_version": 3,
         "_key": "01M3PD1925BSCQN7T6WAVMZ7JD",
         "kicker": "רוצים להתחיל?",
         "cta_style": "ברירת מחדל"
@@ -400,18 +614,10 @@
       {
         "_type": "landing_final_cta",
         "heading": "מילה ממני אלייך",
-        "paragraphs": [
-          {
-            "text": "את לא צריכה להסביר לו הכול לבד. יצרתי את התוכנית כדי לתת לילד שלך דרך ללמוד ולתרגל, עם מקום לעצור, לחזור ולנסות שוב."
-          },
-          {
-            "text": "נשמע לך מתאים? בואי לראות מה כלול בתוכנית ואיך מצטרפים."
-          }
-        ],
         "signature": "מלי",
         "cta_label": "כן אני רוצה את הקורס!",
         "cta_href": "https://maly-landing-pages.moranski.workers.dev/reading/#offer",
-        "_version": 2,
+        "_version": 3,
         "_key": "01M3PD192519R1FF92M1EGZQ2H",
         "cta_style": "ברירת מחדל",
         "image": {
@@ -420,7 +626,37 @@
           "height": 811,
           "alt": "תמונה של מלי כהן בישיבה פנים למצלמה מחייכת"
         },
-        "image_alt": "מלי כהן יושבת ומחייכת למצלמה"
+        "image_alt": "מלי כהן יושבת ומחייכת למצלמה",
+        "body": [
+          {
+            "_type": "block",
+            "_key": "text-0",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-0",
+                "text": "את לא צריכה להסביר לו הכול לבד. יצרתי את התוכנית כדי לתת לילד שלך דרך ללמוד ולתרגל, עם מקום לעצור, לחזור ולנסות שוב.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          },
+          {
+            "_type": "block",
+            "_key": "text-1",
+            "style": "normal",
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span-1",
+                "text": "נשמע לך מתאים? בואי לראות מה כלול בתוכנית ואיך מצטרפים.",
+                "marks": []
+              }
+            ],
+            "markDefs": []
+          }
+        ]
       }
     ],
     "cta_style": "כתום אדום",

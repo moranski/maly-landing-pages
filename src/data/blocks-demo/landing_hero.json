@@ -1,7 +1,7 @@
 {
   "slug": "landing_hero",
   "label": "פתיח",
-  "version": 2,
+  "version": 3,
   "fields": [
     {
       "slug": "eyebrow",
@@ -30,20 +30,9 @@
     },
     {
       "slug": "body",
-      "label": "פסקאות",
-      "type": "repeater",
-      "required": true,
-      "validation": {
-        "subFields": [
-          {
-            "slug": "text",
-            "type": "text",
-            "label": "טקסט",
-            "required": true
-          }
-        ],
-        "minItems": 1
-      }
+      "label": "תוכן",
+      "type": "portableText",
+      "required": true
     },
     {
       "slug": "cta_label",

@@ -1,7 +1,7 @@
 {
   "slug": "landing_content_section",
   "label": "מקטע תוכן",
-  "version": 2,
+  "version": 3,
   "fields": [
     {
       "slug": "id",
@@ -43,19 +43,10 @@
       }
     },
     {
-      "slug": "paragraphs",
-      "label": "פסקאות",
-      "type": "repeater",
-      "validation": {
-        "subFields": [
-          {
-            "slug": "text",
-            "type": "text",
-            "label": "טקסט",
-            "required": true
-          }
-        ]
-      }
+      "slug": "body",
+      "label": "תוכן",
+      "type": "portableText",
+      "required": false
     },
     {
       "slug": "cards",
@@ -152,15 +143,14 @@
       }
     },
     {
-      "slug": "paragraph_format",
-      "label": "תצוגת פסקאות",
+      "slug": "list_style",
+      "label": "סגנון רשימות",
       "type": "select",
       "required": true,
-      "defaultValue": "paragraphs",
+      "defaultValue": "standard",
       "validation": {
         "options": [
-          "paragraphs",
-          "bullets",
+          "standard",
           "checklist",
           "cross_list"
         ]

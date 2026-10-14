@@ -1,4 +1,6 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
+import { plainTextToRichText } from "../../lib/landing/rich-text";
 import LandingFonts from "../../components/LandingFonts.astro";
 import { landingBackgroundStyle } from "../../lib/landing/media-images";
 import ParallaxBackground from "../../components/demo/ParallaxBackground.astro";
@@ -22,7 +24,7 @@ const page = {
 		eyebrow: "קטלוג תצוגה מקומי",
 		title: "דוגמאות לבלוקים באתר",
 		subtitle: "עמוד קצר לבדיקת המראה של רכיבי התוכן, בנפרד מדף הקריאה.",
-		body: ["הטקסטים בעמוד הם תוכן המחשה בלבד. עדויות הלקוח כאן אינן ביקורות אמיתיות."],
+		body: plainTextToRichText(["הטקסטים בעמוד הם תוכן המחשה בלבד. עדויות הלקוח כאן אינן ביקורות אמיתיות."]),
 		primaryCta: { label: "לצפייה בעדויות", href: "#testimonials" },
 		secondaryCta: { label: "לכל הדוגמאות", href: "/blocks-demo" },
 		visual: {

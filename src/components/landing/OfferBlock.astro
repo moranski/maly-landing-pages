@@ -1,14 +1,16 @@
 ---
 // Co-authored-by: Codex <codex@openai.com>
+import RichTextContent from "./RichTextContent.astro";
+import type { RichText } from "../../lib/landing/rich-text";
 import type { Cta } from "../../lib/landing/normalize";
-interface Props { title: string; body: string; includes: string[]; kicker?: string; cta?: Cta; }
+interface Props { title: string; body: RichText; includes: string[]; kicker?: string; cta?: Cta; }
 const { title, body, includes, kicker, cta } = Astro.props;
 ---
 <section id="offer" class="offer">
   <div class="offer__inner">
     <div>
       {kicker && <p class="kicker">{kicker}</p>}
-      <h2>{title}</h2><p>{body}</p>
+      <h2>{title}</h2><RichTextContent body={body} />
       {includes.length > 0 && <ul class="check-list">{includes.map(item => <li>{item}</li>)}</ul>}
     </div>
     {cta && <aside class="lead-box" aria-label={cta.label}>

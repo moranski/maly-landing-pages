@@ -1,4 +1,6 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
+import { plainTextToRichText } from "../../lib/landing/rich-text";
 import LandingFonts from "../../components/LandingFonts.astro";
 import { landingBackgroundStyle } from "../../lib/landing/media-images";
 import ParallaxBackground from "../../components/demo/ParallaxBackground.astro";
@@ -21,7 +23,7 @@ const page = {
  hero: {
   eyebrow: "לומדים בבית — תוכן לדוגמה", title: "לומדים יחד, בקצב שמתאים לכם",
   subtitle: "רואים דוגמה, מנסים יחד וחוזרים כשצריך.",
-  body: ["זהו תוכן לדוגמה, כדי לבדוק איך העיצוב עובד עם טקסט קצר וברור."],
+  body: plainTextToRichText(["זהו תוכן לדוגמה, כדי לבדוק איך העיצוב עובד עם טקסט קצר וברור."]),
   primaryCta: { label: "לפרטי הדוגמה", href: "#offer" }, secondaryCta: { label: "איך זה עובד?", href: "#steps" },
   visual: { src: "/images/blocks-demo/lesson.svg", alt: "איור מקומי של כרטיסיות לימוד לדוגמה", title: "רואים דוגמה", caption: "איור להמחשה — המדיה הסופית תיבחר ב־EmDash" },
  },
@@ -55,7 +57,7 @@ const faq = [
    <Section title="איך זה היה אצלם בבית?" kicker="הורים מספרים"><div class="testimonial-placeholder">כאן תופיע עדות מאושרת</div></Section>
    <Section title="זה מה שאתם מחפשים?"><p>כאן נסביר למי התוכן מתאים ולמי פחות. זהו טקסט לדוגמה לבדיקת הפריסה.</p></Section>
    <Section title="עוד כמה דברים שכדאי לדעת"><FaqList items={faq} /></Section>
-   <OfferBlock kicker="רוצים להתחיל?" title="בואו נראה את הפרטים" body="כאן יוצגו הפרטים שתבחרו להוסיף. כרגע אפשר לבדוק איך הטופס נראה." includes={["פרט ראשון לדוגמה", "פרט שני לדוגמה", "פרט נוסף לדוגמה"]} cta={{ label: "לפרטי הדוגמה", href: "#contact" }} />
+   <OfferBlock kicker="רוצים להתחיל?" title="בואו נראה את הפרטים" body={plainTextToRichText(["כאן יוצגו הפרטים שתבחרו להוסיף. כרגע אפשר לבדוק איך הטופס נראה."])} includes={["פרט ראשון לדוגמה", "פרט שני לדוגמה", "פרט נוסף לדוגמה"]} cta={{ label: "לפרטי הדוגמה", href: "#contact" }} />
    <FinalCta kicker={null} cta={{ label: "לפרטי הדוגמה", href: "#offer" }}><h2>אפשר לחזור כשנוח לכם</h2><p>נשמע לכם מתאים? בואו תראו שוב את הפרטים.</p></FinalCta>
   </LandingPageContent>
   <StickyMobileCta cta={{ label: "לפרטי הדוגמה", href: "#offer" }} />

@@ -1,0 +1,8 @@
+---
+// Co-authored-by: Codex <codex@openai.com>
+import { PortableText } from "emdash/ui";
+import type { ListStyle, RichText } from "../../lib/landing/rich-text";
+interface Props { body: RichText; listStyle?: ListStyle; }
+const { body, listStyle = "standard" } = Astro.props;
+---
+{body.length > 0 && <div class="rich-text" data-list-style={listStyle}><PortableText value={body} /></div>}

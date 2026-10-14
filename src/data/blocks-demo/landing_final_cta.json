@@ -1,7 +1,7 @@
 {
   "slug": "landing_final_cta",
   "label": "קריאה אחרונה לפעולה",
-  "version": 2,
+  "version": 3,
   "fields": [
     {
       "slug": "heading",
@@ -14,21 +14,10 @@
       }
     },
     {
-      "slug": "paragraphs",
-      "label": "פסקאות",
-      "type": "repeater",
-      "required": true,
-      "validation": {
-        "subFields": [
-          {
-            "slug": "text",
-            "type": "text",
-            "label": "טקסט",
-            "required": true
-          }
-        ],
-        "minItems": 1
-      }
+      "slug": "body",
+      "label": "תוכן",
+      "type": "portableText",
+      "required": true
     },
     {
       "slug": "signature",
