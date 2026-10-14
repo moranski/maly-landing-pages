@@ -33,9 +33,6 @@ const ctaPresets: { style: CtaStyle; label: string }[] = [
 ];
 
 export const prerender = false;
-if (!import.meta.env.DEV) {
-	return new Response("העמוד לא נמצא", { status: 404, headers: { "Content-Type": "text/plain; charset=utf-8" } });
-}
 
 const examples = [
 	{ id: "top", label: "פתיח" },
@@ -130,7 +127,7 @@ const extraExamples = [
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="robots" content="noindex, nofollow" />
         <LandingFonts />
-		<title>{page.title} — הדגמה מקומית</title>
+		<title>{page.title} — הדגמה</title>
 	</head>
 	<body style={landingBackgroundStyle(!import.meta.env.DEV)} class="landing-page blocks-demo">
 <ParallaxBackground />
@@ -139,7 +136,7 @@ const extraExamples = [
 			<h2>תוכן עניינים — דוגמאות בלבד</h2>
             <p><a href="/blocks-demo/story">לצפייה בדף דוגמה רציף</a></p>
             <p><a href="/blocks-demo/blocks">לתצוגת בלוקים ועדויות לקוח</a></p>
-            <p><a href="/blocks-demo/reading">לטיוטת דף הקריאה — התוכן האמיתי</a></p>
+            {import.meta.env.DEV && <p><a href="/blocks-demo/reading">לטיוטת דף הקריאה — התוכן האמיתי</a></p>}
 			<ul>{[...examples, ...extraExamples].map(({ id, label }) => <li><a href={`#${id}`}>{label}</a></li>)}</ul>
 		</nav>
         <div class="demo-catalog">

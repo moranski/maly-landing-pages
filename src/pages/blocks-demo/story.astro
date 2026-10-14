@@ -17,7 +17,6 @@ import OfferBlock from "../../components/landing/OfferBlock.astro";
 import FinalCta from "../../components/landing/FinalCta.astro";
 import StickyMobileCta from "../../components/landing/StickyMobileCta.astro";
 export const prerender = false;
-if (!import.meta.env.DEV) return new Response("העמוד לא נמצא", { status: 404 });
 const page = {
  title: "דף לדוגמה — סיפור ושפה יומיומית", description: "בדיקה מקומית של העיצוב שאושר בסטיץ",
  hero: {

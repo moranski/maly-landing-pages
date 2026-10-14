@@ -15,7 +15,6 @@ import ImageGallery from "../../components/landing/ImageGallery.astro";
 import FaqList from "../../components/landing/FaqList.astro";
 
 export const prerender = false;
-if (!import.meta.env.DEV) return new Response("העמוד לא נמצא", { status: 404 });
 
 const page = {
 	title: "דוגמאות לבלוקים",
