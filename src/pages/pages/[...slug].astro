@@ -1,0 +1,18 @@
+---
+// Co-authored-by: Codex <codex@openai.com>
+import { getEmDashEntry } from "emdash";
+import CmsPage from "../../components/CmsPage.astro";
+import { normalizeCmsPage } from "../../lib/cms-page";
+export const prerender = false;
+const slug = Astro.params.slug;
+const { entry, error, isPreview } = slug ? await getEmDashEntry("pages", slug) : { entry: null, error: undefined, isPreview: false };
+if (error) {
+	console.error("Unable to load CMS page", { slug, error });
+	return new Response("לא ניתן לטעון את העמוד", { status: 500, headers: { "Content-Type": "text/plain; charset=utf-8" } });
+}
+if (!entry) return new Response("העמוד לא נמצא", { status: 404, headers: { "Content-Type": "text/plain; charset=utf-8" } });
+const { page, diagnostics } = normalizeCmsPage({ title: entry.data.title, content: entry.data.content }, entry.data.locale);
+if (diagnostics.length) console.warn("CMS page validation", { slug, diagnostics });
+if (!page) return new Response("לא ניתן להציג את העמוד", { status: 500, headers: { "Content-Type": "text/plain; charset=utf-8" } });
+---
+<CmsPage page={page} contentId={entry.id} preview={isPreview} edit={entry.edit} />

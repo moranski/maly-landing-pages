@@ -1,6 +1,7 @@
 # מפת דף הנחיתה: אנגלית מעצימה לי עם מלי
 
 - **slug:** `reading`
+- **כתובת ציבורית:** `/landing/reading/` (הכתובת הישנה `/reading/` מפנה אליה)
 - **תוכן חי:** EmDash, אוסף `landing_pages`, רשומה `reading`
 - **תקציר הדף:** [`brief.md`](brief.md) — הנחות מוצר וקהל, עקרונות נגזרים וכוונת העיצוב
 - **מקור העיצוב:** Google Stitch, פרויקט [דף נחיתה לימודי אנגלית](https://stitch.withgoogle.com/projects/5526393599336009433), מסך [Power English - דף נחיתה מבוסס מקור ואפיון מלא](https://stitch.withgoogle.com/projects/5526393599336009433/screens/b2c425fdf4ad47778bc459d79e30561c)

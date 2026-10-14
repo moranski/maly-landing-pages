@@ -32,6 +32,10 @@ EmDash מחזיק את נוסח הדף, המדיה, ההצעה והמטא־נת�
 
 ## בדיקות
 
+<!-- Co-authored-by: Codex <codex@openai.com> -->
+
+דפי נחיתה באוסף `landing_pages` מוצגים בנתיב `/landing/<slug>/`. עמודים כלליים באוסף `pages` מוצגים בנתיב `/pages/<slug>` דרך רכיב `CmsPage`: הכותרת והתוכן העשיר מגיעים מ־EmDash, והשפה והכיווניות נבחרות לפי שפת הרשומה. הכתובות הישנות `/<slug>` מפנות בהפניית 308 לכתובת החדשה תוך שמירת פרמטרים ועוגנים. תבנית הכתובת ב־EmDash היא `/landing/{slug}/`. פרסום באדמין אינו יוצר נתיב Astro חדש; לכל אוסף נדרש renderer מתאים בקוד. תוכן לא מפורסם נגיש רק במצב תצוגה מקדימה או עריכה של EmDash.
+
 `npm run docs:check` בודק את מפת העמודים המקומית בלבד. `npm run check` בודק את תיעוד ה־repo, build, TypeScript ו־Wrangler dry run; הוא אינו מאמת את EmDash החי. אימות סכמה, תוכן, טיוטה ותצוגה מקדימה נעשים דרך EmDash לפי מיומנות ניהול ה־CMS.
 
 `npm test` מריץ בדיקות יחידה של שער ההסכמה ל־Google Tag Manager. לפני פריסת Worker יש להשתמש ב־`npm run deploy`, שמפעיל בדיקות ו־`npm run check` דרך `predeploy`. אין להריץ `wrangler deploy` ישירות.

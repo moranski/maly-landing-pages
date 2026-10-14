@@ -1,49 +1,15 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
 import { getEmDashEntry } from "emdash";
-import EmDashLandingPage from "../components/landing/EmDashLandingPage.astro";
-
+import { landingPagePath } from "../lib/landing/urls";
 export const prerender = false;
-
 const slug = Astro.params.slug;
-if (!slug) {
-	Astro.response.status = 404;
-}
-
-const { entry: emdashPage, error } = slug
-	? await getEmDashEntry("landing_pages", slug)
-	: { entry: undefined, error: undefined };
-
+const { entry, error, isPreview } = slug ? await getEmDashEntry("landing_pages", slug) : { entry: null, error: undefined, isPreview: false };
 if (error) {
-	console.error(`Unable to load EmDash landing page "${slug}":`, error);
+    console.error("Unable to resolve legacy landing URL", { slug, error });
+    return new Response("לא ניתן לטעון את העמוד", { status: 500, headers: { "Content-Type": "text/plain; charset=utf-8" } });
 }
-
-if (!emdashPage) {
-	Astro.response.status = 404;
-}
-
-// Public display fields are deliberately allowlisted; private authoring context
-// such as agent_context stays out of the rendered page. EmDash's edit proxy is
-// passed separately and emits annotations only for authenticated edit sessions.
-const pageData = emdashPage
-	? {
-		title: emdashPage.data.title,
-		description: emdashPage.data.description,
-		lang: emdashPage.data.lang,
-		dir: emdashPage.data.dir,
-		cta_style: emdashPage.data.cta_style,
-		layout: emdashPage.data.layout,
-	}
-	: undefined;
+if (!entry || !slug) return new Response("העמוד לא נמצא", { status: 404, headers: { "Content-Type": "text/plain; charset=utf-8" } });
+// Keep campaign parameters and preview tokens; browsers retain the fragment.
+return Astro.redirect(landingPagePath(slug) + Astro.url.search, isPreview ? 307 : 308);
 ---
-
-{
-	emdashPage ? (
-		<EmDashLandingPage
-			page={pageData}
-			contentId={emdashPage.id}
-			edit={emdashPage.edit}
-		/>
-	) : (
-		<main><h1>העמוד לא נמצא</h1></main>
-	)
-}

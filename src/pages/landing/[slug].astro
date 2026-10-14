@@ -1,0 +1,27 @@
+---
+// Co-authored-by: Codex <codex@openai.com>
+import { getEmDashEntry } from "emdash";
+import EmDashLandingPage from "../../components/landing/EmDashLandingPage.astro";
+import { landingPagePath } from "../../lib/landing/urls";
+export const prerender = false;
+const slug = Astro.params.slug;
+const { entry, error, isPreview } = slug ? await getEmDashEntry("landing_pages", slug) : { entry: null, error: undefined, isPreview: false };
+if (error) {
+	console.error("Unable to load landing page", { slug, error });
+	return new Response("לא ניתן לטעון את העמוד", { status: 500, headers: { "Content-Type": "text/plain; charset=utf-8" } });
+}
+if (!entry) return new Response("העמוד לא נמצא", { status: 404, headers: { "Content-Type": "text/plain; charset=utf-8" } });
+if (slug && Astro.url.pathname !== landingPagePath(slug)) return Astro.redirect(landingPagePath(slug) + Astro.url.search, isPreview ? 307 : 308);
+// Only public display fields are passed to the renderer; edit metadata is separate.
+const pageData = {
+	title: entry.data.title,
+	description: entry.data.description,
+	lang: entry.data.lang,
+	dir: entry.data.dir,
+	brand_name: entry.data.brand_name,
+	brand_tagline: entry.data.brand_tagline,
+	cta_style: entry.data.cta_style,
+	layout: entry.data.layout,
+};
+---
+<EmDashLandingPage page={pageData} contentId={entry.id} preview={isPreview} edit={entry.edit} />
