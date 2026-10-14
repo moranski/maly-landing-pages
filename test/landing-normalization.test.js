@@ -8,6 +8,21 @@ const hero = () => ({ _type: 'landing_hero', _version: 2, _key: 'hero', title: '
 const section = (extra = {}) => ({ _type: 'landing_content_section', _version: 2, _key: 'section', title: 'Section', background: 'שנהב', paragraph_format: 'paragraphs', paragraphs: [{ text: 'Text' }], ...extra });
 const normalize = (...blocks) => normalizeLandingPage({ title: 'Page', description: 'Description', lang: 'he', dir: 'rtl', layout: [hero(), ...blocks] });
 
+test('CMS brand logo uses media alt and dimensions without leaking internal fields', () => {
+  const data = { title: 'Page', description: 'Description', lang: 'he', dir: 'rtl', layout: [hero()] };
+  const logo = { id: 'logo', alt: 'Brand logo', width: 450, height: 440, meta: { storageKey: 'logo.webp', agent_context: 'PRIVATE' } };
+  const valid = normalizeLandingPage({ ...data, brand_logo: logo });
+  assert.deepEqual(valid.page.brandLogo, { src: '/_emdash/api/media/file/logo.webp', alt: 'Brand logo', width: 450, height: 440 });
+  assert.deepEqual(valid.diagnostics, []);
+  assert.ok(!JSON.stringify(valid.page).includes('PRIVATE'));
+  assert.equal(normalizeLandingPage(data).page.brandLogo, undefined);
+  for (const invalid of [{ ...logo, alt: ' ' }, { src: 'javascript:alert(1)', alt: 'Logo' }]) {
+    const result = normalizeLandingPage({ ...data, brand_logo: invalid });
+    assert.equal(result.page.brandLogo, undefined);
+    assert.ok(result.diagnostics.some(d => d.path === 'brand_logo' && d.code === 'invalid_image'));
+  }
+});
+
 test('personal appeal portrait requires a safe source and alt and stays optional for existing pages', () => {
   const final = { _type: 'landing_final_cta', _version: 2, heading: 'Final', paragraphs: [{ text: 'Body' }], cta_label: 'Join', cta_href: '#offer' };
   const img = { src: '/portrait.webp', width: 668, height: 811, agent_context: 'PRIVATE' };

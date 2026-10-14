@@ -1,25 +1,28 @@
 ---
-import type { Cta } from "../../lib/landing/normalize";
+import type { Cta, Image } from "../../lib/landing/normalize";
+import { responsiveMediaImage } from "../../lib/landing/media-images";
 // Co-authored-by: Codex <codex@openai.com>
 interface Props {
 	title: string;
 	titleEdit?: Partial<{ "data-emdash-ref": string }>;
 	brandName?: string;
 	brandTagline?: string;
+	brandLogo?: Image;
+	brandLogoEdit?: Partial<{ "data-emdash-ref": string }>;
 	brandNameEdit?: Partial<{ "data-emdash-ref": string }>;
 	brandTaglineEdit?: Partial<{ "data-emdash-ref": string }>;
 	cta?: Cta;
 }
 
-const { title, titleEdit, brandName, brandTagline, brandNameEdit, brandTaglineEdit, cta } = Astro.props;
+const { title, titleEdit, brandName, brandTagline, brandLogo, brandLogoEdit, brandNameEdit, brandTaglineEdit, cta } = Astro.props;
 ---
 
 <header class="site-header">
 	<div class="site-header__inner">
 		<a class="site-brand" href="#top">
-			<span class="site-brand__mark" aria-hidden="true">
+			{brandLogo ? <img class="site-brand__logo" {...responsiveMediaImage(brandLogo.src, [56, 112], "56px", !import.meta.env.DEV, brandLogo.width)} alt={brandLogo.alt} width="56" height="56" loading="eager" decoding="async" {...brandLogoEdit} /> : <span class="site-brand__mark" aria-hidden="true">
 				<svg viewBox="0 0 24 24" fill="none"><path d="M12 6.2c-2.5-1.7-5.2-2-8-1.4v13c2.8-.7 5.5-.3 8 1.4m0-13c2.5-1.7 5.2-2 8-1.4v13c-2.8-.7-5.5-.3-8 1.4m0-13v13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
-			</span>
+			</span>}
 			<span class="site-brand__copy">
 				{brandName && <strong {...brandNameEdit}>{brandName}</strong>}
 				{brandTagline ? <span {...brandTaglineEdit}>{brandTagline}</span> : !brandName && <span {...titleEdit}>{title}</span>}
@@ -36,6 +39,7 @@ const { title, titleEdit, brandName, brandTagline, brandNameEdit, brandTaglineEd
 	.site-brand { min-width: 0; display: flex; align-items: center; gap: 0.6rem; color: var(--color-ink); text-decoration: none; }
 	.site-brand__mark { width: 2.5rem; height: 2.5rem; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; background: color-mix(in srgb, var(--color-ink) 9%, white); }
 	.site-brand__mark svg { width: 1.4rem; height: 1.4rem; }
+	.site-brand__logo { width: 56px; height: 56px; flex: 0 0 auto; object-fit: contain; }
 	.site-brand__copy { min-width: 0; display: grid; line-height: 1.2; }
 	.site-brand__copy strong { font-size: 0.95rem; }
 	.site-brand__copy span { overflow: hidden; color: var(--color-text-muted); font-size: 0.68rem; text-overflow: ellipsis; white-space: nowrap; }

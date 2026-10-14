@@ -148,7 +148,7 @@ body.landing-page .rich-text[data-list-style="cross_list"] ul > li::before { con
 /* Desktop adaptation of the mobile Stitch design.
  * Co-authored-by: Codex <codex@openai.com> */
 @media (min-width: 1024px) {
- body.landing-page { --layout-width: 1200px; }
+ body.landing-page { --layout-width: 1504px; }
  body.landing-page main,
  body.landing-page .site-header__inner,
  body.landing-page .landing-footer,
@@ -158,7 +158,7 @@ body.landing-page .rich-text[data-list-style="cross_list"] ul > li::before { con
  body.landing-page .hero,
  body.landing-page .offer__inner,
  body.landing-page .final-cta { padding: 40px; }
- body.landing-page .hero { width: min(calc(100vw - 64px), 1440px); align-self: center; }
+ body.landing-page main > :is(.hero, .section, .offer, .final-cta) { width: 100%; align-self: stretch; }
  body.landing-page .hero__inner { width: 100%; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px 40px; }
  body.landing-page .hero__copy { grid-column: 1; grid-row: 1; }
  body.landing-page .hero__actions { grid-column: 1; grid-row: 2; width: 100%; max-width: 480px; }

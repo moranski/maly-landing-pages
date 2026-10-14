@@ -29,7 +29,7 @@ export interface FinalCta {
 }
 export interface LandingPage {
 	title: string; description: string; lang: "he"; dir: "rtl";
-	brandName?: string; brandTagline?: string;
+	brandName?: string; brandTagline?: string; brandLogo?: Image;
 	hero?: Hero; blocks: (ContentSection | Testimonials | Offer | FinalCta)[];
 }
 export interface Diagnostic { blockKey?: string; path: string; code: string }
@@ -52,6 +52,20 @@ export function destination(value: unknown, httpsOnly = false): string | undefin
 	try { return new URL(href).protocol === "https:" ? href : undefined; } catch { return undefined; }
 }
 
+/** Resolve a display image from CMS media without passing internal media fields. */
+function normalizeMediaImage(value: unknown, alt: unknown, report: (code: string) => void, mandatory = false): Image | undefined {
+	if (value === undefined || value === null || value === "") { if (mandatory) report("required"); return; }
+	const media = record(value);
+	const storageKey = text(record(media?.meta)?.storageKey);
+	const source = typeof value === "string" ? value : media?.src ?? media?.url ?? media?.previewUrl ?? (storageKey ? `/_emdash/api/media/file/${encodeURIComponent(storageKey)}` : undefined);
+	const src = destination(source);
+	const description = text(alt);
+	if (!src || src.startsWith("#") || !description) { report("invalid_image"); return; }
+	const dimension = (v: unknown): number | undefined => typeof v === "number" && Number.isInteger(v) && v > 0 ? v : undefined;
+	const width = dimension(media?.width), height = dimension(media?.height);
+	return { src, alt: description, ...(width && height ? { width, height } : {}) };
+}
+
 /** CMS shapes and retained-version compatibility stop at this boundary. */
 export function normalizeLandingPage(input: unknown): { page?: LandingPage; diagnostics: Diagnostic[] } {
 	const diagnostics: Diagnostic[] = [];
@@ -69,7 +83,7 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 	if (data.lang !== "he") issue("lang", "invalid");
 	if (data.dir !== "rtl") issue("dir", "invalid");
 	if (!title || !description || data.lang !== "he" || data.dir !== "rtl") return { diagnostics };
-	const page: LandingPage = { title, description, lang: "he", dir: "rtl", brandName: text(data.brand_name), brandTagline: text(data.brand_tagline), blocks: [] };
+	const page: LandingPage = { title, description, lang: "he", dir: "rtl", brandName: text(data.brand_name), brandTagline: text(data.brand_tagline), brandLogo: normalizeMediaImage(data.brand_logo, record(data.brand_logo)?.alt, code => issue("brand_logo", code)), blocks: [] };
 	if (!Array.isArray(data.layout) || !data.layout.length) { issue("layout", "required"); return { page, diagnostics }; }
 	let heroCount = 0;
 	data.layout.forEach((value, index) => {
@@ -95,18 +109,7 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 			if (mandatory && !body.length) report("body", "required");
 			return body;
 		};
-		const image = (value: unknown, alt: unknown, path: string, mandatory = false): Image | undefined => {
-			if (value === undefined || value === null || value === "") { if (mandatory) report(path, "required"); return; }
-			const media = record(value);
-			const storageKey = text(record(media?.meta)?.storageKey);
-			const source = typeof value === "string" ? value : media?.src ?? media?.url ?? media?.previewUrl ?? (storageKey ? `/_emdash/api/media/file/${encodeURIComponent(storageKey)}` : undefined);
-			const src = destination(source);
-			const description = text(alt);
-			if (!src || src.startsWith("#") || !description) { report(path, "invalid_image"); return; }
-			const dimension = (v: unknown): number | undefined => typeof v === "number" && Number.isInteger(v) && v > 0 ? v : undefined;
-			const width = dimension(media?.width), height = dimension(media?.height);
-			return { src, alt: description, ...(width && height ? { width, height } : {}) };
-		};
+		const image = (value: unknown, alt: unknown, path: string, mandatory = false) => normalizeMediaImage(value, alt, code => report(path, code), mandatory);
 		const cta = (label: unknown, href: unknown, path: string, httpsOnly = false): Cta | undefined => {
 			const l = required(label, `${path}.label`), h = destination(href, httpsOnly);
 			if (!h) report(`${path}.href`, "invalid_destination");

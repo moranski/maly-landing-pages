@@ -1,8 +1,8 @@
 {
   "notice": "עותק מסונן לתצוגת טיוטה מקומית; מקור האמת הוא EmDash. רוענן דרך MCP.",
   "entry": "landing_pages/reading",
-  "version": 97,
-  "draftRevisionId": "01M4X4KR2A0NXJXKQKV5XG200J",
+  "version": 104,
+  "draftRevisionId": "01M4X6M7M4ZBKS2MDM2SAF95KC",
   "page": {
     "title": "תוכנית  ללימוד הקריאה באנגלית לילדים",
     "description": "מסלול דיגיטלי, צבעוני ומדורג לבניית יסודות הקריאה באנגלית ב־5 דקות ביום מבית אנגלית עם מלי.",
@@ -263,7 +263,7 @@
         "_version": 3,
         "_key": "01M3PD1925CYSCR2GSKNZ3ZT0B",
         "ordered_cards": false,
-        "background": "כחול",
+        "background": "סגול",
         "id": "meet_maly",
         "body": [
           {
@@ -660,7 +660,13 @@
       }
     ],
     "cta_style": "כתום אדום",
-    "brand_name": "מלי",
-    "brand_tagline": "תוכנית  ללימוד הקריאה באנגלית לילדים"
+    "brand_name": "אנגלית מעצימה לי עם מלי",
+    "brand_tagline": "תוכנית  ללימוד הקריאה באנגלית לילדים",
+    "brand_logo": {
+      "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4X6FW6FZWAY903V89CQP6TE.01M4X6FWFAGYQ4E0ZAATFNXZK7.webp",
+      "width": 450,
+      "height": 440,
+      "alt": "לוגו של אנגלית מעצימה לי עם מלי"
+    }
   }
 }

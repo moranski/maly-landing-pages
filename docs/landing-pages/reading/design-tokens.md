@@ -8,11 +8,11 @@ This file is a derived implementation reference, not an independent design sourc
 
 ## Tokens to implement
 
-Desktop adaptation requested on 2026-10-14: at viewport widths of 1024px and above, the page frame expands to 1200px, the hero uses adjacent copy and media, cards use available columns, and gallery images and offer inclusions use two columns. Prose stays limited to 65ch. This is an intentional responsive extension of the selected mobile Stitch screen; below 1024px its existing single-column layout remains in place.
+Desktop adaptation requested on 2026-10-14: at viewport widths of 1024px and above, all landing blocks share one frame of up to 1440px usable width (1504px including 32px page gutters on each side). The hero uses adjacent copy and media, cards use available columns, and gallery images and offer inclusions use two columns. Prose stays limited to 65ch. This is an intentional responsive extension of the selected mobile Stitch screen; below 1024px its existing single-column layout remains in place.
 
 Co-authored-by: Codex <codex@openai.com>
 
-The desktop hero extends beyond the 1200px page frame to a maximum of 1440px, with 32px viewport gutters. Its copy receives slightly more width than its media (1.25:1), and its CTA can reach 480px. This further desktop extension follows the user's request to give the opening section more horizontal space.
+The desktop hero, content sections, testimonials, offer and personal appeal align to the same outer edges. The hero copy receives slightly more width than its media (1.25:1), and its CTA can reach 480px. The shared wider frame follows the user's request for equal widths across all blocks.
 
 | Role | Value |
 | --- | --- |
