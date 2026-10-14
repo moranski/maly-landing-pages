@@ -7,9 +7,11 @@ export type CtaStyle = "orange" | "red-orange" | "navy" | "outline" | "white";
 export type SectionMediaLayout = "stacked" | "image-right" | "image-left";
 export interface Cta { label: string; href: string; style?: CtaStyle }
 export interface Image { src: string; alt: string; caption?: string; width?: number; height?: number }
+export type HeroFactIcon = "calendar" | "notebook" | "stopwatch";
+export interface HeroFact { icon: HeroFactIcon; value: string; label: string }
 export interface Hero {
 	eyebrow?: string; title: string; subtitle: string; body: RichText;
-	primaryCta?: Cta; secondaryCta?: Cta;
+	primaryCta?: Cta; secondaryCta?: Cta; facts: HeroFact[];
 	visual?: Image & { title?: string };
 }
 export interface ContentSection {
@@ -128,11 +130,17 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 		if (!kind || !versions[kind]) { report("_type", "unknown_block_type"); return; }
 		if (typeof version !== "number" || !versions[kind].includes(version)) { report("_version", "unsupported_version"); return; }
 		if (kind === "landing_hero") {
-			const title = required(b.title, "title"), subtitle = required(b.subtitle, "subtitle"), body = version === 3 ? richBody(true) : plainTextToRichText(texts(b.body, "body", true));
+			const title = required(b.title, "title"), subtitle = required(b.subtitle, "subtitle"), body = version >= 3 ? richBody(true) : plainTextToRichText(texts(b.body, "body", true));
 			const primaryCta = cta(b.cta_label, b.cta_href, "cta");
 			const visual = image(b.visual_image, b.visual_alt, "visual_image", true);
 			const visualTitle = required(b.visual_title, "visual_title"), visualCaption = required(b.visual_caption, "visual_caption");
-			if (title && subtitle && body.length) page.hero = { title, subtitle, body, eyebrow: text(b.eyebrow), primaryCta, visual: visual ? { ...visual, title: visualTitle, caption: visualCaption } : undefined };
+			const facts = entries(b.facts, "facts").flatMap(([i, fact]) => {
+				const icon = fact.icon;
+				if (icon !== "calendar" && icon !== "notebook" && icon !== "stopwatch") { report(`facts[${i}].icon`, "invalid_choice"); return []; }
+				const value = required(fact.value, `facts[${i}].value`), label = required(fact.label, `facts[${i}].label`);
+				return value && label ? [{ icon: icon as HeroFactIcon, value, label }] : [];
+			});
+			if (title && subtitle && body.length) page.hero = { title, subtitle, body, eyebrow: text(b.eyebrow), primaryCta, facts, visual: visual ? { ...visual, title: visualTitle, caption: visualCaption } : undefined };
 		} else if (kind === "landing_content_section") {
 			const title = required(b.title, "title");
 			let mediaLayout: SectionMediaLayout = "stacked";

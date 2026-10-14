@@ -1,6 +1,7 @@
 ---
 // Co-authored-by: Codex <codex@openai.com>
 import RichTextContent from "./RichTextContent.astro";
+import HeroFacts from "./HeroFacts.astro";
 import type { Hero } from "../../lib/landing/normalize";
 import { responsiveMediaImage } from "../../lib/landing/media-images";
 interface PageData { hero?: Hero; }
@@ -25,6 +26,7 @@ const heroVisual = hero?.visual;
 				<div class="hero__body">
 					<RichTextContent body={hero.body} />
 				</div>
+				<HeroFacts items={hero.facts} />
 			</div>
 
 			{heroVisual && <div class="hero__visual">
