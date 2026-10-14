@@ -24,10 +24,11 @@ export interface Offer {
 	kind: "offer"; title: string; body: string; includes: string[]; kicker?: string; cta?: Cta;
 }
 export interface FinalCta {
-	kind: "final"; heading: string; paragraphs: string[]; signature?: string; kicker?: string; cta?: Cta;
+	kind: "final"; heading: string; paragraphs: string[]; signature?: string; kicker?: string; cta?: Cta; image?: Image;
 }
 export interface LandingPage {
 	title: string; description: string; lang: "he"; dir: "rtl";
+	brandName?: string; brandTagline?: string;
 	hero?: Hero; blocks: (ContentSection | Testimonials | Offer | FinalCta)[];
 }
 export interface Diagnostic { blockKey?: string; path: string; code: string }
@@ -67,7 +68,7 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 	if (data.lang !== "he") issue("lang", "invalid");
 	if (data.dir !== "rtl") issue("dir", "invalid");
 	if (!title || !description || data.lang !== "he" || data.dir !== "rtl") return { diagnostics };
-	const page: LandingPage = { title, description, lang: "he", dir: "rtl", blocks: [] };
+	const page: LandingPage = { title, description, lang: "he", dir: "rtl", brandName: text(data.brand_name), brandTagline: text(data.brand_tagline), blocks: [] };
 	if (!Array.isArray(data.layout) || !data.layout.length) { issue("layout", "required"); return { page, diagnostics }; }
 	let heroCount = 0;
 	data.layout.forEach((value, index) => {
@@ -150,7 +151,8 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 		} else if (kind === "landing_final_cta") {
 			const heading = required(b.heading, "heading"), paragraphs = texts(b.paragraphs, "paragraphs", true);
 			const action = cta(b.cta_label, b.cta_href, "cta");
-			if (heading && paragraphs.length) page.blocks.push({ kind: "final", heading, paragraphs, signature: text(b.signature), kicker: text(b.kicker), cta: action });
+			const portrait = image(b.image, b.image_alt, "image");
+			if (heading && paragraphs.length) page.blocks.push({ kind: "final", heading, paragraphs, signature: text(b.signature), kicker: text(b.kicker), cta: action, image: portrait });
 		}
 	});
 	if (heroCount !== 1 || !page.hero) issue("layout", "hero_contract");

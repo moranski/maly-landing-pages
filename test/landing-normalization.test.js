@@ -8,6 +8,34 @@ const hero = () => ({ _type: 'landing_hero', _version: 2, _key: 'hero', title: '
 const section = (extra = {}) => ({ _type: 'landing_content_section', _version: 2, _key: 'section', title: 'Section', background: 'שנהב', paragraph_format: 'paragraphs', paragraphs: [{ text: 'Text' }], ...extra });
 const normalize = (...blocks) => normalizeLandingPage({ title: 'Page', description: 'Description', lang: 'he', dir: 'rtl', layout: [hero(), ...blocks] });
 
+test('personal appeal portrait requires a safe source and alt and stays optional for existing pages', () => {
+  const final = { _type: 'landing_final_cta', _version: 2, heading: 'Final', paragraphs: [{ text: 'Body' }], cta_label: 'Join', cta_href: '#offer' };
+  const img = { src: '/portrait.webp', width: 668, height: 811, agent_context: 'PRIVATE' };
+  const valid = normalize({ ...final, image: img, image_alt: 'Portrait' });
+  assert.deepEqual(valid.page.blocks[0].image, { src: '/portrait.webp', alt: 'Portrait', width: 668, height: 811 });
+  assert.deepEqual(valid.diagnostics, []);
+  assert.equal(normalize(final).page.blocks[0].image, undefined);
+  for (const extra of [{ image: img }, { image: img, image_alt: ' ' }, { image: 'javascript:alert(1)', image_alt: 'Portrait' }]) {
+    const invalid = normalize({ ...final, ...extra });
+    assert.equal(invalid.page.blocks[0].image, undefined);
+    assert.ok(invalid.diagnostics.some(d => d.code === 'invalid_image'));
+  }
+});
+
+test('brand copy comes from CMS strings and legacy pages have no invented brand', () => {
+  const data = { title: 'Page', description: 'Description', lang: 'he', dir: 'rtl', layout: [hero()] };
+  const { page } = normalizeLandingPage({ ...data, brand_name: 'מותג אחר', brand_tagline: 'תיאור מהתוכן', agent_context: 'PRIVATE' });
+  assert.equal(page.brandName, 'מותג אחר');
+  assert.equal(page.brandTagline, 'תיאור מהתוכן');
+  assert.ok(!JSON.stringify(page).includes('PRIVATE'));
+  for (const invalid of [undefined, null, '', '  ', { text: 'PRIVATE' }]) {
+    const legacy = normalizeLandingPage({ ...data, brand_name: invalid, brand_tagline: invalid });
+    assert.equal(legacy.page.brandName, undefined);
+    assert.equal(legacy.page.brandTagline, undefined);
+    assert.deepEqual(legacy.diagnostics, []);
+  }
+});
+
 test('CTA presets are allowlisted across every action and preserve legacy defaults', () => {
   const metadata = { title: 'Page', description: 'Description', lang: 'he', dir: 'rtl' };
   for (const [choice, style] of [[undefined, undefined], ['ברירת מחדל', undefined], ['כתום', 'orange'], ['כתום אדום', 'red-orange'], ['כחול כהה', 'navy'], ['מסגרת כחולה', 'outline'], ['לבן', 'white']]) {

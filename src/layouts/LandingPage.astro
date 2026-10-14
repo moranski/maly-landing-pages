@@ -26,7 +26,7 @@ const emdashPage = createPublicPageContext({
 	title: page.title,
 	description: page.description,
 	canonical: (Astro.site ? new URL(Astro.url.pathname, Astro.site) : Astro.url).href,
-	siteName: "מלי",
+	siteName: page.brandName ?? page.title,
 });
 ---
 
@@ -44,7 +44,7 @@ const emdashPage = createPublicPageContext({
 		<ParallaxBackground />
 		{!preview && <EmDashBodyStart page={emdashPage} />}
 		{preview && <aside class="draft-notice"><strong>תצוגת טיוטה מקומית — לא פורסמה</strong><a href="/blocks-demo">לקטלוג האלמנטים</a></aside>}
-		<LandingHeader title={page.title} titleEdit={edit?.title} cta={page.hero?.primaryCta} />
+		<LandingHeader title={page.title} titleEdit={edit?.title} brandName={page.brandName} brandTagline={page.brandTagline} brandNameEdit={edit?.brand_name} brandTaglineEdit={edit?.brand_tagline} cta={page.hero?.primaryCta} />
 		<slot />
 		<footer class="landing-footer">
 			<a href="https://maly-empower.com/%D7%94%D7%A6%D7%94%D7%A8%D7%AA-%D7%A0%D7%92%D7%99%D7%A9%D7%95%D7%AA/">הצהרת נגישות</a>

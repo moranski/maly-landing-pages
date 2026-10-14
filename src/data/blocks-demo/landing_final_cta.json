@@ -75,6 +75,20 @@
       "slug": "kicker",
       "label": "כותרת קטנה",
       "type": "string"
+    },
+    {
+      "slug": "image",
+      "label": "תמונת הפנייה האישית",
+      "type": "image"
+    },
+    {
+      "slug": "image_alt",
+      "label": "טקסט חלופי לתמונת הפנייה",
+      "type": "string",
+      "validation": {
+        "minLength": 1,
+        "pattern": "\\S"
+      }
     }
   ]
 }

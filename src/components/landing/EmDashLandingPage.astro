@@ -34,7 +34,7 @@ if (!page) {
       </Section>;
       if (block.kind === "testimonials") return <TestimonialsBlock title={block.title} testimonials={block.items} />;
       if (block.kind === "offer") return <OfferBlock title={block.title} body={block.body} includes={block.includes} kicker={block.kicker} cta={block.cta} />;
-      if (block.kind === "final") return <FinalCta kicker={block.kicker} cta={block.cta}><h2>{block.heading}</h2><ParagraphContent items={block.paragraphs} />{block.signature && <strong>{block.signature}</strong>}</FinalCta>;
+      if (block.kind === "final") return <FinalCta kicker={block.kicker} cta={block.cta} image={block.image}><h2>{block.heading}</h2><ParagraphContent items={block.paragraphs} />{block.signature && <strong>{block.signature}</strong>}</FinalCta>;
     })}
   </LandingPageContent>
 </LandingPageLayout>

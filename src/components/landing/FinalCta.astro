@@ -1,21 +1,26 @@
 ---
 // Co-authored-by: Codex <codex@openai.com>
-import type { Cta } from "../../lib/landing/normalize";
+import type { Cta, Image } from "../../lib/landing/normalize";
+import { responsiveMediaImage } from "../../lib/landing/media-images";
 interface Props {
 	kicker?: string | null;
 	cta?: Cta;
+	image?: Image;
 }
 
-const { cta, kicker } = Astro.props;
+const { cta, kicker, image } = Astro.props;
 ---
 
 <section id="contact" class="final-cta">
-	<div class="final-cta__inner">
-		{kicker && <p class="kicker">{kicker}</p>}
-		<div class="final-cta__content">
-			<slot />
+	<div class:list={["final-cta__inner", { "final-cta__inner--portrait": image }]}>
+		{image && <figure class="final-cta__portrait">
+			<img {...responsiveMediaImage(image.src, [224, 280, 448, 560], "(min-width: 1024px) 280px, (min-width: 356px) 280px, calc(100vw - 76px)", !import.meta.env.DEV, image.width)} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+		</figure>}
+		<div class="final-cta__copy">
+			{kicker && <p class="kicker">{kicker}</p>}
+			<div class="final-cta__content"><slot /></div>
+			{cta && <a class="button button--primary" data-cta-style={cta.style} href={cta.href}>{cta.label}</a>}
 		</div>
-		{cta && <a class="button button--primary" data-cta-style={cta.style} href={cta.href}>{cta.label}</a>}
 	</div>
 </section>
 
@@ -35,6 +40,15 @@ const { cta, kicker } = Astro.props;
 		width: 100%;
 		margin-inline: auto;
 		padding: 0;
+	}
+
+	.final-cta__inner--portrait { display: grid; gap: var(--space-5); align-items: center; }
+	.final-cta__portrait { width: min(100%, 280px); margin: 0; justify-self: center; }
+	.final-cta__portrait img { width: 100%; height: auto; border-radius: 20px; }
+	@media (min-width: 1024px) {
+		.final-cta__inner--portrait { grid-template-columns: minmax(0, 1fr) 280px; gap: var(--space-8); }
+		.final-cta__inner--portrait .final-cta__copy { grid-column: 1; grid-row: 1; }
+		.final-cta__portrait { grid-column: 2; grid-row: 1; }
 	}
 
 	.final-cta :global(h2) {
