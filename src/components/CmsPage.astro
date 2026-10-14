@@ -21,7 +21,7 @@ const context = createPublicPageContext({ url: Astro.url, locale: page.lang, kin
 		<LandingFonts />
 		{preview ? <meta name="robots" content="noindex, nofollow" /> : <EmDashHead page={context} />}
 	</head>
-	<body class="landing-page cms-page" {...(!preview && edit ? edit : {})}>
+	<body class="landing-page cms-page" {...(edit ?? {})}>
 		{!preview && <EmDashBodyStart page={context} />}
 		<main>
 			<article>

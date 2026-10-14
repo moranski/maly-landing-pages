@@ -1,4 +1,5 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
 import LandingFonts from "../components/LandingFonts.astro";
 import { landingBackgroundStyle } from "../lib/landing/media-images";
 import ParallaxBackground from "../components/demo/ParallaxBackground.astro";
@@ -7,6 +8,7 @@ import LandingHeader from "../components/landing/LandingHeader.astro";
 import "../styles/global.css";
 import "../styles/presentation.css";
 import { env } from "cloudflare:workers";
+import { getRequestContext } from "emdash";
 import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
 import type { EditProxy } from "emdash";
@@ -15,6 +17,8 @@ import { isValidGtmId } from "../scripts/consent-gated-gtm.js";
 import type { LandingPage } from "../lib/landing/normalize";
 interface Props { preview?: boolean; page: LandingPage; contentId?: string; edit?: EditProxy; }
 const { page, contentId, edit, preview = false } = Astro.props;
+const editMode = getRequestContext()?.editMode === true;
+const showDraftNotice = preview && !editMode;
 const gtmId = env.GTM_ID;
 const validGtmId = isValidGtmId(gtmId) ? gtmId : undefined;
 const emdashPage = createPublicPageContext({
@@ -40,10 +44,10 @@ const emdashPage = createPublicPageContext({
 		{preview ? <meta name="robots" content="noindex, nofollow" /> : <EmDashHead page={emdashPage} />}
 		<LandingFonts />
 	</head>
-	<body style={landingBackgroundStyle(!import.meta.env.DEV)} class="landing-page" data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId} {...(!preview && edit ? edit : {})}>
+	<body style={landingBackgroundStyle(!import.meta.env.DEV)} class="landing-page" data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId} {...(edit ?? {})}>
 		<ParallaxBackground />
 		{!preview && <EmDashBodyStart page={emdashPage} />}
-		{preview && <aside class="draft-notice"><strong>תצוגת טיוטה מקומית — לא פורסמה</strong><a href="/blocks-demo">לקטלוג האלמנטים</a></aside>}
+		{showDraftNotice && <aside class="draft-notice"><strong>תצוגת טיוטה מקומית — לא פורסמה</strong><a href="/blocks-demo">לקטלוג האלמנטים</a></aside>}
 		<LandingHeader title={page.title} titleEdit={edit?.title} brandName={page.brandName} brandTagline={page.brandTagline} brandLogo={page.brandLogo} brandLogoEdit={edit?.brand_logo} brandNameEdit={edit?.brand_name} brandTaglineEdit={edit?.brand_tagline} cta={page.hero?.primaryCta} />
 		<slot />
 		<footer class="landing-footer">
