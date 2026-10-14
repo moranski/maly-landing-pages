@@ -4,6 +4,7 @@ import { getSectionBackground, type SectionSurface } from "../../scripts/section
 
 export type ParagraphFormat = "paragraphs" | "bullets" | "checklist" | "cross_list";
 export type CtaStyle = "orange" | "red-orange" | "navy" | "outline" | "white";
+export type SectionMediaLayout = "stacked" | "image-right" | "image-left";
 export interface Cta { label: string; href: string; style?: CtaStyle }
 export interface Image { src: string; alt: string; caption?: string; width?: number; height?: number }
 export interface Hero {
@@ -14,6 +15,7 @@ export interface Hero {
 export interface ContentSection {
 	kind: "section"; id?: string; kicker?: string; title: string; surface: SectionSurface;
 	listStyle: ListStyle; body: RichText;
+	mediaLayout: SectionMediaLayout;
 	cards: { title: string; body: string }[]; orderedCards: boolean;
 	profile?: Image; gallery: Image[]; faq: { question: string; answer: string }[];
 }
@@ -39,6 +41,7 @@ const record = (value: unknown): Raw | undefined => value !== null && typeof val
 const text = (value: unknown): string | undefined => typeof value === "string" && value.trim() ? value : undefined;
 const formats: ParagraphFormat[] = ["paragraphs", "bullets", "checklist", "cross_list"];
 const ctaStyles: Record<string, CtaStyle> = { "כתום": "orange", "כתום אדום": "red-orange", "כחול כהה": "navy", "מסגרת כחולה": "outline", "לבן": "white" };
+const mediaLayouts: Record<string, SectionMediaLayout> = { "תמונה מתחת לטקסט": "stacked", "תמונה מימין, טקסט משמאל": "image-right", "תמונה משמאל, טקסט מימין": "image-left" };
 const legacySurfaces: Record<string, SectionSurface> = { plain: "ivory", tinted: "stone", deep: "navy" };
 const versions: Record<string, number[]> = {
 	landing_hero: [1, 2, 3], landing_content_section: [1, 2, 3], landing_testimonials: [1, 2], landing_offer: [1, 2, 3], landing_final_cta: [1, 2, 3],
@@ -132,6 +135,11 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 			if (title && subtitle && body.length) page.hero = { title, subtitle, body, eyebrow: text(b.eyebrow), primaryCta, visual: visual ? { ...visual, title: visualTitle, caption: visualCaption } : undefined };
 		} else if (kind === "landing_content_section") {
 			const title = required(b.title, "title");
+			let mediaLayout: SectionMediaLayout = "stacked";
+			if (b.media_layout !== undefined && b.media_layout !== null && b.media_layout !== "") {
+				if (typeof b.media_layout === "string" && Object.hasOwn(mediaLayouts, b.media_layout)) mediaLayout = mediaLayouts[b.media_layout];
+				else report("media_layout", "invalid_choice");
+			}
 			let surface = getSectionBackground(b.background);
 			if (!surface && version === 1) surface = legacySurfaces[typeof b.tone === "string" ? b.tone : ""] ?? "ivory";
 			if (!surface) { report("background", "invalid_choice"); return; }
@@ -145,7 +153,7 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 			const faq = entries(b.faq_items, "faq_items").flatMap(([i, r]) => { const question = required(r.question, `faq_items[${i}].question`), answer = required(r.answer, `faq_items[${i}].answer`); return question && answer ? [{ question, answer }] : []; });
 			const body = version === 3 ? richBody() : plainTextToRichText(texts(b.paragraphs, "paragraphs"), format !== "paragraphs");
 			if (!body.length && !cards.length && !gallery.length && !faq.length && !profile) { report("content", "required"); return; }
-			if (title) page.blocks.push({ kind: "section", title, id: text(b.id), kicker: text(b.kicker), surface, listStyle: listStyle as ListStyle, body, cards, orderedCards: b.ordered_cards === true, profile: profile ? { ...profile, caption: text(b.profile_caption) } : undefined, gallery, faq });
+			if (title) page.blocks.push({ kind: "section", title, id: text(b.id), kicker: text(b.kicker), surface, listStyle: listStyle as ListStyle, mediaLayout, body, cards, orderedCards: b.ordered_cards === true, profile: profile ? { ...profile, caption: text(b.profile_caption) } : undefined, gallery, faq });
 		} else if (kind === "landing_testimonials") {
 			const title = required(b.title, "title");
 			const items = entries(b.testimonials, "testimonials").flatMap(([i, r]) => {

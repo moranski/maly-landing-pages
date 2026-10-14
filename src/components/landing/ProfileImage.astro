@@ -7,14 +7,15 @@ interface Props {
 	caption?: string;
 	width?: number;
 	height?: number;
+	variant?: "default" | "editorial";
 }
 
-const { src, alt, caption, width: originalWidth } = Astro.props;
+const { src, alt, caption, width: originalWidth, height: originalHeight, variant = "default" } = Astro.props;
 ---
 
-<figure class="profile-image">
+<figure class:list={["profile-image", `profile-image--${variant}`]}>
 	<div class="profile-image__frame">
-		<img {...responsiveMediaImage(src, [168, 336], "168px", !import.meta.env.DEV, originalWidth)} alt={alt} width="572" height="577" loading="lazy" decoding="async" />
+		<img {...responsiveMediaImage(src, variant === "editorial" ? [320, 640] : [168, 336], variant === "editorial" ? "320px" : "168px", !import.meta.env.DEV, originalWidth)} alt={alt} width={originalWidth ?? 572} height={originalHeight ?? 577} loading="lazy" decoding="async" />
 	</div>
 	{caption && <figcaption>{caption}</figcaption>}
 </figure>
@@ -38,6 +39,24 @@ const { src, alt, caption, width: originalWidth } = Astro.props;
 		border-radius: 50%;
 		background: var(--color-surface-warm);
 		box-shadow: var(--shadow-lift);
+	}
+
+	.profile-image--editorial { width: min(100%, 360px); justify-self: center; }
+	.profile-image--editorial .profile-image__frame {
+		width: 100%;
+		aspect-ratio: auto;
+		display: block;
+		border: 1px solid var(--color-border);
+		border-radius: 24px;
+		background: white;
+		box-shadow: var(--shadow-soft);
+	}
+	.profile-image--editorial img {
+		width: 100%;
+		height: auto;
+		object-fit: contain;
+		object-position: center;
+		border-radius: 23px;
 	}
 
 	.profile-image img {

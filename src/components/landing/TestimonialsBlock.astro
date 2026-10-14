@@ -111,5 +111,23 @@ const { title, testimonials } = Astro.props;
 		object-fit: cover;
 	}
 
+	@media (min-width: 1024px) {
+		.chat-thread {
+			max-width: 1120px;
+			margin-inline: auto;
+			gap: 1.25rem;
+		}
+		.chat-message { width: min(72%, 44rem); }
+		.chat-message:nth-child(even) { justify-self: end; }
+		.chat-message:nth-child(even) .chat-message__tail {
+			inset-inline-start: auto;
+			inset-inline-end: -0.5625rem;
+			transform: scaleX(-1);
+		}
+		.chat-message:nth-child(even) .chat-message__bubble {
+			border-radius: 0 16px 16px 16px;
+		}
+	}
+
 	}
 </style>

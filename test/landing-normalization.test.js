@@ -8,6 +8,20 @@ const hero = () => ({ _type: 'landing_hero', _version: 2, _key: 'hero', title: '
 const section = (extra = {}) => ({ _type: 'landing_content_section', _version: 2, _key: 'section', title: 'Section', background: 'שנהב', paragraph_format: 'paragraphs', paragraphs: [{ text: 'Text' }], ...extra });
 const normalize = (...blocks) => normalizeLandingPage({ title: 'Page', description: 'Description', lang: 'he', dir: 'rtl', layout: [hero(), ...blocks] });
 
+test('section image placement uses only CMS choices and retains stacked legacy layouts', () => {
+  for (const [choice, expected] of [[undefined, 'stacked'], ['', 'stacked'], ['תמונה מתחת לטקסט', 'stacked'], ['תמונה מימין, טקסט משמאל', 'image-right'], ['תמונה משמאל, טקסט מימין', 'image-left']]) {
+    const result = normalize(section({ media_layout: choice, gallery: [{ image: '/photo.webp', alt: 'Photo' }] }));
+    assert.equal(result.page.blocks[0].mediaLayout, expected);
+    assert.deepEqual(result.diagnostics, []);
+  }
+  for (const invalid of ['image-right', '__proto__', 'position:fixed', { css: 'PRIVATE' }]) {
+    const result = normalize(section({ media_layout: invalid }));
+    assert.equal(result.page.blocks[0].mediaLayout, 'stacked');
+    assert.ok(result.diagnostics.some(d => d.path.endsWith('.media_layout') && d.code === 'invalid_choice'));
+    assert.ok(!JSON.stringify(result.page).includes('PRIVATE'));
+  }
+});
+
 test('CMS brand logo uses media alt and dimensions without leaking internal fields', () => {
   const data = { title: 'Page', description: 'Description', lang: 'he', dir: 'rtl', layout: [hero()] };
   const logo = { id: 'logo', alt: 'Brand logo', width: 450, height: 440, meta: { storageKey: 'logo.webp', agent_context: 'PRIVATE' } };

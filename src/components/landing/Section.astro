@@ -1,24 +1,32 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
 import Kicker from "./Kicker.astro";
+import type { SectionMediaLayout } from "../../lib/landing/normalize";
 interface Props {
 	kicker?: string;
 	title: string;
 	id?: string;
 	surface?: "ivory" | "stone" | "peach" | "sage" | "butter" | "blue" | "lilac" | "navy";
+	mediaLayout?: SectionMediaLayout;
+	profileLayout?: boolean;
 }
 
-const { kicker, title, id, surface = "ivory" } = Astro.props;
+const { kicker, title, id, surface = "ivory", mediaLayout = "stacked", profileLayout = false } = Astro.props;
+const hasMedia = Astro.slots.has("media");
 ---
 
-<section id={id} class:list={["section", `surface--${surface}`]}>
+<section id={id} class:list={["section", `surface--${surface}`]} data-media-layout={hasMedia ? mediaLayout : undefined} data-profile-layout={profileLayout ? "editorial" : undefined}>
 	<div class="section__inner">
-		<div class="section__header">
-			{kicker && <Kicker variant="soft">{kicker}</Kicker>}
-			<h2>{title}</h2>
+		<div class="section__text">
+			<div class="section__header">
+				{kicker && <Kicker variant="soft">{kicker}</Kicker>}
+				<h2>{title}</h2>
+			</div>
+			<div class="section__content section-prose">
+				<slot />
+			</div>
 		</div>
-		<div class="section__content section-prose">
-			<slot />
-		</div>
+		{hasMedia && <div class="section__media"><slot name="media" /></div>}
 	</div>
 </section>
 
@@ -50,7 +58,11 @@ const { kicker, title, id, surface = "ivory" } = Astro.props;
 	.section__inner {
 		width: 100%;
 		margin-inline: auto;
+		display: grid;
+		gap: var(--space-4);
 	}
+	.section__text, .section__media { min-width: 0; }
+		.section[data-profile-layout="editorial"] .section__media { order: -1; }
 
 	.section__header {
 		max-width: 100%;

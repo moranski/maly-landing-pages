@@ -11,18 +11,19 @@ interface ImageItem {
 
 interface Props {
 	images: ImageItem[];
+	preserveAspect?: boolean;
 }
 
-const { images } = Astro.props;
+const { images, preserveAspect = false } = Astro.props;
 // Keep the existing 416px fallback when CMS source dimensions are unknown.
 const widths = (image: ImageItem) => image.width ? [224, 320, 416, 480, 560, 640, 832, 1120, 1344] : [224, 320, 416, 640, 832];
 ---
 
-<div class="image-gallery">
+<div class:list={["image-gallery", images.length === 1 && "image-gallery--single", preserveAspect && "image-gallery--natural"]}>
 	{
 		images.map((image) => (
 			<figure>
-				<img {...responsiveMediaImage(image.src, widths(image), "auto, (min-width: 1504px) 651px, (min-width: 1024px) calc((100vw - 202px) / 2), (min-width: 512px) 416px, calc(100vw - 96px)", !import.meta.env.DEV, image.width)} alt={image.alt} width="1599" height="899" loading="lazy" decoding="async" />
+				<img {...responsiveMediaImage(image.src, widths(image), "auto, (min-width: 1504px) 651px, (min-width: 1024px) calc((100vw - 202px) / 2), (min-width: 512px) 416px, calc(100vw - 96px)", !import.meta.env.DEV, image.width)} alt={image.alt} width={preserveAspect ? image.width ?? 1599 : 1599} height={preserveAspect ? image.height ?? 899 : 899} loading="lazy" decoding="async" />
 				{image.caption && <figcaption>{image.caption}</figcaption>}
 			</figure>
 		))
@@ -54,6 +55,8 @@ const widths = (image: ImageItem) => image.width ? [224, 320, 416, 480, 560, 640
 		object-fit: cover;
 		border-radius: 10px;
 	}
+	.image-gallery--natural img { display: block; width: auto; max-width: 100%; aspect-ratio: auto; height: auto; object-fit: contain; margin-inline: auto; }
+	.image-gallery--single.image-gallery--natural figure { width: fit-content; max-width: 100%; justify-self: center; }
 
 	.image-gallery figcaption {
 		margin-block-start: var(--space-3);
