@@ -1,0 +1,41 @@
+---
+// Co-authored-by: Codex <codex@openai.com>
+import LandingPageLayout from "../layouts/LandingPage.astro";
+import type { LandingPage } from "../lib/landing/normalize";
+
+// This utility route exercises the public layout without creating CMS content.
+Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow");
+const page: LandingPage = {
+	title: "עמוד בדיקה | דפי הנחיתה של מלי",
+	description: "עמוד בדיקה לתגיות ולניהול הסכמה בדפי הנחיתה.",
+	lang: "he",
+	dir: "rtl",
+	brandName: "דפי הנחיתה של מלי",
+	blocks: [],
+};
+---
+
+<LandingPageLayout page={page}>
+	<main id="top">
+		<section class="test-card" aria-labelledby="test-title">
+			<p class="eyebrow">דפי הנחיתה של מלי</p>
+			<h1 id="test-title">עמוד בדיקה</h1>
+			<p>כאן אפשר לבדוק את התגיות ואת הגדרות ההסכמה של האתר.</p>
+			<p>כדי לטעון את Google Tag Manager, יש לאשר עוגיות לניתוח נתונים או לשיווק בחלונית ההסכמה.</p>
+			<a id="gtm-test-button" class="test-button" href="#test-complete">בדיקת לחיצה</a>
+			<p id="test-complete" role="status">הלחיצה הושלמה.</p>
+		</section>
+	</main>
+</LandingPageLayout>
+
+<style>
+	main { width: min(100%, 512px); margin-inline: auto; padding: 112px 16px 48px; }
+	.test-card { padding: 32px 24px; border-radius: 24px; background: var(--surface-ivory); color: var(--color-ink); box-shadow: 0 12px 40px #0000000d; }
+	.eyebrow { color: var(--color-text-muted); font-weight: 700; }
+	h1 { margin-block: 12px 24px; font-size: clamp(2rem, 8vw, 3rem); line-height: 1.2; }
+	p { line-height: 1.8; }
+	.test-button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; margin-block-start: 16px; padding: 12px 24px; border-radius: 999px; background: var(--color-accent); color: white; font-weight: 700; text-decoration: none; }
+	.test-button:focus-visible { outline: 3px solid var(--color-ink); outline-offset: 4px; }
+	#test-complete { display: none; scroll-margin-top: 88px; }
+	#test-complete:target { display: block; }
+</style>

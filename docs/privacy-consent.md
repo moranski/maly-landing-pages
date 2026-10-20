@@ -14,6 +14,10 @@ The public landing-page layout integrates EmPrivacy as a native EmDash plugin. I
 
 ## Current behavior
 
+<!-- Co-authored-by: Codex <codex@openai.com> -->
+
+- `/` is a Hebrew test landing page using the same public layout, consent banner, and GTM loader as the CMS landing pages. Its test link has the stable ID `gtm-test-button` for click-trigger checks in Tag Assistant. The route sends `X-Robots-Tag: noindex, nofollow`.
+
 - New visitors start with optional categories off. Google Consent Mode defaults are denied before GTM can load.
 - GTM loads after either Analytics or Marketing consent. EmPrivacy maps Analytics to `analytics_storage` and Marketing to the Google advertising consent signals.
 - GTM tags must still be configured in the GTM container to require the appropriate consent category. This repository cannot assign category requirements to individual container tags.

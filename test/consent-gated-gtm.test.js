@@ -1,3 +1,4 @@
+// Co-authored-by: Codex <codex@openai.com>
 import assert from "node:assert/strict";
 import test from "node:test";
 import { installConsentGatedGtm, isValidGtmId } from "../src/scripts/consent-gated-gtm.js";
@@ -50,12 +51,41 @@ test("loads GTM when marketing consent is granted without analytics consent", ()
 	assert.equal(harness.scripts.length, 1);
 });
 
-test("waits for DOMContentLoaded before reading an existing consent choice", () => {
-	const harness = createHarness({ readyState: "loading", consent: { analytics: true, marketing: false } });
+test("reads saved consent when EmPrivacy initializes at DOMContentLoaded", () => {
+	const harness = createHarness({ readyState: "loading" });
 	installConsentGatedGtm(harness.win, harness.doc, "GTM-TK82BZVF");
 
 	assert.equal(harness.scripts.length, 0);
 	assert.equal(harness.listeners.get("DOMContentLoaded").options.once, true);
+	harness.win.emprivacy = { get: () => ({ analytics: true, marketing: false }) };
+	harness.listeners.get("DOMContentLoaded").callback();
+	assert.equal(harness.scripts.length, 1);
+});
+
+test("a deferred module waits for the consent API while the document is interactive", () => {
+	const harness = createHarness({ readyState: "interactive" });
+	installConsentGatedGtm(harness.win, harness.doc, "GTM-TK82BZVF");
+	assert.equal(harness.scripts.length, 0);
+
+	harness.win.emprivacy = { get: () => ({ analytics: true, marketing: false }) };
+	harness.listeners.get("DOMContentLoaded").callback();
+	assert.equal(harness.scripts.length, 1);
+	harness.listeners.get("emprivacy:change").callback({ detail: { analytics: true, marketing: true } });
+	assert.equal(harness.scripts.length, 1);
+});
+
+test("saved refusal at DOMContentLoaded keeps GTM blocked", () => {
+	const harness = createHarness({ readyState: "interactive" });
+	installConsentGatedGtm(harness.win, harness.doc, "GTM-TK82BZVF");
+	harness.win.emprivacy = { get: () => ({ analytics: false, marketing: false }) };
+	harness.listeners.get("DOMContentLoaded").callback();
+	assert.equal(harness.scripts.length, 0);
+});
+
+test("reads an already initialized API immediately and does not load twice at DOMContentLoaded", () => {
+	const harness = createHarness({ readyState: "interactive", consent: { analytics: true, marketing: false } });
+	installConsentGatedGtm(harness.win, harness.doc, "GTM-TK82BZVF");
+	assert.equal(harness.scripts.length, 1);
 	harness.listeners.get("DOMContentLoaded").callback();
 	assert.equal(harness.scripts.length, 1);
 });

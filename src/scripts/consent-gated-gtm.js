@@ -1,3 +1,4 @@
+// Co-authored-by: Codex <codex@openai.com>
 const GTM_ID_PATTERN = /^GTM-[A-Z0-9]+$/;
 
 export function isValidGtmId(value) {
@@ -28,6 +29,9 @@ export function installConsentGatedGtm(win, doc, gtmId) {
 	}
 
 	doc.addEventListener("emprivacy:change", (event) => loadIfConsented(event.detail));
-	if (doc.readyState === "loading") doc.addEventListener("DOMContentLoaded", sync, { once: true });
-	else sync();
+	// Deferred module scripts run while readyState is "interactive", before
+	// EmPrivacy's DOMContentLoaded handler installs its public consent API.
+	// Read now and again after that handler so saved consent survives reloads.
+	sync();
+	if (doc.readyState !== "complete") doc.addEventListener("DOMContentLoaded", sync, { once: true });
 }
