@@ -1,60 +1,79 @@
 {
-  "notice": "עותק מסונן לתצוגת טיוטה מקומית; מקור האמת הוא EmDash. רוענן דרך MCP.",
+  "notice": "עותק מסונן לתצוגת טיוטה מקומית; מקור האמת הוא EmDash. רוענן דרך MCP. Co-authored-by: Codex <codex@openai.com>",
   "entry": "landing_pages/reading",
-  "version": 119,
-  "draftRevisionId": "01M4X88K9ZHZHFW8JKVJCVM15G",
+  "version": 198,
+  "draftRevisionId": "01M7FBQ6GFPSTKRBW49FJGGCDP",
   "page": {
     "title": "תוכנית  ללימוד הקריאה באנגלית לילדים",
     "description": "מסלול דיגיטלי, צבעוני ומדורג לבניית יסודות הקריאה באנגלית ב־5 דקות ביום מבית אנגלית עם מלי.",
     "lang": "he",
     "dir": "rtl",
-    "brand_name": "אנגלית מעצימה לי עם מלי",
-    "brand_tagline": "תוכנית  ללימוד הקריאה באנגלית לילדים",
-    "cta_style": "כתום אדום",
-    "brand_logo": {
-      "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4X6FW6FZWAY903V89CQP6TE.01M4X6FWFAGYQ4E0ZAATFNXZK7.webp",
-      "width": 450,
-      "height": 440,
-      "alt": "לוגו של אנגלית מעצימה לי עם מלי"
-    },
     "layout": [
       {
         "_type": "landing_hero",
-        "_version": 3,
-        "_key": "01M3PD19259TA5JVVRRACCWP9K",
-        "eyebrow": "שיטת ״אנגלית מעצימה לי״ מציגה: התוכנית שכולם מדברים עליה",
-        "title": "לומדים לקרוא באנגלית בכ־5 דקות ביום",
-        "subtitle": "התוכנית הדיגיטלית שתלמד את הילד שלך לקרוא אנגלית מהבסיס",
+        "eyebrow": "",
+        "title": "הילד שלך מתקשה לקרוא באנגלית?",
+        "subtitle": "לומדים לקרוא באנגלית בכ־5 דקות ביום!",
         "body": [
           {
             "_type": "block",
-            "_key": "text-0",
+            "_key": "copy1",
             "style": "normal",
+            "markDefs": [],
             "children": [
               {
                 "_type": "span",
-                "_key": "span-0",
-                "text": "בתוכנית החדשה"
-              },
+                "_key": "span1",
+                "text": "הכירי את “אנגלית מעצימה לי” – תוכנית דיגיטלית ללימוד הקריאה באנגלית מהבסיס, בשיטה ייחודית המשלבת תמונות, צבעים וצלילים במטרה להטמיע את האותיות, הצלילים והמילים בתת־המודע.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy2",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
               {
                 "_type": "span",
-                "_key": "c2e72lnsw",
-                "text": " ״אנגלית מעצימה לי עם מלי״",
-                "marks": [
-                  "strong"
-                ]
-              },
+                "_key": "span2",
+                "text": "40 שיעורים קצרים וחווייתיים, שאפשר ללמוד בבית, בזמן שנוח לכם ובקצב שמתאים לילד שלך.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy3",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
               {
                 "_type": "span",
-                "_key": "fa73oh7no",
-                "text": " הילד שלך רואה, שומע ומתרגל: קודם אותיות וצלילים, ואז מחבר אותם למילים. 40 שיעורים קצרים וצבעוניים, שאפשר ללמוד בבית בזמן שנוח לכם."
+                "_key": "span3",
+                "text": "בלי מאבקים. בלי נסיעות. בלי שעות של שיעורי בית.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy4",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span4",
+                "text": "פותחה על ידי מלי כהן, בעלת יותר מ־26 שנות ניסיון בהוראת אנגלית.",
+                "marks": []
               }
             ]
           }
         ],
-        "cta_label": "כן אני רוצה את הקורס!",
-        "cta_style": "ברירת מחדל",
-        "cta_href": "https://maly-landing-pages.moranski.workers.dev/reading/#offer",
+        "cta_label": "כן! אני רוצה שהילד שלי יתחיל לקרוא באנגלית",
+        "cta_href": "#offer",
         "visual_image": {
           "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M3PD0EF0J5H8GPARHVHHBC4C.webp",
           "width": 1599,
@@ -62,274 +81,247 @@
         },
         "visual_alt": "כרטיס לימוד מהתוכנית עם האות J ודוגמאות למילים שמתחילות בצליל שלה.",
         "visual_title": "40 שיעורים קצרים",
-        "visual_caption": "ככה נראה אחד מכרטיסי הלימוד בתוכנית"
+        "visual_caption": "© מלי כהן — כל הזכויות שמורות",
+        "_version": 3,
+        "_key": "01M3PD19259TA5JVVRRACCWP9K",
+        "cta_style": "ברירת מחדל"
       },
       {
         "_type": "landing_content_section",
         "_version": 3,
-        "_key": "01M3PD19259P25FG4EMQ09Q3DX",
-        "id": "homework_frustration",
-        "kicker": "",
-        "title": "רק רצית לעזור בשיעורי הבית… ושוב הוא נתקע",
-        "background": "אפרסק",
-        "body": [
-          {
-            "_type": "block",
-            "_key": "text-0",
-            "style": "normal",
-            "children": [
-              {
-                "_type": "span",
-                "_key": "span-0",
-                "text": "את יושבת לידו, פותחת את הספר ומנסה לעזור. הוא מסתכל על מילה באנגלית, מזהה כמה אותיות, ואז מנחש. או פשוט מחכה שתקראי אותה בשבילו.",
-                "marks": []
-              }
-            ],
-            "markDefs": []
-          },
-          {
-            "_type": "block",
-            "_key": "text-1",
-            "style": "normal",
-            "children": [
-              {
-                "_type": "span",
-                "_key": "span-1",
-                "text": "את מסבירה שוב. הוא מנסה, אבל הצלילים עוד לא מתחברים. ואז מגיע ה״אני לא טוב באנגלית״, ואת רק רוצה לעזור לו לנסות שוב בלי ששיעורי הבית יהפכו למאבק.",
-                "marks": []
-              }
-            ],
-            "markDefs": []
-          },
-          {
-            "_type": "block",
-            "_key": "text-2",
-            "style": "normal",
-            "children": [
-              {
-                "_type": "span",
-                "_key": "span-2",
-                "text": "מאיפה מתחילים? מה מסבירים קודם? ואיך עוזרים לו לקרוא גם את המילה הבאה, בלי לתת לו בכל פעם את התשובה?",
-                "marks": []
-              }
-            ],
-            "markDefs": []
-          }
-        ],
-        "ordered_cards": false,
-        "gallery": [
-          {
-            "image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4X7QFGWCW7RV2AHHKS52G90.webp",
-              "width": 1600,
-              "height": 2400,
-              "alt": "ילד בחולצה לבנה מניח את ראשו על זרועותיו על שולחן עץ, לצד ספרים וכלי כתיבה"
-            },
-            "alt": "ילד בחולצה לבנה מניח את ראשו על זרועותיו על שולחן עץ, לצד ספרים וכלי כתיבה",
-            "caption": "כשהצלילים עוד לא מתחברים, חוזרים לבסיס"
-          }
-        ],
-        "list_style": "standard",
-        "media_layout": "תמונה מימין, טקסט משמאל"
-      },
-      {
-        "_type": "landing_content_section",
-        "_version": 3,
-        "_key": "01M4TBBG4G6CH19RQ3XHWA7YRS",
         "id": "why_it_didnt_work",
         "kicker": "",
-        "title": "למה עד היום זה לא עבד?",
+        "title": "למה הילד שלך עדיין מתקשה לקרוא באנגלית?",
+        "ordered_cards": false,
+        "cards": [],
+        "_key": "01M4TBBG4G6CH19RQ3XHWA7YRS",
         "background": "אבן",
         "body": [
           {
             "_type": "block",
-            "_key": "text-0",
+            "_key": "copy5",
             "style": "normal",
-            "listItem": "bullet",
-            "level": 1,
+            "markDefs": [],
             "children": [
               {
                 "_type": "span",
-                "_key": "span-0",
-                "text": "כי לימדו אתכם עם אינסוף חוקים ודקדוק במקום להתחיל מבסיס ברור."
-              }
-            ]
-          },
-          {
-            "_type": "block",
-            "_key": "text-1",
-            "style": "normal",
-            "listItem": "bullet",
-            "level": 1,
-            "children": [
-              {
-                "_type": "span",
-                "_key": "span-1",
-                "text": "כי השיטות הקיימות משעממות ולא מצליחות להחזיק את תשומת הלב של הילדים."
-              }
-            ]
-          },
-          {
-            "_type": "block",
-            "_key": "text-2",
-            "style": "normal",
-            "listItem": "bullet",
-            "level": 1,
-            "children": [
-              {
-                "_type": "span",
-                "_key": "span-2",
-                "text": "כי לא היה תהליך קצר, צבעוני וחווייתי שמוביל שלב־שלב להצלחה."
-              }
-            ]
-          }
-        ],
-        "cards": [],
-        "ordered_cards": false,
-        "list_style": "cross_list"
-      },
-      {
-        "_type": "landing_content_section",
-        "_version": 3,
-        "_key": "01M3PD1925X3D78H9DKMMA3S24",
-        "id": "reading_foundations",
-        "kicker": "בואי נתחיל מהבסיס",
-        "title": "הוא מכיר את האותיות. עכשיו מחברים אותן למילים",
-        "background": "מרווה",
-        "body": [
-          {
-            "_type": "block",
-            "_key": "text-0",
-            "style": "normal",
-            "children": [
-              {
-                "_type": "span",
-                "_key": "span-0",
-                "text": "לדעת איך קוראים לאות זה רק חלק מהעניין. כדי לקרוא מילה חדשה, הילד שלך צריך להכיר גם את הצלילים וללמוד לחבר ביניהם.",
+                "_key": "span5",
+                "text": "הוא מכיר חלק מהאותיות, אבל כשמגיע הרגע לחבר אותן למילה – הוא נתקע.",
                 "marks": []
               }
-            ],
-            "markDefs": []
+            ]
           },
           {
             "_type": "block",
-            "_key": "text-1",
+            "_key": "copy6",
             "style": "normal",
+            "markDefs": [],
             "children": [
               {
                 "_type": "span",
-                "_key": "span-1",
-                "text": "בתוכנית חוזרים למה שעוד לא ברור ומתרגלים יחד את החיבור הזה, צעד אחר צעד.",
+                "_key": "span6",
+                "text": "את מנסה לעזור, מסבירה שוב ושוב, אבל במקום הצלחה מגיעים התסכול והמשפט הכואב:",
                 "marks": []
               }
-            ],
-            "markDefs": []
-          }
-        ],
-        "ordered_cards": false,
-        "gallery": [
+            ]
+          },
           {
-            "image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4X7Q90BFBF248A4T285P1VP.webp",
-              "width": 2400,
-              "height": 1600,
-              "alt": "אישה וילד קוראים יחד בספר ליד שולחן"
-            },
-            "alt": "אישה וילד קוראים יחד בספר ליד שולחן",
-            "caption": "מהאות והצליל אל המילה, צעד אחר צעד"
+            "_type": "block",
+            "_key": "copy7",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span7",
+                "text": "“אני פשוט לא טוב באנגלית.”",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy8",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span8",
+                "text": "והרי את יודעת שהוא ילד חכם ומסוגל.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy9",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span9",
+                "text": "אז אולי הבעיה היא לא בילד, אלא בדרך שבה הוא לומד?",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy10",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span10",
+                "text": "במקום עוד שינון מתיש, הגיע הזמן להכיר דרך אחרת ללמוד לקרוא באנגלית.",
+                "marks": []
+              }
+            ]
           }
         ],
         "list_style": "standard",
+        "gallery": [
+          {
+            "image": {
+              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4XE3Z678D9N3FPJXZRMS8W6.01M4XE3ZGECNJMK9G7J4CRSHJ2.webp",
+              "width": 1600,
+              "height": 1067
+            },
+            "alt": "ילד בחולצה לבנה מניח את ראשו על זרועותיו על שולחן עץ, לצד ספרים וכלי כתיבה",
+            "caption": "אפשר ללמוד אנגלית בכיף ובלי תיסכול"
+          }
+        ],
         "media_layout": "תמונה משמאל, טקסט מימין"
       },
       {
         "_type": "landing_content_section",
-        "_version": 3,
-        "_key": "01M3PD19251BAT084Z134KD4DM",
-        "id": "learning_steps",
         "kicker": "",
-        "title": "רואים, שומעים, מנסים לקרוא",
-        "background": "אפרסק",
+        "title": "לא רק לומדים. מטמיעים בתת־המודע.",
+        "_version": 3,
+        "_key": "01M3PD1925X3D78H9DKMMA3S24",
+        "ordered_cards": false,
+        "background": "מרווה",
+        "id": "reading_foundations",
         "body": [
           {
             "_type": "block",
-            "_key": "text-0",
+            "_key": "copy11",
             "style": "normal",
+            "markDefs": [],
             "children": [
               {
                 "_type": "span",
-                "_key": "span-0",
-                "text": "בכל שיעור הילד שלך לומד משהו קטן, רואה דוגמאות ומנסה בעצמו. בין השיעורים הוא חוזר ומתרגל את מה שלמד.",
+                "_key": "span11",
+                "text": "שיטת “אנגלית מעצימה לי” משלבת למידה רב־חושית באמצעות תמונות, צבעים וצלילים, במטרה להטמיע את הנלמד בתת־המודע.",
                 "marks": []
               }
-            ],
-            "markDefs": []
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy12",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span12",
+                "text": "במקום להסתמך רק על שינון וחזרה, הילד לומד לקשר בין האותיות, הצלילים והמילים בדרך חווייתית שמסייעת לזיכרון ולשליפה.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy13",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span13",
+                "text": "כך הוא מתקדם בהדרגה מזיהוי אותיות לחיבור צלילים ולקריאת מילים.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy14",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span14",
+                "text": "כל הצלחה קטנה מחזקת את תחושת המסוגלות שלו ומעודדת אותו להמשיך.",
+                "marks": []
+              }
+            ]
           }
         ],
+        "list_style": "standard",
+        "gallery": [
+          {
+            "image": {
+              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M3PD0FFZW74CH05S805EZ51T.webp",
+              "width": 1599,
+              "height": 899
+            },
+            "alt": "כרטיס לימוד מהתוכנית עם האות L ודוגמאות למילים Lion ו-Lemon",
+            "caption": "© מלי כהן — כל הזכויות שמורות"
+          }
+        ],
+        "media_layout": "תמונה משמאל, טקסט מימין"
+      },
+      {
+        "_type": "landing_content_section",
+        "kicker": "",
+        "title": "רואים. שומעים. מתרגלים. מצליחים.",
+        "ordered_cards": true,
         "cards": [
           {
             "title": "רואים ושומעים",
-            "body": "הוא רואה את האות ושומע את הצליל שלה. הצבעים והאיורים עוזרים לו לזכור ולהבדיל בין האותיות."
+            "body": "הילד נחשף לאותיות ולצלילים באמצעות תמונות, צבעים והדגמות חווייתיות."
           },
           {
-            "title": "מחברים למילה",
-            "body": "הוא מתרגל איך הצלילים מתחברים למילה ומכיר צירופים שחוזרים באנגלית."
+            "title": "מחברים למילים",
+            "body": "הוא מתרגל בהדרגה את החיבור בין הצלילים ומתחיל לקרוא מילים בעצמו."
           },
           {
-            "title": "מנסים שוב",
-            "body": "משהו עוד לא מסתדר? אפשר לחזור לשיעור, לשמוע שוב ולנסות עוד פעם."
+            "title": "מתרגלים ומטמיעים",
+            "body": "באמצעות תרגול קצר וחזרות, הילד מחזק את הזיכרון, את יכולת הקריאה ואת תחושת המסוגלות שלו."
           }
         ],
-        "ordered_cards": true,
+        "_version": 3,
+        "_key": "01M3PD19251BAT084Z134KD4DM",
+        "background": "אפרסק",
+        "id": "learning_steps",
+        "body": [
+          {
+            "_type": "block",
+            "_key": "copy15",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span15",
+                "text": "5 דקות ביום. צעד קטן בכל פעם.",
+                "marks": []
+              }
+            ]
+          }
+        ],
         "list_style": "standard"
       },
       {
         "_type": "landing_content_section",
-        "_version": 3,
-        "_key": "01M3PD1925CYSCR2GSKNZ3ZT0B",
-        "id": "meet_maly",
-        "kicker": "יותר מ־20 שנה של הוראת אנגלית",
-        "title": "נעים להכיר, אני מלי",
-        "background": "סגול",
-        "body": [
-          {
-            "_type": "block",
-            "_key": "text-0",
-            "style": "normal",
-            "children": [
-              {
-                "_type": "span",
-                "_key": "span-0",
-                "text": "כבר יותר מ־20 שנה אני מלמדת ילדים ומבוגרים אנגלית."
-              }
-            ]
-          },
-          {
-            "_type": "block",
-            "_key": "text-1",
-            "style": "normal",
-            "children": [
-              {
-                "_type": "span",
-                "_key": "span-1",
-                "text": "פגשתי הרבה ילדים חכמים וסקרנים שאמרו ״אני לא טוב באנגלית״. לפעמים הם פשוט היו צריכים עוד זמן עם האותיות והצלילים, לפני שממשיכים הלאה."
-              }
-            ]
-          },
-          {
-            "_type": "block",
-            "_key": "text-2",
-            "style": "normal",
-            "children": [
-              {
-                "_type": "span",
-                "_key": "span-2",
-                "text": "בשבילם יצרתי את תוכנית הקריאה החדשה ״אנגלית מעצימה לי עם מלי״. לקחתי את הניסיון שלי מההוראה ובניתי שיעורים קצרים עם תמונות, צלילים ותרגול, כדי שהילד שלך יוכל להבין, לנסות ולחזור כשצריך."
-              }
-            ]
-          }
-        ],
-        "ordered_cards": false,
+        "kicker": "",
+        "title": "נעים להכיר, אני מלי כהן",
         "profile_image": {
           "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4WRNEEASS7M0H8RKT40RH27.01M4WRNEPSXNP18MW8YMFC0GE9.webp",
           "width": 668,
@@ -338,224 +330,327 @@
         },
         "profile_alt": "מלי כהן מחייכת למצלמה",
         "profile_caption": "מלי כהן",
+        "_version": 3,
+        "_key": "01M3PD1925CYSCR2GSKNZ3ZT0B",
+        "ordered_cards": false,
+        "background": "סגול",
+        "id": "meet_maly",
+        "body": [
+          {
+            "_type": "block",
+            "_key": "copy16",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span16",
+                "text": "מעל 26 שנות ניסיון בהוראת אנגלית ואלפי תלמידים שליוויתי לאורך השנים.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy17",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span17",
+                "text": "במהלך השנים פגשתי ילדים חכמים ומוכשרים שהתקשו בקריאה באנגלית, ולאט לאט התחילו להאמין שהם פשוט לא מסוגלים.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy18",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span18",
+                "text": "ראיתי איך הקושי בקריאה משפיע גם על הביטחון שלהם ועל הרצון להמשיך ללמוד.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy19",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span19",
+                "text": "מתוך הניסיון שלי פיתחתי את “אנגלית מעצימה לי” – תוכנית המשלבת למידה חווייתית עם עקרונות של הטמעה בתת־המודע.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy20",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span20",
+                "text": "רציתי ליצור דרך שבה ילדים יוכלו ללמוד בצעדים קטנים, לחוות הצלחות ולגלות שהם מסוגלים לקרוא באנגלית.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy21",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span21",
+                "text": "כי בעיניי, הצלחה בקריאה היא הרבה יותר מהישג לימודי. היא גם הצלחה מנטלית.",
+                "marks": []
+              }
+            ]
+          }
+        ],
         "list_style": "standard"
       },
       {
         "_type": "landing_content_section",
+        "kicker": "",
+        "title": "כל מה שהילד שלך צריך כדי להתחיל לקרוא באנגלית",
+        "cards": [],
+        "gallery": [],
         "_version": 3,
         "_key": "01M3PD1925W39NW8NTXJ6EXDA1",
-        "id": "daily_practice",
-        "kicker": "בואי תראי איך זה נראה",
-        "title": "כמה דקות ביום, בזמן שנוח לכם",
+        "ordered_cards": false,
         "background": "שנהב",
+        "id": "daily_practice",
         "body": [
           {
             "_type": "block",
-            "_key": "text-0",
+            "_key": "copy22",
             "style": "normal",
+            "markDefs": [],
             "children": [
               {
                 "_type": "span",
-                "_key": "span-0",
-                "text": "בחלק מהימים לומדים שיעור חדש, ובאחרים חוזרים ומתרגלים. בדרך כלל מקדישים לזה כ־5 דקות ביום. המסלול המומלץ נמשך כ־12 שבועות, ואפשר להתקדם בקצב שמתאים לילד שלך.",
+                "_key": "span22",
+                "text": "40 שיעורים דיגיטליים קצרים – לימוד הדרגתי מאותיות וצלילים ועד קריאת מילים.",
                 "marks": []
               }
             ],
-            "markDefs": []
+            "listItem": "bullet",
+            "level": 1
+          },
+          {
+            "_type": "block",
+            "_key": "copy23",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span23",
+                "text": "שיטה חווייתית ורב־חושית – שילוב תמונות, צבעים וצלילים במטרה להטמיע את הנלמד בתת־המודע.",
+                "marks": []
+              }
+            ],
+            "listItem": "bullet",
+            "level": 1
+          },
+          {
+            "_type": "block",
+            "_key": "copy24",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span24",
+                "text": "מסלול מומלץ של כ־12 שבועות – עם אפשרות להתקדם בקצב אישי.",
+                "marks": []
+              }
+            ],
+            "listItem": "bullet",
+            "level": 1
+          },
+          {
+            "_type": "block",
+            "_key": "copy25",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span25",
+                "text": "תרגילי חזרה – לחיזוק הזיכרון ולהעמקת הלמידה.",
+                "marks": []
+              }
+            ],
+            "listItem": "bullet",
+            "level": 1
+          },
+          {
+            "_type": "block",
+            "_key": "copy26",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span26",
+                "text": "משימות קצרות לתרגול – כדי ליישם את מה שנלמד.",
+                "marks": []
+              }
+            ],
+            "listItem": "bullet",
+            "level": 1
+          },
+          {
+            "_type": "block",
+            "_key": "copy27",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span27",
+                "text": "קובצי תרגול להדפסה – לתרגול נוסף בבית.",
+                "marks": []
+              }
+            ],
+            "listItem": "bullet",
+            "level": 1
+          },
+          {
+            "_type": "block",
+            "_key": "copy28",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span28",
+                "text": "אפשרות לחזור לשיעורים – לצפות, לשמוע ולתרגל שוב לפי הצורך.",
+                "marks": []
+              }
+            ],
+            "listItem": "bullet",
+            "level": 1
+          },
+          {
+            "_type": "block",
+            "_key": "copy29",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span29",
+                "text": "והכול בכ־5 דקות ביום, מהבית ובזמן שנוח לכם.",
+                "marks": []
+              }
+            ]
           }
         ],
-        "cards": [
-          {
-            "title": "שיעור קצר, עוד צעד קדימה",
-            "body": "40 שיעורים קצרים שמתחילים באותיות וצלילים ומתקדמים לקריאת מילים."
-          },
-          {
-            "title": "גם זמן לתרגל",
-            "body": "בין השיעורים יש ימי חזרה, כדי לנסות שוב את מה שכבר למד."
-          },
-          {
-            "title": "אפשר לעצור ולחזור",
-            "body": "את בוחרת מתי נוח לכם ללמוד. צריך לשמוע שוב? חוזרים לשיעור."
-          },
-          {
-            "title": "גם על נייר",
-            "body": "אפשר להדפיס את קובצי התרגול ולעבוד איתם גם בלי המסך."
-          }
-        ],
-        "ordered_cards": false,
-        "gallery": [
-          {
-            "image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M3PD0EF0J5H8GPARHVHHBC4C.webp",
-              "width": 1599,
-              "height": 899
-            },
-            "alt": "כרטיס לימוד מהתוכנית עם האות J ודוגמאות למילים Jeep ו-Jungle",
-            "caption": "רואים את האות J ולומדים את הצליל שלה בעזרת תמונות ומילים"
-          },
-          {
-            "image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M3PD0FFZW74CH05S805EZ51T.webp",
-              "width": 1599,
-              "height": 899
-            },
-            "alt": "כרטיס לימוד מהתוכנית עם האות L ודוגמאות למילים Lion ו-Lemon",
-            "caption": "רואים את האות L ומקשרים בין הצליל שלה לתמונה ולמילה"
-          },
-          {
-            "image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4EA192VVSXDFYGZKK8N4XM4.01M4EA19B0EQNB3QCBERXEC027.jpg",
-              "width": 471,
-              "height": 265
-            },
-            "alt": "כרטיס לימוד מהתוכנית עם האות W ודוגמאות למילים Window ו־Wolf",
-            "caption": "רואים את האות W ומקשרים בין הצליל שלה לתמונה ולמילה"
-          },
-          {
-            "image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4EA11TE55TY1A22MWK9SKRN.01M4EA1232R5XHZA6HMHY61QTZ.jpg",
-              "width": 471,
-              "height": 265
-            },
-            "alt": "כרטיס לימוד מהתוכנית עם הצירוף SH ודוגמאות לצליל ש",
-            "caption": "לומדים את הצירוף SH ואת הצליל שלו"
-          }
-        ],
-        "list_style": "standard"
-      },
-      {
-        "_type": "landing_testimonials",
-        "_version": 2,
-        "_key": "01M4R45WZPPQG5KYM72J0S8N1Z",
-        "title": "ההורים והתלמידים שלנו משתפים",
-        "testimonials": [
-          {
-            "quote": "היי מלי רציתי לומר לך שאני מרגיש שאני מתקדם באנגלית גם בכיתה הביטחון שלי עולה לרמה של הכיתה שלך תודה לך מעריך",
-            "attribution": "ירון ק.",
-            "author_image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4RE5KA9WPGQE5JB5B8PVJTC.jpg",
-              "width": 160,
-              "height": 160,
-              "alt": "תמונת המחשה של אב נושא את בתו על הכתפיים ביער"
-            }
-          },
-          {
-            "quote": "רציתי להגיד שנתת בי בטחון לא לפחד מאנגלית וללמוד בקלי קלות דרך השירים והמשחקים והרבה אמונה בי מבורך שאת ממשיכה",
-            "attribution": "אורית ב.",
-            "author_image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4RE5M4RNNH12YJ19X91JCEQ.jpg",
-              "width": 160,
-              "height": 160,
-              "alt": "תמונת המחשה של אב ובתו בחוץ"
-            }
-          },
-          {
-            "quote": "ולגבי הרמה וההתקדמות שלי - הביטחון העצמי שלי בקשר לאנגלית ממש השתפר, חשוב לי להמשיך להגדיל את אוצר המילים, ביטויים נפוצים וכד׳, והדיבור הנכון מבחינת הדיקדוק וכד׳.",
-            "attribution": "טליה ס.",
-            "author_image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4RE5MZ0S2FNE9HS0VZA03DT.jpg",
-              "width": 160,
-              "height": 160,
-              "alt": "תמונת המחשה של אב ובנו מחייכים בחוץ"
-            }
-          },
-          {
-            "quote": "רציתי לעדכן אותך שמאז שהתחלתי איתך את השיעורים אני עם הרבה יותר ביטחון אני מדברת!! גם אם את לא מבינה איזו מילה פתאום אני באה ואומרת לה מילים באנגלית!! אין עלייך בעולם תודה תודה!!",
-            "attribution": "אביטל ט.",
-            "author_image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4RE5NPEBVJEERKRGA83B3FT.jpg",
-              "width": 160,
-              "height": 160,
-              "alt": "תמונת המחשה של שני הורים ושני ילדים בשעת שקיעה"
-            }
-          },
-          {
-            "quote": "מליייי את לא מאמינה קיבלתי 95 באנגלית וזה רק בזכותך!!!! תודה רבה 💗💗💗💗💗",
-            "attribution": "מירי ב.",
-            "author_image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4RE5PD9HS5HPDHJD56M74P5.jpg",
-              "width": 160,
-              "height": 160,
-              "alt": "תמונת המחשה של אם מנשקת את תינוקה בחוץ"
-            }
-          },
-          {
-            "quote": "מלי יקרה יקרה אני לא מאמינה 90 במבחן אין עלייך שנים הייתי בלופ מה לא עשיתי כלום לא עבד אני בשוק מעצמי... הכל בזכותך אין על האסטרטגיה שלכם, על הכלים המנטליים שכל כך עזרו לי השילוב האידיאלי הזה קיצר לי את הדרך והוציא אותי מהפלונטר תודה תודה אין עליכם.",
-            "attribution": "מיכל ס.",
-            "author_image": {
-              "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4RE5Q3DCGX30JZFFW59PY7C.jpg",
-              "width": 160,
-              "height": 160,
-              "alt": "תמונת המחשה של אם עם שני ילדיה"
-            }
-          }
-        ]
+        "list_style": "checklist"
       },
       {
         "_type": "landing_content_section",
-        "_version": 3,
-        "_key": "01M3PD1925MNGB0E5562KEATEW",
         "id": "program_fit",
         "kicker": "",
-        "title": "זה מתאים לילד שלך?",
+        "title": "אז למי התוכנית מתאימה ?",
+        "_version": 3,
+        "_key": "01M3PD1925MNGB0E5562KEATEW",
+        "ordered_cards": false,
         "background": "שנהב",
         "body": [
           {
             "_type": "block",
-            "_key": "text-0",
+            "_key": "k25",
             "style": "normal",
+            "listItem": "bullet",
+            "level": 1,
             "children": [
               {
                 "_type": "span",
-                "_key": "span-0",
-                "text": "אם הוא מתבלבל בין אותיות, מכיר את השמות שלהן אבל לא את הצלילים, או מנחש במקום לקרוא — התוכנית יכולה להתאים לו.",
-                "marks": []
+                "_key": "k24",
+                "text": "לילדים שרוצים להתחיל לקרוא באנגלית בצורה חווייתית ומהנה."
               }
-            ],
-            "markDefs": []
+            ]
           },
           {
             "_type": "block",
-            "_key": "text-1",
+            "_key": "k27",
             "style": "normal",
+            "listItem": "bullet",
+            "level": 1,
             "children": [
               {
                 "_type": "span",
-                "_key": "span-1",
-                "text": "אם הוא כבר קורא טקסטים באנגלית בקלות ואת מחפשת בעיקר להרחיב את אוצר המילים שלו, זה פחות הכיוון. התוכנית מתמקדת בבסיס הקריאה, ולא בדקדוק מתקדם או בהכנה לבגרות.",
-                "marks": []
+                "_key": "k26",
+                "text": "להורים שמבינים שאנגלית היא מפתח לעתיד ומחפשים דרך קלה ויעילה."
               }
-            ],
-            "markDefs": []
+            ]
           },
           {
             "_type": "block",
-            "_key": "text-2",
+            "_key": "k29",
             "style": "normal",
+            "listItem": "bullet",
+            "level": 1,
             "children": [
               {
                 "_type": "span",
-                "_key": "span-2",
-                "text": "אם יש לו קושי לימודי משמעותי, אפשר לשלב את התוכנית כתרגול נוסף לצד ליווי שמתאים לו. היא לא מחליפה אבחון מקצועי.",
-                "marks": []
+                "_key": "k28",
+                "text": "למי שבסיס הקריאה שלו חלש כי הוא לא שולט באותיות הניקוד בצירופים או בחלק מהאותיות וצריך ללמוד כדי ליצור בסיס חזק ובריא לקריאה"
               }
-            ],
-            "markDefs": []
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "k2b",
+            "style": "normal",
+            "listItem": "bullet",
+            "level": 1,
+            "children": [
+              {
+                "_type": "span",
+                "_key": "k2a",
+                "text": "למי שחשוב לה שהילדים שלה יגיעו לבית הספר כשהם כבר קוראים על מנת שיהיו לראש ולא לזנב"
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "k2d",
+            "style": "normal",
+            "listItem": "bullet",
+            "level": 1,
+            "children": [
+              {
+                "_type": "span",
+                "_key": "k2c",
+                "text": "לילדי קשב וריכוז שיטה שיטה שעוקפת הקשיים ומשאירה אותם קשובים ומגויסים"
+              }
+            ]
           }
         ],
-        "ordered_cards": false,
-        "list_style": "standard"
+        "list_style": "checklist"
       },
       {
         "_type": "landing_content_section",
-        "_version": 3,
-        "_key": "01M3PD19250PEWAFNR1T03XRPW",
-        "id": "frequently_asked_questions",
         "kicker": "",
         "title": "יש לך עוד שאלות?",
-        "background": "שנהב",
-        "body": [],
-        "ordered_cards": false,
         "faq_items": [
           {
             "question": "לאיזה גיל או כיתה זה מתאים?",
@@ -582,101 +677,202 @@
             "answer": "התוכנית נותנת לילד שלך דרך לתרגל קריאה בבית. לחלק מהילדים זה יספיק, ואחרים יצטרכו גם עזרה נוספת. זה תלוי במה שהוא צריך."
           }
         ],
+        "_version": 3,
+        "_key": "01M3PD19250PEWAFNR1T03XRPW",
+        "ordered_cards": false,
+        "background": "שנהב",
+        "id": "frequently_asked_questions",
+        "body": [],
         "list_style": "standard"
       },
       {
         "_type": "landing_offer",
-        "_version": 3,
-        "_key": "01M3PD1925BSCQN7T6WAVMZ7JD",
-        "title": "בואי נתחיל לתרגל בבית",
+        "title": "מוכנים לתת לילד שלך התחלה חדשה באנגלית?",
         "body": [
           {
             "_type": "block",
-            "_key": "text-0",
+            "_key": "copy30",
             "style": "normal",
+            "markDefs": [],
             "children": [
               {
                 "_type": "span",
-                "_key": "span-0",
-                "text": "את בוחרת מתי, והוא מתקדם בקצב שלו. בלי לתאם שיעור ובלי לנסוע — פשוט ללמוד ולתרגל בבית.",
+                "_key": "span30",
+                "text": "ההשקעה שלך: 596 ₪ בלבד",
+                "marks": [
+                  "strong"
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy31",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span31",
+                "text": "או 4 תשלומים של 149 ₪.",
                 "marks": []
               }
-            ],
-            "markDefs": []
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy32",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span32",
+                "text": "בלי נסיעות, בלי תיאומים ובלי להתחייב לשיעורים פרטיים קבועים.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy33",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span33",
+                "text": "הרכישה והשימוש בתוכנית כפופים לתנאי הרכישה המפורטים באתר.",
+                "marks": []
+              }
+            ]
           }
         ],
         "includes": [
           {
-            "text": "40 שיעורים דיגיטליים קצרים, מאותיות וצלילים ועד מילים."
-          },
-          {
-            "text": "מסלול מומלץ של כ־12 שבועות."
-          },
-          {
-            "text": "למידה או תרגול של כ־5 דקות ביום."
-          },
-          {
-            "text": "ימי חזרה כדי לתרגל שוב את מה שלמד."
-          },
-          {
-            "text": "משימות קצרות לתרגול."
-          },
-          {
-            "text": "קובצי תרגול שאפשר להדפיס."
+            "text": "40 שיעורים דיגיטליים, תרגולי חזרה, משימות וקובצי תרגול – בתוכנית אחת."
           }
         ],
         "checkout_url": "https://secure.cardcom.solutions/EA/EA5/bTTx0BGcMEqeDCr0cVizMg/PaymentSP",
-        "submit_label": "כן אני רוצה את הקורס!",
-        "cta_style": "ברירת מחדל",
-        "kicker": "רוצים להתחיל?"
+        "submit_label": "כן! אני רוצה שהילד שלי יתחיל לקרוא באנגלית",
+        "_version": 3,
+        "_key": "01M3PD1925BSCQN7T6WAVMZ7JD",
+        "kicker": "",
+        "cta_style": "ברירת מחדל"
       },
       {
         "_type": "landing_final_cta",
+        "heading": "מילה אישית ממני אלייך",
+        "signature": "מלי כהן",
+        "cta_label": "כן! אני רוצה שהילד שלי יתחיל לקרוא באנגלית",
+        "cta_href": "#offer",
         "_version": 3,
         "_key": "01M3PD192519R1FF92M1EGZQ2H",
-        "heading": "מילה ממני אלייך",
-        "body": [
-          {
-            "_type": "block",
-            "_key": "text-0",
-            "style": "normal",
-            "children": [
-              {
-                "_type": "span",
-                "_key": "span-0",
-                "text": "את לא צריכה להסביר לו הכול לבד. יצרתי את התוכנית כדי לתת לילד שלך דרך ללמוד ולתרגל, עם מקום לעצור, לחזור ולנסות שוב.",
-                "marks": []
-              }
-            ],
-            "markDefs": []
-          },
-          {
-            "_type": "block",
-            "_key": "text-1",
-            "style": "normal",
-            "children": [
-              {
-                "_type": "span",
-                "_key": "span-1",
-                "text": "נשמע לך מתאים? בואי לראות מה כלול בתוכנית ואיך מצטרפים.",
-                "marks": []
-              }
-            ],
-            "markDefs": []
-          }
-        ],
-        "signature": "מלי",
-        "cta_label": "כן אני רוצה את הקורס!",
         "cta_style": "ברירת מחדל",
-        "cta_href": "https://maly-landing-pages.moranski.workers.dev/reading/#offer",
         "image": {
           "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4WRNEENVSMRSCV8DNYTD1W4.01M4WRNEPVT5WPZGR5963YDB09.webp",
           "width": 668,
           "height": 811,
           "alt": "תמונה של מלי כהן בישיבה פנים למצלמה מחייכת"
         },
-        "image_alt": "מלי כהן יושבת ומחייכת למצלמה"
+        "image_alt": "מלי כהן יושבת ומחייכת למצלמה",
+        "body": [
+          {
+            "_type": "block",
+            "_key": "copy34",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span34",
+                "text": "אני מאמינה שכל ילד ראוי להרגיש שהוא מסוגל להצליח באנגלית.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy35",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span35",
+                "text": "לפעמים כל מה שמפריד בין ילד שאומר “אני לא מצליח” לבין ילד שקורא מילה בעצמו הוא הדרך שבה מלמדים אותו.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy36",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span36",
+                "text": "בדיוק בשביל זה יצרתי את “אנגלית מעצימה לי”.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy37",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span37",
+                "text": "תוכנית שמטרתה לא רק ללמד קריאה באנגלית, אלא גם להטמיע את הלמידה בתת־המודע ולחזק את תחושת המסוגלות של הילד.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy38",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span38",
+                "text": "אני רוצה שגם את תזכי לשמוע את הילד שלך קורא מילה באנגלית, מחייך בגאווה ואומר:",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "_type": "block",
+            "_key": "copy39",
+            "style": "normal",
+            "markDefs": [],
+            "children": [
+              {
+                "_type": "span",
+                "_key": "span39",
+                "text": "“אמא, תראי! הצלחתי לבד!”",
+                "marks": []
+              }
+            ]
+          }
+        ],
+        "kicker": ""
       }
-    ]
+    ],
+    "cta_style": "כתום אדום",
+    "brand_name": "אנגלית מעצימה לי עם מלי",
+    "brand_tagline": "תוכנית  ללימוד הקריאה באנגלית לילדים",
+    "brand_logo": {
+      "src": "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4X6FW6FZWAY903V89CQP6TE.01M4X6FWFAGYQ4E0ZAATFNXZK7.webp",
+      "width": 450,
+      "height": 440,
+      "alt": "לוגו של אנגלית מעצימה לי עם מלי"
+    }
   }
 }

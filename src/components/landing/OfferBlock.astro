@@ -10,8 +10,9 @@ const { title, body, includes, kicker, cta } = Astro.props;
   <div class="offer__inner">
     <div>
       {kicker && <p class="kicker">{kicker}</p>}
-      <h2>{title}</h2><RichTextContent body={body} />
+      <h2>{title}</h2>
       {includes.length > 0 && <ul class="check-list">{includes.map(item => <li>{item}</li>)}</ul>}
+      <RichTextContent body={body} />
     </div>
     {cta && <aside class="lead-box" aria-label={cta.label}>
       <a class="button button--primary" data-cta-style={cta.style} href={cta.href}>{cta.label}</a>

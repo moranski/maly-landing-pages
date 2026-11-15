@@ -27,8 +27,9 @@ if (!page) {
   <LandingPageContent page={page} layoutEdit={edit?.layout}>
     {page.blocks.map(block => {
       if (block.kind === "section") return <Section surface={block.surface} id={block.id} kicker={block.kicker} title={block.title} mediaLayout={block.profile ? "image-right" : block.mediaLayout} profileLayout={Boolean(block.profile)}>
-        <RichTextContent body={block.body} listStyle={block.listStyle} />
+        {!block.orderedCards && <RichTextContent body={block.body} listStyle={block.listStyle} />}
         {block.cards.length > 0 && <CardGrid ordered={block.orderedCards} items={block.cards} />}
+        {block.orderedCards && <RichTextContent body={block.body} listStyle={block.listStyle} />}
         {block.profile && <ProfileImage slot="media" {...block.profile} variant="editorial" />}
         {block.gallery.length > 0 && <ImageGallery slot="media" images={block.gallery} preserveAspect={block.mediaLayout !== "stacked"} />}
         {block.faq.length > 0 && <FaqList items={block.faq} />}
