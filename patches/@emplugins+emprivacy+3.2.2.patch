@@ -1,7 +1,8 @@
 diff --git a/node_modules/@emplugins/emprivacy/dist/index.mjs b/node_modules/@emplugins/emprivacy/dist/index.mjs
+index 6b6054e..b4370f2 100644
 --- a/node_modules/@emplugins/emprivacy/dist/index.mjs
 +++ b/node_modules/@emplugins/emprivacy/dist/index.mjs
-@@ -23,6 +23,27 @@
+@@ -23,6 +23,27 @@ const CHROME = {
  		whatWeUse: "What we use",
  		gpcNote: "Your browser sent Global Privacy Control, so marketing stays off."
  	},
@@ -29,7 +30,7 @@ diff --git a/node_modules/@emplugins/emprivacy/dist/index.mjs b/node_modules/@em
  	de: {
  		acceptAll: "Alle akzeptieren",
  		rejectNonEssential: "Nicht notwendige ablehnen",
-@@ -385,7 +406,58 @@
+@@ -391,7 +412,58 @@ if((first&0xff00)===0xff00)return true;
  return false;
  }`;
  }
@@ -89,9 +90,9 @@ diff --git a/node_modules/@emplugins/emprivacy/dist/index.mjs b/node_modules/@em
  /** True for loopback, private, link-local, shared (CGNAT), and non-global addresses. */
  function isBlockedHostname(hostname) {
  	return hostBlockedImpl(hostname);
-@@ -616,14 +688,14 @@
- const COOKIE_NAME = "emprivacy_cc";
- const PLUGIN_ID = "emprivacy";
+@@ -635,14 +707,14 @@ function withPluginLabel(definition) {
+ 	});
+ }
  const DEFAULT_CONFIG = {
 -	bannerTitle: "Cookies & privacy",
 -	bannerMessage: "We use cookies to run this site and optionally for functional embeds, analytics, and marketing. You can accept or customize your choices.",
@@ -108,7 +109,7 @@ diff --git a/node_modules/@emplugins/emprivacy/dist/index.mjs b/node_modules/@em
  	analyticsId: "",
  	umamiScriptUrl: "",
  	analyticsScriptUrls: [],
-@@ -632,13 +704,13 @@
+@@ -651,13 +723,13 @@ const DEFAULT_CONFIG = {
  	scriptHostAllowlist: [],
  	embedHostAllowlist: [],
  	cookieMaxAgeDays: 180,
@@ -125,6 +126,7 @@ diff --git a/node_modules/@emplugins/emprivacy/dist/index.mjs b/node_modules/@em
  	themeProfile: "slate",
  	theme: { ...DEFAULT_THEME }
 diff --git a/node_modules/@emplugins/emprivacy/src/astro/GatedEmbed.astro b/node_modules/@emplugins/emprivacy/src/astro/GatedEmbed.astro
+index fc185f2..a27eb00 100644
 --- a/node_modules/@emplugins/emprivacy/src/astro/GatedEmbed.astro
 +++ b/node_modules/@emplugins/emprivacy/src/astro/GatedEmbed.astro
 @@ -1,6 +1,6 @@
