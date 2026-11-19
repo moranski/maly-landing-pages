@@ -3,8 +3,10 @@
 import RichTextContent from "./RichTextContent.astro";
 import type { RichText } from "../../lib/landing/rich-text";
 import type { Cta } from "../../lib/landing/normalize";
+import { withCheckoutAttribution } from "../../lib/landing/urls";
 interface Props { title: string; body: RichText; includes: string[]; kicker?: string; cta?: Cta; }
 const { title, body, includes, kicker, cta } = Astro.props;
+const checkoutHref = cta && (Astro.params.slug === "reading" ? withCheckoutAttribution(cta.href, Astro.url) : cta.href);
 ---
 <section id="offer" class="offer">
   <div class="offer__inner">
@@ -15,7 +17,7 @@ const { title, body, includes, kicker, cta } = Astro.props;
       <RichTextContent body={body} />
     </div>
     {cta && <aside class="lead-box" aria-label={cta.label}>
-      <a class="button button--primary" data-cta-style={cta.style} href={cta.href}>{cta.label}</a>
+      <a class="button button--primary" data-cta-style={cta.style} href={checkoutHref}>{cta.label}</a>
     </aside>}
   </div>
 </section>
