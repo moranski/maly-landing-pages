@@ -238,5 +238,47 @@ body.landing-page .rich-text strong { font-size: inherit; }
  body.landing-page .section[data-media-layout]:not([data-media-layout="stacked"]) .image-gallery img {
   max-height: 440px;
  }
- body.landing-page .offer .lead-box { width: min(100%, 400px); justify-self: center; }
 }
+
+/* Cohesive offer card, based on Stitch da447441e7e1490f9d87c618f30e9bf1.
+ * Co-authored-by: Codex <codex@openai.com> */
+body.landing-page .offer { scroll-margin-block-start: 110px; }
+body.landing-page .offer__inner {
+ background: #fff9eb;
+ border: 1px solid #dd9700;
+ gap: 28px;
+ text-align: center;
+}
+body.landing-page .offer__content {
+ display: grid;
+ gap: 24px;
+ width: min(100%, 900px);
+ min-width: 0;
+ margin-inline: auto;
+}
+body.landing-page .offer h2 {
+ max-width: 26ch;
+ margin: 0 auto;
+ text-wrap: balance;
+}
+body.landing-page .offer .kicker { margin: 0; justify-self: center; }
+body.landing-page .offer .check-list {
+ grid-template-columns: minmax(0, 1fr);
+ margin: 0;
+ text-align: start;
+}
+body.landing-page .offer .check-list li { padding-block: 16px; }
+body.landing-page .offer .check-list li::before { top: 16px; }
+body.landing-page .offer .rich-text > * { margin-inline: auto; }
+body.landing-page .offer .rich-text strong { font-size: 1.15em; color: var(--color-ink); }
+body.landing-page .offer .lead-box {
+ width: min(100%, 640px);
+ min-width: 0;
+ justify-self: center;
+ padding: 0;
+ border: 0;
+ border-radius: 0;
+ background: transparent;
+ box-shadow: none;
+}
+body.landing-page .offer .lead-box .button { padding: 18px 24px; text-wrap: balance; }
