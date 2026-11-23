@@ -6,6 +6,7 @@ if (!import.meta.env.DEV) return new Response("העמוד לא נמצא", { stat
 const files = import.meta.glob<string>([
  "../../components/landing/*.astro",
  "../../styles/presentation.css",
+ "../../styles/landing/*.css",
  "../blocks-demo.astro",
  "./story.astro",
  "./reading.astro",

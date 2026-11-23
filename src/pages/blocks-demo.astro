@@ -5,6 +5,7 @@ import LandingFonts from "../components/LandingFonts.astro";
 import { landingBackgroundStyle } from "../lib/landing/media-images";
 import ParallaxBackground from "../components/demo/ParallaxBackground.astro";
 import "../styles/global.css";
+import "../styles/landing/reading.css";
 import "../styles/presentation.css";
 import Kicker from "../components/landing/Kicker.astro";
 import RichTextContent from "../components/landing/RichTextContent.astro";
@@ -129,7 +130,7 @@ const extraExamples = [
         <LandingFonts />
 		<title>{page.title} — הדגמה</title>
 	</head>
-	<body style={landingBackgroundStyle(!import.meta.env.DEV)} class="landing-page blocks-demo">
+	<body style={landingBackgroundStyle(!import.meta.env.DEV)} data-design-variant="reading" class="landing-page blocks-demo">
 <ParallaxBackground />
 		<LandingHeader title="דוגמאות לבלוקים" cta={{ label: "תוכן עניינים", href: "#contents" }} />
 		<nav id="contents" class="demo-contents" aria-label="תוכן עניינים לדוגמאות">

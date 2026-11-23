@@ -7,6 +7,7 @@ import { createPublicPageContext } from "emdash/page";
 import type { CmsPage } from "../lib/cms-page";
 import type { EditProxy } from "emdash";
 import "../styles/global.css";
+import "../styles/landing/reading.css";
 import "../styles/presentation.css";
 interface Props { page: CmsPage; contentId?: string; preview?: boolean; edit?: EditProxy; }
 const { page, contentId, preview = false, edit } = Astro.props;
@@ -21,7 +22,7 @@ const context = createPublicPageContext({ url: Astro.url, locale: page.lang, kin
 		<LandingFonts />
 		{preview ? <meta name="robots" content="noindex, nofollow" /> : <EmDashHead page={context} />}
 	</head>
-	<body class="landing-page cms-page" {...(edit ?? {})}>
+	<body data-design-variant="reading" class="landing-page cms-page" {...(edit ?? {})}>
 		{!preview && <EmDashBodyStart page={context} />}
 		<main>
 			<article>
@@ -33,8 +34,8 @@ const context = createPublicPageContext({ url: Astro.url, locale: page.lang, kin
 	</body>
 </html>
 <style is:global>
-	body.cms-page { background: var(--surface-ivory); }
-	body.cms-page main { width: min(100%, 960px); min-height: 0; padding: 32px 20px; }
-	body.cms-page article { padding: clamp(20px, 4vw, 48px); background: white; border: 1px solid var(--color-border); border-radius: var(--radius-card); }
-	body.cms-page h1 { margin: 0 0 24px; font-size: clamp(28px, 4vw, 40px); }
+	body.landing-page.cms-page[data-design-variant] { background: var(--surface-ivory); }
+	body.landing-page.cms-page[data-design-variant] main { width: min(100%, 960px); min-height: 0; padding: 32px 20px; }
+	body.landing-page.cms-page[data-design-variant] article { padding: clamp(20px, 4vw, 48px); background: white; border: 1px solid var(--color-border); border-radius: var(--radius-card); }
+	body.landing-page.cms-page[data-design-variant] h1 { margin: 0 0 24px; font-size: clamp(28px, 4vw, 40px); }
 </style>

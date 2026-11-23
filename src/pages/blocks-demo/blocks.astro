@@ -5,6 +5,7 @@ import LandingFonts from "../../components/LandingFonts.astro";
 import { landingBackgroundStyle } from "../../lib/landing/media-images";
 import ParallaxBackground from "../../components/demo/ParallaxBackground.astro";
 import "../../styles/global.css";
+import "../../styles/landing/reading.css";
 import "../../styles/presentation.css";
 import LandingHeader from "../../components/landing/LandingHeader.astro";
 import LandingPageContent from "../../components/landing/LandingPageContent.astro";
@@ -62,7 +63,7 @@ const faq = [
 		<LandingFonts />
 		<title>{page.title} — תצוגה מקומית</title>
 	</head>
-	<body style={landingBackgroundStyle(!import.meta.env.DEV)} class="landing-page blocks-samples-demo">
+	<body style={landingBackgroundStyle(!import.meta.env.DEV)} data-design-variant="reading" class="landing-page blocks-samples-demo">
 		<ParallaxBackground />
 		<LandingHeader title="דוגמאות לבלוקים" cta={{ label: "לקטלוג המלא", href: "/blocks-demo" }} />
 		<LandingPageContent page={page}>

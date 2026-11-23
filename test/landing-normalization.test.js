@@ -8,6 +8,23 @@ const hero = () => ({ _type: 'landing_hero', _version: 2, _key: 'hero', title: '
 const section = (extra = {}) => ({ _type: 'landing_content_section', _version: 2, _key: 'section', title: 'Section', background: 'שנהב', paragraph_format: 'paragraphs', paragraphs: [{ text: 'Text' }], ...extra });
 const normalize = (...blocks) => normalizeLandingPage({ title: 'Page', description: 'Description', lang: 'he', dir: 'rtl', layout: [hero(), ...blocks] });
 
+test('audience design uses an explicit CMS choice and safely retains legacy pages', () => {
+  const base = { title: 'Page', description: 'Description', lang: 'he', dir: 'rtl', layout: [hero()] };
+  for (const design_variant of [undefined, null, '', 'reading', 'adult']) {
+    const { page, diagnostics } = normalizeLandingPage({ ...base, design_variant });
+    assert.equal(page.designVariant, design_variant === 'adult' ? 'adult' : 'reading');
+    assert.deepEqual(diagnostics, []);
+  }
+  for (const design_variant of ['__proto__', 'constructor', 'adult arbitrary-class', { css: 'PRIVATE' }]) {
+    const { page, diagnostics } = normalizeLandingPage({ ...base, design_variant });
+    assert.equal(page.designVariant, 'reading');
+    assert.ok(diagnostics.some(d => d.path === 'design_variant' && d.code === 'invalid_choice'));
+    assert.ok(!JSON.stringify(page).includes('PRIVATE'));
+  }
+  assert.equal(normalizeLandingPage({ ...base, slug: 'english-breakthrough' }).page.designVariant, 'reading');
+  assert.equal(normalizeLandingPage({ ...base, slug: 'reading', design_variant: 'adult' }).page.designVariant, 'adult');
+});
+
 test('section image placement uses only CMS choices and retains stacked legacy layouts', () => {
   for (const [choice, expected] of [[undefined, 'stacked'], ['', 'stacked'], ['תמונה מתחת לטקסט', 'stacked'], ['תמונה מימין, טקסט משמאל', 'image-right'], ['תמונה משמאל, טקסט מימין', 'image-left']]) {
     const result = normalize(section({ media_layout: choice, gallery: [{ image: '/photo.webp', alt: 'Photo' }] }));

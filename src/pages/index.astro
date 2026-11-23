@@ -6,6 +6,7 @@ import type { LandingPage } from "../lib/landing/normalize";
 // This utility route exercises the public layout without creating CMS content.
 Astro.response.headers.set("X-Robots-Tag", "noindex, nofollow");
 const page: LandingPage = {
+	designVariant: "reading",
 	title: "עמוד בדיקה | דפי הנחיתה של מלי",
 	description: "עמוד בדיקה לתגיות ולניהול הסכמה בדפי הנחיתה.",
 	lang: "he",

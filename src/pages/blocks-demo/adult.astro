@@ -1,0 +1,31 @@
+---
+// Component demonstration only; never a replacement for the EmDash entry.
+// Co-authored-by: Codex <codex@openai.com>
+import EmDashLandingPage from "../../components/landing/EmDashLandingPage.astro";
+import { plainTextToRichText } from "../../lib/landing/rich-text";
+export const prerender = false;
+if (!import.meta.env.DEV) return new Response("העמוד לא נמצא", { status: 404 });
+const body = (...paragraphs: string[]) => plainTextToRichText(paragraphs);
+const page = {
+ title: "תצוגת עיצוב — שיחת פיצוח למבוגרים",
+ description: "המחשת רכיבים לעיצוב שיחת פיצוח, ללא שמירה או פרסום ב־CMS.",
+ lang: "he", dir: "rtl", design_variant: "adult",
+ brand_name: "אנגלית מנטלי", brand_tagline: "עם מלי כהן",
+ layout: [
+  { _type: "landing_hero", _version: 3, title: "יש לכם מה לומר. גם באנגלית.", subtitle: "שיחת פיצוח לחסמים שמקשים עליכם לדבר",
+   eyebrow: "תצוגת עיצוב לדוגמה",
+   body: body("אתם מבינים אנגלית, אבל כשמגיע הרגע לדבר — הביטחון מתערער והמילים נתקעות.", "שיחה אישית לבחינת מה שעוצר אתכם: פחד לטעות, חשש מכישלון או תחושת חוסר ביטחון."),
+   cta_label: "לפרטים על שיחת הפיצוח", cta_href: "#call_details",
+   visual_image: { src: "https://maly-landing-pages.moranski.workers.dev/_emdash/api/media/file/01M4WRNEE4JV1AKG83021ZMN34.01M4WRNEPBE88WJ8MF8S8C714A.webp", width: 1320, height: 1285 },
+   visual_alt: "מלי כהן מחייכת ומשוחחת בטלפון", visual_title: "מלי כהן", visual_caption: "אנגלית מנטלי" },
+  { _type: "landing_content_section", _version: 3, title: "יש בסיס באנגלית. מה מקשה להשתמש בו?", background: "שנהב", list_style: "standard",
+   body: body("השיחה מיועדת למבוגרים בעלי מיומנות בסיסית באנגלית שנמנעים מדיבור בגלל חסמים רגשיים ומנטליים."),
+   cards: [{ title: "פחד לטעות", body: "כשאתם חוששים מהטעות עוד לפני שהתחלתם את המשפט." }, { title: "ביטחון עצמי", body: "כשיש לכם ידע, אבל קשה לסמוך על עצמכם ברגע של שיחה." }] },
+  { _type: "landing_content_section", _version: 3, title: "מקום לעצור ולהבין מה עוצר אתכם", background: "כחול כהה", list_style: "standard", body: body("לא צריך לדעת כל מילה כדי להתחיל לבחון את הקושי לדבר.") },
+  { _type: "landing_content_section", _version: 3, id: "call_details", title: "שיחת הפיצוח", background: "מרווה", list_style: "standard", body: body("בשיחה נבחן יחד את החסמים ואת הצעדים הראשונים שמתאימים לכם."),
+   faq_items: [{ question: "למי השיחה מיועדת?", answer: "למבוגרים עם בסיס באנגלית, שנמנעים מדיבור בגלל חוסר ביטחון, פחד מכישלון או חסמים רגשיים אחרים." }] },
+  { _type: "landing_final_cta", _version: 3, heading: "אפשר להתחיל בשיחה", body: body("תצוגת רכיבים בלבד. תוכן הדף המלא מנוהל ב־EmDash."), cta_label: "לפרטי השיחה", cta_href: "#call_details", signature: "מלי כהן" },
+ ],
+};
+---
+<EmDashLandingPage preview page={page} />

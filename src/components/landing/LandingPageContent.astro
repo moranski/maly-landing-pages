@@ -35,8 +35,8 @@ const heroVisual = hero?.visual;
 						class="course-preview__image"
 						{...responsiveMediaImage(heroVisual.src, [224, 320, 402, 480, 560, 640, 804, 960, 1120], "(min-width: 1504px) 551px, (min-width: 1024px) calc((100vw - 188px) / 2.25 - 34px), (min-width: 512px) 402px, calc(100vw - 110px)", !import.meta.env.DEV, heroVisual.width)}
 						alt={heroVisual.alt}
-						width="1599"
-						height="899"
+						width={heroVisual.width ?? 1599}
+						height={heroVisual.height ?? 899}
 						loading="eager"
 						decoding="async"
 					/>

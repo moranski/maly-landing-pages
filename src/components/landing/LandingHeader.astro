@@ -1,5 +1,5 @@
 ---
-import type { Cta, Image } from "../../lib/landing/normalize";
+import type { Cta, Image, DesignVariant } from "../../lib/landing/normalize";
 import { responsiveMediaImage } from "../../lib/landing/media-images";
 // Co-authored-by: Codex <codex@openai.com>
 interface Props {
@@ -12,16 +12,17 @@ interface Props {
 	brandNameEdit?: Partial<{ "data-emdash-ref": string }>;
 	brandTaglineEdit?: Partial<{ "data-emdash-ref": string }>;
 	cta?: Cta;
+	designVariant?: DesignVariant;
 }
 
-const { title, titleEdit, brandName, brandTagline, brandLogo, brandLogoEdit, brandNameEdit, brandTaglineEdit, cta } = Astro.props;
+const { title, titleEdit, brandName, brandTagline, brandLogo, brandLogoEdit, brandNameEdit, brandTaglineEdit, cta, designVariant = "reading" } = Astro.props;
 ---
 
 <header class="site-header">
 	<div class="site-header__inner">
 		<a class="site-brand" href="#top">
 			{brandLogo ? <img class="site-brand__logo" {...responsiveMediaImage(brandLogo.src, [56, 112], "56px", !import.meta.env.DEV, brandLogo.width)} alt={brandLogo.alt} width="56" height="56" loading="eager" decoding="async" {...brandLogoEdit} /> : <span class="site-brand__mark" aria-hidden="true">
-				<svg viewBox="0 0 24 24" fill="none"><path d="M12 6.2c-2.5-1.7-5.2-2-8-1.4v13c2.8-.7 5.5-.3 8 1.4m0-13c2.5-1.7 5.2-2 8-1.4v13c-2.8-.7-5.5-.3-8 1.4m0-13v13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+				{designVariant === "adult" ? <svg viewBox="0 0 24 24" fill="none"><path d="M20 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 18 0ZM7 10h8m-8 4h5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg> : <svg viewBox="0 0 24 24" fill="none"><path d="M12 6.2c-2.5-1.7-5.2-2-8-1.4v13c2.8-.7 5.5-.3 8 1.4m0-13c2.5-1.7 5.2-2 8-1.4v13c-2.8-.7-5.5-.3-8 1.4m0-13v13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>}
 			</span>}
 			<span class="site-brand__copy">
 				{brandName && <strong {...brandNameEdit}>{brandName}</strong>}

@@ -4,6 +4,7 @@ import { getSectionBackground, type SectionSurface } from "../../scripts/section
 
 export type ParagraphFormat = "paragraphs" | "bullets" | "checklist" | "cross_list";
 export type CtaStyle = "orange" | "red-orange" | "navy" | "outline" | "white";
+export type DesignVariant = "reading" | "adult";
 export type SectionMediaLayout = "stacked" | "image-right" | "image-left";
 export interface Cta { label: string; href: string; style?: CtaStyle }
 export interface Image { src: string; alt: string; caption?: string; width?: number; height?: number }
@@ -33,6 +34,7 @@ export interface FinalCta {
 }
 export interface LandingPage {
 	title: string; description: string; lang: "he"; dir: "rtl";
+	designVariant: DesignVariant;
 	brandName?: string; brandTagline?: string; brandLogo?: Image;
 	hero?: Hero; blocks: (ContentSection | Testimonials | Offer | FinalCta)[];
 }
@@ -88,7 +90,12 @@ export function normalizeLandingPage(input: unknown): { page?: LandingPage; diag
 	if (data.lang !== "he") issue("lang", "invalid");
 	if (data.dir !== "rtl") issue("dir", "invalid");
 	if (!title || !description || data.lang !== "he" || data.dir !== "rtl") return { diagnostics };
-	const page: LandingPage = { title, description, lang: "he", dir: "rtl", brandName: text(data.brand_name), brandTagline: text(data.brand_tagline), brandLogo: normalizeMediaImage(data.brand_logo, record(data.brand_logo)?.alt, code => issue("brand_logo", code)), blocks: [] };
+	// Existing entries keep their reading design. Never infer audience from a
+	// slug, title or copy, or pass an arbitrary CMS string into CSS/classes.
+	let designVariant: DesignVariant = "reading";
+	if (data.design_variant === "adult" || data.design_variant === "reading") designVariant = data.design_variant;
+	else if (data.design_variant !== undefined && data.design_variant !== null && data.design_variant !== "") issue("design_variant", "invalid_choice");
+	const page: LandingPage = { title, description, lang: "he", dir: "rtl", designVariant, brandName: text(data.brand_name), brandTagline: text(data.brand_tagline), brandLogo: normalizeMediaImage(data.brand_logo, record(data.brand_logo)?.alt, code => issue("brand_logo", code)), blocks: [] };
 	if (!Array.isArray(data.layout) || !data.layout.length) { issue("layout", "required"); return { page, diagnostics }; }
 	let heroCount = 0;
 	data.layout.forEach((value, index) => {
