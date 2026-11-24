@@ -5,10 +5,10 @@
 		"@astrojs/cloudflare": "^14.4.8",
 		"@astrojs/mdx": "^8.1.6",
 		"@astrojs/react": "^5.0.7",
-		"@emdash-cms/cloudflare": "^1.5.0",
+		"@emdash-cms/cloudflare": "^1.6.0",
 		"@emplugins/emprivacy": "3.2.2",
 		"astro": "^7.4.12",
-		"emdash": "^1.5.0",
+		"emdash": "^1.6.0",
 		"react": "^19.3.1",
 		"react-dom": "^19.3.1",
 		"typescript": "5.9.3"
