@@ -107,14 +107,16 @@ export const POST: APIRoute = async ({ request }) => {
 		return json({ ok: false, error: "invalid_input" }, 415);
 	}
 
-	let canonical: URL;
+	const requestUrl = new URL(request.url);
+	let allowedOrigins: string[];
 	try {
-		canonical = new URL(env.SITE_URL);
+		allowedOrigins = [new URL(env.SITE_URL).origin];
+		if (env.LEGACY_SITE_URL) allowedOrigins.push(new URL(env.LEGACY_SITE_URL).origin);
 	} catch {
 		return json({ ok: false, error: "unavailable" }, 503);
 	}
 	const origin = request.headers.get("Origin");
-	if (!origin || origin !== canonical.origin || new URL(request.url).origin !== canonical.origin) {
+	if (origin !== requestUrl.origin || !allowedOrigins.includes(requestUrl.origin)) {
 		return json({ ok: false, error: "invalid_input" }, 403);
 	}
 
@@ -124,7 +126,7 @@ export const POST: APIRoute = async ({ request }) => {
 	if (!body) return json({ ok: false, error: "invalid_input" }, 400);
 
 	try {
-		if (!await verifyTurnstile(body.turnstileToken, request, canonical.hostname)) {
+		if (!await verifyTurnstile(body.turnstileToken, request, requestUrl.hostname)) {
 			return json({ ok: false, error: "verification_failed" }, 400);
 		}
 

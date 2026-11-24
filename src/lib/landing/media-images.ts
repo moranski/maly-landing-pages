@@ -1,14 +1,16 @@
 // Co-authored-by: Codex <codex@openai.com>
 // Use EmDash's existing /_image endpoint, which resolves source bytes through
 // its storage adapter. Leave external media and local development unchanged.
-const mediaOrigin = "https://maly-landing-pages.moranski.workers.dev";
+const mediaOrigin = "https://land.maly.school";
+const legacyMediaOrigin = "https://maly-landing-pages.moranski.workers.dev";
 const mediaPath = /^\/_emdash\/api\/media\/file\/[A-Za-z0-9_-][A-Za-z0-9._-]*\.(?:png|webp|jpe?g|avif)$/i;
 
 function localMediaPath(src: string): string | undefined {
 	try {
 		const url = new URL(src, mediaOrigin);
-		if (url.origin !== mediaOrigin || url.search || url.hash || url.username || url.password || src.includes("\\")) return;
-		if (!src.startsWith("/_emdash/") && !src.startsWith(`${mediaOrigin}/_emdash/`)) return;
+		if (url.search || url.hash || url.username || url.password || src.includes("\\")) return;
+		if (url.origin !== mediaOrigin && url.origin !== legacyMediaOrigin) return;
+		if (!src.startsWith("/_emdash/") && !src.startsWith(`${url.origin}/_emdash/`)) return;
 		return mediaPath.test(url.pathname) ? url.pathname : undefined;
 	} catch { return; }
 }
@@ -35,9 +37,9 @@ export function responsiveMediaImage(src: string, widths: number[], sizes: strin
 	};
 }
 
-const background = `${mediaOrigin}/_emdash/api/media/file/01M4EN17571ZYTCHAZCSEMNK0V.01M4EN17H57PAR2NBFHRKCBDM7.png`;
+const background = "/_emdash/api/media/file/01M4EN17571ZYTCHAZCSEMNK0V.01M4EN17H57PAR2NBFHRKCBDM7.png";
 export function landingBackgroundStyle(optimize: boolean): string {
 	// Keep the original 2x resolution for the repeating 362px-wide tile.
 	// The decorative tile can use stronger compression than lesson text/images.
-	return `--landing-background-image: url("${mediaImageUrl(background, 724, optimize, 65)}")`;
+	return `--landing-background-image: url("${mediaImageUrl(optimize ? background : mediaOrigin + background, 724, optimize, 65)}")`;
 }

@@ -3,6 +3,7 @@ type Runtime = import("@astrojs/cloudflare").Runtime<Env>;
 declare namespace Cloudflare {
   interface Env {
 	SITE_URL: string;
+	LEGACY_SITE_URL?: string;
     GTM_ID?: string;
 	TURNSTILE_SITE_KEY?: string;
 	TURNSTILE_SECRET?: string;

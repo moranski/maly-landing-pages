@@ -4,11 +4,13 @@ import test from 'node:test';
 import { mediaImageUrl, responsiveMediaImage, landingBackgroundStyle } from '../src/lib/landing/media-images.ts';
 
 const path = '/_emdash/api/media/file/01M3PD0EF0J5H8GPARHVHHBC4C.webp';
-const origin = 'https://maly-landing-pages.moranski.workers.dev';
+const origin = 'https://land.maly.school';
+const oldOrigin = 'https://maly-landing-pages.moranski.workers.dev';
 
 test('relative and known-site CMS images use the same bounded EmDash transform', () => {
   const relative = mediaImageUrl(path, 352, true);
   assert.equal(relative, mediaImageUrl(origin + path, 352, true));
+  assert.equal(relative, mediaImageUrl(oldOrigin + path, 352, true));
   const url = new URL(relative, origin);
   assert.equal(url.pathname, '/_image');
   assert.equal(url.searchParams.get('href'), path);

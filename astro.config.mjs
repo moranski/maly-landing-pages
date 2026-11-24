@@ -10,7 +10,7 @@ import { emprivacyPlugin } from "@emplugins/emprivacy";
 
 // https://astro.build/config
 export default defineConfig({
-	site: process.env.SITE_URL,
+	site: process.env.SITE_URL ?? "https://land.maly.school",
 	output: "server",
 	integrations: [
 		mdx(),

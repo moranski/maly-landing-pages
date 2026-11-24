@@ -4,7 +4,7 @@
 
 ## משתני Worker
 
-המשתנים `SITE_URL`, `TURNSTILE_SITE_KEY`, `RESPONDER_CLIENT_ID` ו־`RESPONDER_LIST_ID` מוגדרים ב־`wrangler.toml`. מפתח Turnstile ומזהי החשבון והרשימה אינם סודות; מפתח Turnstile יוצג בדף כחלק מהווידג׳ט. ה־endpoint משווה את `SITE_URL` ל־Origin ולשם המארח ש־Turnstile מאמת.
+המשתנים `SITE_URL`, `TURNSTILE_SITE_KEY`, `RESPONDER_CLIENT_ID` ו־`RESPONDER_LIST_ID` מוגדרים ב־`wrangler.toml`. מפתח Turnstile ומזהי החשבון והרשימה אינם סודות; מפתח Turnstile יוצג בדף כחלק מהווידג׳ט. ה־endpoint דורש שמקור הבקשה יתאים לכתובת הבקשה ולאחד משני המארחים המוגדרים: `SITE_URL` או `LEGACY_SITE_URL` האופציונלי. Turnstile מאמת את שם המארח של הבקשה.
 
 שמרו את הערכים הרגישים כ־Cloudflare Secrets דרך `npx wrangler secret put <NAME>` או במסך Settings → Variables and Secrets של ה־Worker:
 
@@ -12,14 +12,14 @@
 - `RESPONDER_CLIENT_SECRET`
 - `RESPONDER_USER_TOKEN`
 
-צרו מפתחות Turnstile שמורשים לדומיין שמופיע ב־`SITE_URL`. חשבון Responder צריך לספק Client ID, Client Secret, User Token ומזהה רשימת תפוצה. הגדרת הערכים ב־Cloudflare אינה דורשת להעביר אותם בצ׳אט או להוסיף אותם לקוד.
+הגדירו ב־Turnstile את המארח של `SITE_URL` (בייצור: `land.maly.school`) ואת המארח של `LEGACY_SITE_URL` אם הוגדר. חשבון Responder צריך לספק Client ID, Client Secret, User Token ומזהה רשימת תפוצה. הגדרת הערכים ב־Cloudflare אינה דורשת להעביר אותם בצ׳אט או להוסיף אותם לקוד.
 
 ## התנהגות API
 
 - אימות Responder מתבצע ב־`POST https://graph.responder.live/v2/oauth/token`; האסימון הזמני משמש מיד לקריאת API ואינו נשמר.
 - יצירת הנרשם מתבצעת ב־`POST https://graph.responder.live/v2/subscribers` עם `email`, `name`, `phone`, `list_ids` ו־`override: false`. הטלפון נבדק בצד הדפדפן וב־Worker ומנורמל למספר ישראלי המתחיל ב־`0` לפני השליחה.
 - אם Responder מחזיר `duplicate: true`, הטופס מציג הודעה ולא מעדכן את הנרשם ולא ממשיך לתשלום.
-- הווידג׳ט מוגדר להרצה רק לאחר לחיצה על כפתור השליחה ומופיע רק אם Turnstile דורש אינטראקציה (`execution=execute`, `appearance=interaction-only`). Turnstile חייב לאשר `success`, מארח שתואם ל־`SITE_URL` ופעולה `signup`. חריגה ממגבלת הקצב נחסמת לפני פנייה לספק.
+- הווידג׳ט מוגדר להרצה רק לאחר לחיצה על כפתור השליחה ומופיע רק אם Turnstile דורש אינטראקציה (`execution=execute`, `appearance=interaction-only`). Turnstile חייב לאשר `success`, מארח שתואם לשם המארח של הבקשה ופעולה `signup`. חריגה ממגבלת הקצב נחסמת לפני פנייה לספק.
 - אפשר להשאיר את מצב הווידג׳ט הקיים (Managed) כדי להציג אתגר למבקרים חשודים בלבד. מצב Invisible אמיתי נקבע בהגדרות הווידג׳ט ב־Cloudflare, ולא באמצעות מאפיין HTML; לפני מעבר אליו יש לעדכן את מדיניות הפרטיות בהתאם ל־Turnstile Privacy Addendum.
 
 ## Rate Limiting
