@@ -12,7 +12,7 @@ upload_source_maps = true
 GTM_ID = "GTM-TK82BZVF"
 META_CAPI_DATASET_ID = "1452263100356826"
 RESPONDER_CLIENT_ID = "238"
-RESPONDER_LIST_ID = "122801"
+RESPONDER_LIST_IDS = { reading = "122801" }
 SITE_URL = "https://land.maly.school"
 LEGACY_SITE_URL = "https://maly-landing-pages.moranski.workers.dev"
 TURNSTILE_SITE_KEY = "0x4AAAAAAFU7KqgLE7RO9zWX"

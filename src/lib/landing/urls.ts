@@ -1,4 +1,26 @@
 // Co-authored-by: Codex <codex@openai.com>
+import type { SignupDetails } from "./signup-details";
+
+const READING_CHECKOUT_ORIGIN = "https://secure.cardcom.solutions";
+const READING_CHECKOUT_PATH = "/EA/EA5/bTTx0BGcMEqeDCr0cVizMg/PaymentSP";
+
+export function readingCheckoutUrl(href: string, details?: SignupDetails): string | undefined {
+	let checkout: URL;
+	try {
+		checkout = new URL(href);
+	} catch {
+		return undefined;
+	}
+	if (checkout.origin !== READING_CHECKOUT_ORIGIN || checkout.pathname !== READING_CHECKOUT_PATH || checkout.username || checkout.password) return undefined;
+
+	for (const field of ["email", "name", "phone"] as const) {
+		const key = `subscribers_${field}`;
+		if (details) checkout.searchParams.set(key, details[field]);
+		else checkout.searchParams.delete(key);
+	}
+	return checkout.href;
+}
+
 /** Canonical landing path, also used by legacy redirects. */
 export function landingPagePath(slug: string): string {
 	return `/landing/${encodeURIComponent(slug)}/`;

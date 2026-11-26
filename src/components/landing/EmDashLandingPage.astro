@@ -14,8 +14,8 @@ import TestimonialsBlock from "./TestimonialsBlock.astro";
 import type { EditProxy } from "emdash";
 import { normalizeLandingPage } from "../../lib/landing/normalize";
 
-interface Props { page: unknown; preview?: boolean; contentId?: string; edit?: EditProxy; }
-const { page: rawPage, contentId, edit, preview = false } = Astro.props;
+interface Props { page: unknown; preview?: boolean; contentId?: string; edit?: EditProxy; readingCheckout?: boolean; }
+const { page: rawPage, contentId, edit, preview = false, readingCheckout = false } = Astro.props;
 const { page, diagnostics } = normalizeLandingPage(rawPage);
 if (diagnostics.length) console.warn("Landing page validation", diagnostics);
 if (!page) {
@@ -35,7 +35,7 @@ if (!page) {
         {block.faq.length > 0 && <FaqList items={block.faq} />}
       </Section>;
       if (block.kind === "testimonials") return <TestimonialsBlock title={block.title} testimonials={block.items} />;
-      if (block.kind === "offer") return <OfferBlock title={block.title} body={block.body} includes={block.includes} kicker={block.kicker} cta={block.cta} />;
+      if (block.kind === "offer") return <OfferBlock title={block.title} body={block.body} includes={block.includes} kicker={block.kicker} cta={block.cta} readingCheckout={readingCheckout} preview={preview} />;
       if (block.kind === "final") return <FinalCta kicker={block.kicker} cta={block.cta} image={block.image}><h2>{block.heading}</h2><RichTextContent body={block.body} />{block.signature && <strong>{block.signature}</strong>}</FinalCta>;
     })}
   </LandingPageContent>

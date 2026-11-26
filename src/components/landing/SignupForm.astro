@@ -1,55 +1,50 @@
 ---
+// Co-authored-by: Codex <codex@openai.com>
 import { env } from "cloudflare:workers";
+import type { CtaStyle } from "../../lib/landing/normalize";
 
 interface Props {
 	submitLabel: string;
-	consentLabel: string;
-	checkoutUrl: string;
+	ctaStyle?: CtaStyle;
+	checkoutUrl?: string;
+	preview?: boolean;
 }
 
-const { submitLabel, consentLabel, checkoutUrl } = Astro.props;
+const { submitLabel, ctaStyle, checkoutUrl, preview = false } = Astro.props;
 const siteKey = env.TURNSTILE_SITE_KEY;
-let safeCheckoutUrl: string | undefined;
-try {
-	const parsed = new URL(checkoutUrl);
-	if (parsed.protocol === "https:") safeCheckoutUrl = parsed.href;
-} catch {
-	// An invalid or non-HTTPS destination disables the form rather than redirecting unsafely.
-}
-const enabled = Boolean(siteKey && safeCheckoutUrl);
+const enabled = Boolean(!preview && siteKey && checkoutUrl);
 ---
 
-{enabled ? (
-	<form class="signup-form" data-signup-form data-checkout-url={safeCheckoutUrl}>
+{(enabled || preview) ? (
+	<form class="signup-form" method="post" action="/api/signup" data-signup-form={enabled ? "reading" : undefined} data-checkout-url={enabled ? checkoutUrl : undefined}>
 		<label for="signup-name">שם מלא</label>
-		<input id="signup-name" name="name" type="text" autocomplete="name" maxlength="120" required />
+		<input id="signup-name" name="name" type="text" autocomplete="name" maxlength="120" required disabled={preview} />
 
 		<label for="signup-phone">מספר טלפון</label>
-		<input id="signup-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" dir="ltr" placeholder="05X-XXXXXXX" required aria-describedby="signup-phone-hint" />
+		<input id="signup-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="24" dir="ltr" placeholder="05X-XXXXXXX" required disabled={preview} aria-describedby="signup-phone-hint" />
 		<small id="signup-phone-hint">יש להזין מספר ישראלי תקין, למשל 050-1234567 או ‎+972-50-1234567.</small>
 
 		<label for="signup-email">כתובת אימייל</label>
-		<input id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" dir="ltr" required />
+		<input id="signup-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="254" dir="ltr" required disabled={preview} />
 
 		<label class="signup-form__consent">
-			<input name="consent" type="checkbox" required />
-			<span>{consentLabel}</span>
+			<input name="consent" type="checkbox" required checked disabled={preview} />
+			<span>אני מסכים/ה שיצרו איתי קשר עם הצעות</span>
 		</label>
 
-		<div class="signup-form__trap" aria-hidden="true">
+		{enabled && <div class="signup-form__trap" aria-hidden="true">
 			<label for="signup-website">אתר</label>
 			<input id="signup-website" name="website" type="text" tabindex="-1" autocomplete="off" />
-		</div>
+		</div>}
 
-		<div id="signup-turnstile" class="cf-turnstile" data-sitekey={siteKey} data-action="signup" data-language="he" data-execution="execute" data-appearance="interaction-only" data-callback="onSignupTurnstileSuccess" data-error-callback="onSignupTurnstileError"></div>
-		<button class="button button--primary" type="submit">{submitLabel}</button>
+		{enabled && <div id="signup-turnstile" class="cf-turnstile" data-sitekey={siteKey} data-action="signup_reading" data-language="he" data-size="compact" data-execution="execute" data-appearance="interaction-only" data-callback="onSignupTurnstileSuccess" data-error-callback="onSignupTurnstileError" data-timeout-callback="onSignupTurnstileError" data-retry="never" data-refresh-timeout="manual" data-response-field="false"></div>}
+		<button class="button button--primary" data-cta-style={ctaStyle} type="submit" disabled>{submitLabel}</button>
 		<p class="signup-form__status" data-signup-status role="status" aria-live="polite"></p>
 	</form>
 ) : (
 	<p role="status">הטופס אינו זמין כרגע. אפשר לנסות שוב מאוחר יותר.</p>
 )}
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-<noscript><p>כדי לשלוח את הטופס, יש להפעיל JavaScript בדפדפן.</p></noscript>
+{enabled && <noscript><p>כדי לשלוח את הטופס, יש להפעיל JavaScript בדפדפן.</p></noscript>}
 
 <style>
 	.signup-form {
@@ -117,6 +112,10 @@ const enabled = Boolean(siteKey && safeCheckoutUrl);
 </style>
 
 <script>
+	import { normalizeIsraeliPhone, normalizeSignupDetails } from "../../lib/landing/signup-details";
+	import { readingCheckoutUrl } from "../../lib/landing/urls";
+	import { reportReadingMetaEvent } from "../../scripts/reading-meta-events";
+
 	interface TurnstileApi {
 		execute: (widgetId: string) => void;
 		reset: (widgetId: string) => void;
@@ -127,100 +126,127 @@ const enabled = Boolean(siteKey && safeCheckoutUrl);
 		onSignupTurnstileError?: () => void;
 	}
 
-	const form = document.querySelector<HTMLFormElement>("[data-signup-form]");
-	const phoneInput = form?.querySelector<HTMLInputElement>('input[name="phone"]');
-	const turnstileWidget = form?.querySelector<HTMLElement>(".cf-turnstile");
-	const signupWindow = window as SignupWindow;
-	let waitingForTurnstile = false;
-
-	function normalizeIsraeliPhone(value: string): string | undefined {
-		const trimmed = value.trim();
-		if (!trimmed || !/^\+?[\d\s().-]+$/u.test(trimmed)) return undefined;
-		const compact = trimmed.replace(/[\s().-]/gu, "");
-		const international = compact.startsWith("+972") ? `0${compact.slice(4)}` : compact;
-		return /^0(?:5\d{8}|[23489]\d{7}|7\d{8})$/u.test(international) ? international : undefined;
-	}
-
-	phoneInput?.addEventListener("input", () => {
-		phoneInput.setCustomValidity(normalizeIsraeliPhone(phoneInput.value) ? "" : "נא להזין מספר טלפון ישראלי תקין.");
-	});
-	phoneInput?.addEventListener("blur", () => {
-		const normalized = normalizeIsraeliPhone(phoneInput.value);
-		if (normalized) phoneInput.value = normalized;
-	});
-
-	signupWindow.onSignupTurnstileSuccess = (token) => {
-		if (!waitingForTurnstile || !form) return;
-		waitingForTurnstile = false;
-		void submitSignup(token);
-	};
-	signupWindow.onSignupTurnstileError = () => {
-		if (!waitingForTurnstile) return;
-		waitingForTurnstile = false;
-		const submit = form?.querySelector<HTMLButtonElement>('button[type="submit"]');
-		const status = form?.querySelector<HTMLElement>("[data-signup-status]");
-		if (status) status.textContent = "בדיקת האבטחה נכשלה. נא לנסות שוב.";
-		if (submit) submit.disabled = false;
+	const messages: Record<string, string> = {
+		invalid_input: "נא לבדוק את השם, מספר הטלפון, כתובת האימייל וההסכמה לקבלת הצעות.",
+		verification_failed: "בדיקת האבטחה נכשלה. נא לנסות שוב.",
+		rate_limited: "נשלחו יותר מדי בקשות. נא להמתין מעט ולנסות שוב.",
 	};
 
-	async function submitSignup(token: string) {
-		if (!form) return;
+	function connectSignupForm(form: HTMLFormElement) {
+		const name = form.querySelector<HTMLInputElement>('input[name="name"]');
+		const phone = form.querySelector<HTMLInputElement>('input[name="phone"]');
+		const email = form.querySelector<HTMLInputElement>('input[name="email"]');
+		const consent = form.querySelector<HTMLInputElement>('input[name="consent"]');
+		const website = form.querySelector<HTMLInputElement>('input[name="website"]');
 		const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
 		const status = form.querySelector<HTMLElement>("[data-signup-status]");
-		const data = new FormData(form);
-		if (submit) submit.disabled = true;
-		if (status) status.textContent = "שולחים את הפרטים…";
-		try {
-			const response = await fetch("/api/signup", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					name: String(data.get("name") ?? ""),
-					phone: normalizeIsraeliPhone(String(data.get("phone") ?? "")) ?? "",
-					email: String(data.get("email") ?? ""),
-					consent: data.get("consent") === "on",
-					website: String(data.get("website") ?? ""),
-					turnstileToken: token,
-				}),
-			});
-			const result = await response.json() as { ok?: boolean; error?: string };
-			if (response.ok && result.ok) {
-				window.location.assign(form.dataset.checkoutUrl ?? "/");
+		const funnel = form.dataset.signupForm;
+		const checkoutUrl = form.dataset.checkoutUrl;
+		if (!name || !phone || !email || !consent || !website || !submit || !status || !funnel || !checkoutUrl) return;
+
+		const signupWindow = window as SignupWindow;
+		const widget = "#signup-turnstile";
+		let waitingForTurnstile = false;
+		let busy = false;
+		let turnstileLoadFailed = false;
+
+		const syncButton = () => { submit.disabled = busy || !consent.checked; };
+		const reset = () => {
+			waitingForTurnstile = false;
+			busy = false;
+			syncButton();
+			signupWindow.turnstile?.reset(widget);
+		};
+		const validatePhone = () => {
+			phone.setCustomValidity(!phone.value || normalizeIsraeliPhone(phone.value) ? "" : "נא להזין מספר טלפון ישראלי תקין.");
+		};
+		consent.addEventListener("change", syncButton);
+		phone.addEventListener("input", validatePhone);
+		phone.addEventListener("blur", () => {
+			phone.value = normalizeIsraeliPhone(phone.value) ?? phone.value;
+			validatePhone();
+		});
+		window.addEventListener("pageshow", event => {
+			if (event.persisted && busy) {
+				status.textContent = "";
+				reset();
+			}
+			syncButton();
+		});
+		syncButton();
+
+		signupWindow.onSignupTurnstileError = () => {
+			if (!waitingForTurnstile) return;
+			status.textContent = messages.verification_failed;
+			reset();
+		};
+
+		signupWindow.onSignupTurnstileSuccess = async (turnstileToken) => {
+			if (!waitingForTurnstile) return;
+			waitingForTurnstile = false;
+			const details = normalizeSignupDetails({ name: name.value, phone: phone.value, email: email.value });
+			const destination = details && readingCheckoutUrl(checkoutUrl, details);
+			if (!consent.checked || !details || !destination || !form.reportValidity()) {
+				status.textContent = messages.invalid_input;
+				reset();
 				return;
 			}
 
-			const messages: Record<string, string> = {
-				duplicate: "כתובת האימייל הזו כבר רשומה. לא בוצע שינוי בפרטים.",
-				invalid_input: "נא לבדוק את השם, מספר הטלפון, כתובת האימייל וההסכמה לדיוור.",
-				verification_failed: "בדיקת האבטחה נכשלה. נא לנסות שוב.",
-				rate_limited: "נשלחו יותר מדי בקשות. נא להמתין מעט ולנסות שוב.",
-			};
-			if (status) status.textContent = messages[result.error ?? ""] ?? "לא הצלחנו לשמור את הפרטים. נא לנסות שוב מאוחר יותר.";
-		} catch {
-			if (status) status.textContent = "לא הצלחנו לשלוח את הטופס. נא לבדוק את החיבור ולנסות שוב.";
-		} finally {
-			if (turnstileWidget) signupWindow.turnstile?.reset("#signup-turnstile");
-			if (submit) submit.disabled = false;
-		}
+			status.textContent = "שולחים את הפרטים…";
+			try {
+				const response = await fetch(form.action, {
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ ...details, funnel, consent: true, website: website.value, turnstileToken }),
+				});
+				const result = await response.json() as { checkoutAllowed?: boolean; error?: string };
+				if (result.checkoutAllowed === true) {
+					status.textContent = "מעבירים לעמוד התשלום…";
+					reportReadingMetaEvent("CheckoutClick");
+					window.location.assign(destination);
+					return;
+				}
+				status.textContent = messages[result.error ?? ""] ?? "לא הצלחנו לשלוח את הטופס. נא לנסות שוב.";
+			} catch {
+				status.textContent = "לא הצלחנו לשלוח את הטופס. נא לבדוק את החיבור ולנסות שוב.";
+			}
+			reset();
+		};
+
+		form.addEventListener("submit", event => {
+			event.preventDefault();
+			if (busy || !consent.checked) return;
+			validatePhone();
+			if (!form.reportValidity()) return;
+			if (!normalizeSignupDetails({ name: name.value, phone: phone.value, email: email.value })) {
+				status.textContent = messages.invalid_input;
+				return;
+			}
+			if (!signupWindow.turnstile) {
+				status.textContent = turnstileLoadFailed
+					? "בדיקת האבטחה לא נטענה. נא לרענן את העמוד ולנסות שוב."
+					: "בדיקת האבטחה עדיין נטענת. נא לנסות שוב בעוד רגע.";
+				return;
+			}
+			waitingForTurnstile = true;
+			busy = true;
+			syncButton();
+			status.textContent = "בודקים את הבקשה…";
+			try {
+				signupWindow.turnstile.execute(widget);
+			} catch {
+				status.textContent = messages.verification_failed;
+				reset();
+			}
+		});
+
+		// The widget resolves its named callbacks when it renders.
+		const script = document.createElement("script");
+		script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
+		script.addEventListener("error", () => { turnstileLoadFailed = true; });
+		document.head.append(script);
 	}
 
-	form?.addEventListener("submit", (event) => {
-		event.preventDefault();
-		const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-		const status = form.querySelector<HTMLElement>("[data-signup-status]");
-		if (!turnstileWidget || !signupWindow.turnstile) {
-			if (status) status.textContent = "בדיקת האבטחה עדיין נטענת. נא לנסות שוב בעוד רגע.";
-			return;
-		}
-		waitingForTurnstile = true;
-		if (submit) submit.disabled = true;
-		if (status) status.textContent = "בודקים את הבקשה…";
-		try {
-			signupWindow.turnstile.execute("#signup-turnstile");
-		} catch {
-			waitingForTurnstile = false;
-			if (status) status.textContent = "בדיקת האבטחה לא זמינה כרגע. נא לנסות שוב.";
-			if (submit) submit.disabled = false;
-		}
-	});
+	const form = document.querySelector<HTMLFormElement>("[data-signup-form]");
+	if (form) connectSignupForm(form);
 </script>

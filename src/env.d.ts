@@ -14,7 +14,7 @@ declare namespace Cloudflare {
 	RESPONDER_CLIENT_ID?: string;
 	RESPONDER_CLIENT_SECRET?: string;
 	RESPONDER_USER_TOKEN?: string;
-	RESPONDER_LIST_ID?: string;
+	RESPONDER_LIST_IDS?: Record<string, string>;
 	SIGNUP_RATE_LIMITER: RateLimit;
   }
 }

@@ -1,12 +1,13 @@
 ---
 // Co-authored-by: Codex <codex@openai.com>
 import RichTextContent from "./RichTextContent.astro";
+import SignupForm from "./SignupForm.astro";
 import type { RichText } from "../../lib/landing/rich-text";
 import type { Cta } from "../../lib/landing/normalize";
-import { withCheckoutAttribution } from "../../lib/landing/urls";
-interface Props { title: string; body: RichText; includes: string[]; kicker?: string; cta?: Cta; }
-const { title, body, includes, kicker, cta } = Astro.props;
-const checkoutHref = cta && (Astro.params.slug === "reading" ? withCheckoutAttribution(cta.href, Astro.url) : cta.href);
+import { readingCheckoutUrl, withCheckoutAttribution } from "../../lib/landing/urls";
+interface Props { title: string; body: RichText; includes: string[]; kicker?: string; cta?: Cta; readingCheckout?: boolean; preview?: boolean; }
+const { title, body, includes, kicker, cta, readingCheckout = false, preview = false } = Astro.props;
+const checkoutUrl = readingCheckout && cta ? readingCheckoutUrl(withCheckoutAttribution(cta.href, Astro.url)) : undefined;
 ---
 <section id="offer" class="offer">
   <div class="offer__inner">
@@ -17,7 +18,11 @@ const checkoutHref = cta && (Astro.params.slug === "reading" ? withCheckoutAttri
       <RichTextContent body={body} />
     </div>
     {cta && <aside class="lead-box" aria-label={cta.label}>
-      <a class="button button--primary" data-cta-style={cta.style} data-meta-checkout={Astro.params.slug === "reading" ? "true" : undefined} href={checkoutHref}>{cta.label}</a>
+      {readingCheckout ? (
+        <SignupForm submitLabel={cta.label} ctaStyle={cta.style} checkoutUrl={checkoutUrl} preview={preview} />
+      ) : (
+        <a class="button button--primary" data-cta-style={cta.style} data-meta-checkout={Astro.params.slug === "reading" ? "true" : undefined} href={cta.href}>{cta.label}</a>
+      )}
     </aside>}
   </div>
 </section>
