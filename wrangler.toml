@@ -10,6 +10,7 @@ upload_source_maps = true
 
 [vars]
 GTM_ID = "GTM-TK82BZVF"
+META_CAPI_DATASET_ID = "1452263100356826"
 RESPONDER_CLIENT_ID = "238"
 RESPONDER_LIST_ID = "122801"
 SITE_URL = "https://land.maly.school"
@@ -22,6 +23,14 @@ namespace_id = "88120417"
 
 [ratelimits.simple]
 limit = 5
+period = 60
+
+[[ratelimits]]
+name = "META_CAPI_RATE_LIMITER"
+namespace_id = "88120418"
+
+[ratelimits.simple]
+limit = 30
 period = 60
 
 [[d1_databases]]

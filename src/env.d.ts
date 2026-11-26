@@ -5,6 +5,10 @@ declare namespace Cloudflare {
 	SITE_URL: string;
 	LEGACY_SITE_URL?: string;
     GTM_ID?: string;
+	META_CAPI_DATASET_ID?: string;
+	META_CAPI_ACCESS_TOKEN?: string;
+	META_CAPI_TEST_EVENT_CODE?: string;
+	META_CAPI_RATE_LIMITER: RateLimit;
 	TURNSTILE_SITE_KEY?: string;
 	TURNSTILE_SECRET?: string;
 	RESPONDER_CLIENT_ID?: string;

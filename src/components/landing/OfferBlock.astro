@@ -17,7 +17,7 @@ const checkoutHref = cta && (Astro.params.slug === "reading" ? withCheckoutAttri
       <RichTextContent body={body} />
     </div>
     {cta && <aside class="lead-box" aria-label={cta.label}>
-      <a class="button button--primary" data-cta-style={cta.style} href={checkoutHref}>{cta.label}</a>
+      <a class="button button--primary" data-cta-style={cta.style} data-meta-checkout={Astro.params.slug === "reading" ? "true" : undefined} href={checkoutHref}>{cta.label}</a>
     </aside>}
   </div>
 </section>

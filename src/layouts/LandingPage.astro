@@ -15,6 +15,7 @@ import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
 import type { EditProxy } from "emdash";
 import { isValidGtmId } from "../scripts/consent-gated-gtm.js";
+import { landingPagePath } from "../lib/landing/urls";
 
 import type { LandingPage } from "../lib/landing/normalize";
 interface Props { preview?: boolean; page: LandingPage; contentId?: string; edit?: EditProxy; }
@@ -24,6 +25,7 @@ const editMode = getRequestContext()?.editMode === true;
 const showDraftNotice = preview && !editMode;
 const gtmId = env.GTM_ID;
 const validGtmId = isValidGtmId(gtmId) ? gtmId : undefined;
+const metaPilot = !preview && !editMode && contentId && env.META_CAPI_ACCESS_TOKEN && env.META_CAPI_DATASET_ID && Astro.url.pathname === landingPagePath("reading");
 const emdashPage = createPublicPageContext({
 	url: Astro.url,
 	locale: page.lang,
@@ -47,7 +49,7 @@ const emdashPage = createPublicPageContext({
 		{preview ? <meta name="robots" content="noindex, nofollow" /> : <EmDashHead page={emdashPage} />}
 		<LandingFonts />
 	</head>
-	<body style={isReadingDesign ? landingBackgroundStyle(!import.meta.env.DEV) : undefined} class="landing-page" data-design-variant={page.designVariant} data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId} {...(edit ?? {})}>
+	<body style={isReadingDesign ? landingBackgroundStyle(!import.meta.env.DEV) : undefined} class="landing-page" data-design-variant={page.designVariant} data-preview={preview ? "true" : undefined} data-gtm-id={preview ? undefined : validGtmId} data-meta-pilot={metaPilot ? "reading" : undefined} {...(edit ?? {})}>
 		{isReadingDesign && <ParallaxBackground />}
 		{!preview && <EmDashBodyStart page={emdashPage} />}
 		{showDraftNotice && <aside class="draft-notice"><strong>תצוגת טיוטה מקומית — לא פורסמה</strong><a href="/blocks-demo">לקטלוג האלמנטים</a></aside>}
@@ -63,8 +65,10 @@ const emdashPage = createPublicPageContext({
 
 <script>
 	import { installConsentGatedGtm } from "../scripts/consent-gated-gtm.js";
+	import { installReadingMetaEvents } from "../scripts/reading-meta-events";
 
 	if (document.body.dataset.preview !== "true") installConsentGatedGtm(window, document, document.body.dataset.gtmId);
+	if (document.body.dataset.metaPilot === "reading") installReadingMetaEvents();
 
 	// Mobile zoom and browser UI can shrink the visible viewport without
 	// changing the layout viewport used by position:fixed.
